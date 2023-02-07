@@ -1,3 +1,5 @@
+# CREATE Statements below
+
 CREATE TABLE QuestGivers (
     questGiverId INT NOT NULL AUTO_INCREMENT,
     questGiverName VARCHAR(255) NOT NULL,
@@ -81,3 +83,5 @@ CREATE TABLE Monsters_LootItems (
     FOREIGN KEY (monsterId) REFERENCES Monsters(monsterId),
     FOREIGN KEY (lootId) REFERENCES LootItems(lootId)
 );
+
+# INSERT Statements below
