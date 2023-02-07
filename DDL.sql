@@ -104,14 +104,6 @@ INSERT INTO LootItemTypes (lootItemTypeName, equipable) VALUES
     ('Armor',       TRUE),
     ('Junk',        FALSE);
 
-INSERT INTO Quests (questName, questDesc, available, questGiverId, suggestedLevel, monsterQty, monsterId, rewardXp, rewardGold) VALUES
-    ('Clear Cave',      'There\'s something in the old gemstone mine that\'s driven all the miners away, see if you can clear it out.',                                     TRUE,   (SELECT questGiverId FROM QuestGivers WHERE questGiverName='Tosh'),         1,  5,  1,  100,    100),
-    ('Liberate Hamlet', 'Our village has been overtaken by a ghoulish haint, please help us!',                                                                              TRUE,   (SELECT questGiverId FROM QuestGivers WHERE questGiverName='Priest'),       5,  2,  2,  500,    200),
-    ('Evict Hovel',     'I intend to expand my operation, but I shall need an outpost in the swamp. Brush the cobwebs out of the corners, will you?',                       TRUE,   (SELECT questGiverId FROM QuestGivers WHERE questGiverName='Noble'),        5,  3,  3,  300,    500),
-    ('Battle Giant',    'Ever tussle with a giant before? Want to earn those bragging rights?',                                                                             FALSE,  (SELECT questGiverId FROM QuestGivers WHERE questGiverName='Blacksmith'),   10, 1,  4,  500,    200),
-    ('Harvest Farm',    'The cornfield is being harassed every night, and nobody is around to shoo the buggers away!',                                                      TRUE,   NULL,                                                                       2,  3,  5,  300,    0),
-    ('Defend Castle',   'There are a couple wretched giants laying siege to our castle walls, go along with the castle guard to turn them back in the name of the crown.',  TRUE,   (SELECT questGiverId FROM QuestGivers WHERE questGiverName='Noble'),        15, 2,  4,  700,    1000);
-
 INSERT INTO Monsters (monsterName, monsterDesc, monsterTypeId, healthPool, attack, defense, speed) VALUES
     ('Slime',           'The living, hostile gel. Slow-moving, but inexorable while it remains intact.',                                                (SELECT monsterTypeId FROM MonsterTypes WHERE monsterTypeName='Beast'),     10,     5,  1,  1),
     ('Specter',         'The vengeful spirit. Only visible in the dark, and dangerous in numbers.',                                                     (SELECT monsterTypeId FROM MonsterTypes WHERE monsterTypeName='Undead'),    10,     1,  5,  5),
@@ -148,3 +140,10 @@ INSERT INTO Monsters_LootItems (monsterId, lootId, dropQuantity, dropChance) VAL
     ((SELECT monsterId FROM Monsters WHERE monsterName='Harpy'),    (SELECT lootId FROM LootItems WHERE lootName='Gold Chain'),         1,  0.1),
     ((SELECT monsterId FROM Monsters WHERE monsterName='Harpy'),    (SELECT lootId FROM LootItems WHERE lootName='Tough Feather'),      3,  0.5);
 
+INSERT INTO Quests (questName, questDesc, available, questGiverId, suggestedLevel, monsterQty, monsterId, rewardXp, rewardGold) VALUES
+    ('Clear Cave',      'There\'s something in the old gemstone mine that\'s driven all the miners away, see if you can clear it out.',                                     TRUE,   (SELECT questGiverId FROM QuestGivers WHERE questGiverName='Tosh'),         1,  5,  1,  100,    100),
+    ('Liberate Hamlet', 'Our village has been overtaken by a ghoulish haint, please help us!',                                                                              TRUE,   (SELECT questGiverId FROM QuestGivers WHERE questGiverName='Priest'),       5,  2,  2,  500,    200),
+    ('Evict Hovel',     'I intend to expand my operation, but I shall need an outpost in the swamp. Brush the cobwebs out of the corners, will you?',                       TRUE,   (SELECT questGiverId FROM QuestGivers WHERE questGiverName='Noble'),        5,  3,  3,  300,    500),
+    ('Battle Giant',    'Ever tussle with a giant before? Want to earn those bragging rights?',                                                                             FALSE,  (SELECT questGiverId FROM QuestGivers WHERE questGiverName='Blacksmith'),   10, 1,  4,  500,    200),
+    ('Harvest Farm',    'The cornfield is being harassed every night, and nobody is around to shoo the buggers away!',                                                      TRUE,   NULL,                                                                       2,  3,  5,  300,    0),
+    ('Defend Castle',   'There are a couple wretched giants laying siege to our castle walls, go along with the castle guard to turn them back in the name of the crown.',  TRUE,   (SELECT questGiverId FROM QuestGivers WHERE questGiverName='Noble'),        15, 2,  4,  700,    1000);
