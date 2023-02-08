@@ -1,18 +1,21 @@
+SET FOREIGN_KEY_CHECKS=0;
+SET AUTOCOMMIT = 0;
+
 # CREATE Statements below
 
-CREATE TABLE QuestGivers (
+CREATE OR REPLACE TABLE QuestGivers (
     questGiverId INT NOT NULL AUTO_INCREMENT,
     questGiverName VARCHAR(255) NOT NULL,
     PRIMARY KEY (questGiverId)
 );
 
-CREATE TABLE MonsterTypes (
+CREATE OR REPLACE TABLE MonsterTypes (
     monsterTypeId INT NOT NULL AUTO_INCREMENT,
     monsterTypeName VARCHAR(255) NOT NULL,
     PRIMARY KEY (monsterTypeId)
 );
 
-CREATE TABLE Monsters (
+CREATE OR REPLACE TABLE Monsters (
     monsterId INT NOT NULL AUTO_INCREMENT,
     monsterName VARCHAR(255) NOT NULL,
     monsterDesc TEXT NOT NULL,
@@ -25,7 +28,7 @@ CREATE TABLE Monsters (
     FOREIGN KEY (monsterTypeId) REFERENCES MonsterTypes(monsterTypeId) ON DELETE RESTRICT
 );
 
-CREATE TABLE Quests (
+CREATE OR REPLACE TABLE Quests (
     questId INT NOT NULL AUTO_INCREMENT,
     questName VARCHAR(255) NOT NULL,
     questDesc TEXT NOT NULL,
@@ -41,14 +44,14 @@ CREATE TABLE Quests (
     FOREIGN KEY (monsterId) REFERENCES Monsters(monsterId) ON DELETE RESTRICT
 );
 
-CREATE TABLE Abilities (
+CREATE OR REPLACE TABLE Abilities (
     abilityId INT NOT NULL AUTO_INCREMENT,
     abilityName VARCHAR(255) NOT NULL,
     abilityDesc TEXT NOT NULL,
     PRIMARY KEY (abilityId)
 );
 
-CREATE TABLE Monsters_Abilities (
+CREATE OR REPLACE TABLE Monsters_Abilities (
     monsterId INT NOT NULL,
     abilityId INT NOT NULL,
     abilityCooldown INT NOT NULL,
@@ -57,14 +60,14 @@ CREATE TABLE Monsters_Abilities (
     FOREIGN KEY (abilityId) REFERENCES Abilities(abilityId) ON DELETE RESTRICT
 );
 
-CREATE TABLE LootItemTypes (
+CREATE OR REPLACE TABLE LootItemTypes (
     lootItemTypeId INT NOT NULL AUTO_INCREMENT,
     lootItemTypeName VARCHAR(255) NOT NULL,
     equipable BOOLEAN NOT NULL DEFAULT FALSE,
     PRIMARY KEY (lootItemTypeId)
 );
 
-CREATE TABLE LootItems (
+CREATE OR REPLACE TABLE LootItems (
     lootId INT NOT NULL AUTO_INCREMENT,
     lootName VARCHAR(255) NOT NULL,
     lootDesc TEXT NOT NULL,
@@ -74,7 +77,7 @@ CREATE TABLE LootItems (
     FOREIGN KEY (lootItemTypeId) REFERENCES LootItemTypes(lootItemTypeId) ON DELETE RESTRICT
 );
 
-CREATE TABLE Monsters_LootItems (
+CREATE OR REPLACE TABLE Monsters_LootItems (
     monsterId INT NOT NULL,
     lootId INT NOT NULL,
     dropQuantity INT NOT NULL DEFAULT 1,
@@ -147,3 +150,6 @@ INSERT INTO Quests (questName, questDesc, available, questGiverId, suggestedLeve
     ('Battle Giant',    'Ever tussle with a giant before? Want to earn those bragging rights?',                                                                             FALSE,  (SELECT questGiverId FROM QuestGivers WHERE questGiverName='Blacksmith'),   10, 1,  4,  500,    200),
     ('Harvest Farm',    'The cornfield is being harassed every night, and nobody is around to shoo the buggers away!',                                                      TRUE,   NULL,                                                                       2,  3,  5,  300,    0),
     ('Defend Castle',   'There are a couple wretched giants laying siege to our castle walls, go along with the castle guard to turn them back in the name of the crown.',  TRUE,   (SELECT questGiverId FROM QuestGivers WHERE questGiverName='Noble'),        15, 2,  4,  700,    1000);
+
+SET FOREIGN_KEY_CHECKS=1;
+COMMIT;
