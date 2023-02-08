@@ -22,7 +22,7 @@ CREATE TABLE Monsters (
     defense INT NOT NULL,
     speed INT NOT NULL,
     PRIMARY KEY (monsterId),
-    FOREIGN KEY (monsterTypeId) REFERENCES MonsterTypes(monsterTypeId)
+    FOREIGN KEY (monsterTypeId) REFERENCES MonsterTypes(monsterTypeId) ON DELETE RESTRICT
 );
 
 CREATE TABLE Quests (
@@ -37,8 +37,8 @@ CREATE TABLE Quests (
     rewardXp INT NOT NULL DEFAULT 0,
     rewardGold INT NOT NULL DEFAULT 0,
     PRIMARY KEY (questId),
-    FOREIGN KEY (questGiverId) REFERENCES QuestGivers(questGiverId),
-    FOREIGN KEY (monsterId) REFERENCES Monsters(monsterId)
+    FOREIGN KEY (questGiverId) REFERENCES QuestGivers(questGiverId) ON DELETE SET NULL,
+    FOREIGN KEY (monsterId) REFERENCES Monsters(monsterId) ON DELETE RESTRICT
 );
 
 CREATE TABLE Abilities (
@@ -53,8 +53,8 @@ CREATE TABLE Monsters_Abilities (
     abilityId INT NOT NULL,
     abilityCooldown INT NOT NULL,
     PRIMARY KEY (monsterId, abilityId),
-    FOREIGN KEY (monsterId) REFERENCES Monsters(monsterId),
-    FOREIGN KEY (abilityId) REFERENCES Abilities(abilityId)
+    FOREIGN KEY (monsterId) REFERENCES Monsters(monsterId) ON DELETE RESTRICT,
+    FOREIGN KEY (abilityId) REFERENCES Abilities(abilityId) ON DELETE RESTRICT
 );
 
 CREATE TABLE LootItemTypes (
@@ -71,7 +71,7 @@ CREATE TABLE LootItems (
     lootItemTypeId INT NOT NULL,
     lootValue INT NOT NULL DEFAULT 0,
     PRIMARY KEY (lootId),
-    FOREIGN KEY (lootItemTypeId) REFERENCES LootItemTypes(lootItemTypeId)
+    FOREIGN KEY (lootItemTypeId) REFERENCES LootItemTypes(lootItemTypeId) ON DELETE RESTRICT
 );
 
 CREATE TABLE Monsters_LootItems (
@@ -80,8 +80,8 @@ CREATE TABLE Monsters_LootItems (
     dropQuantity INT NOT NULL DEFAULT 1,
     dropChance DECIMAL NOT NULL,
     PRIMARY KEY (monsterId, lootId),
-    FOREIGN KEY (monsterId) REFERENCES Monsters(monsterId),
-    FOREIGN KEY (lootId) REFERENCES LootItems(lootId)
+    FOREIGN KEY (monsterId) REFERENCES Monsters(monsterId) ON DELETE RESTRICT,
+    FOREIGN KEY (lootId) REFERENCES LootItems(lootId) ON DELETE RESTRICT
 );
 
 # INSERT Statements below
