@@ -2,6 +2,8 @@
  * SETUP
  */
 
+const FileSystem = require("fs");
+
 // Server
 const express               = require('express')    // We are using the express library for the web app
 const handlebars            = require('handlebars')
@@ -22,6 +24,45 @@ app.engine('handlebars', express_handlebars.engine({ defaultLayout: "main" }))
 app.set('view engine', 'handlebars');
 
 /**
+ * DMQ to replace this
+ */
+// Homepage query (available quests)
+let SQL_availableQuests = 'SELECT * FROM Quests WHERE available=TRUE;' //TODO use the DMQ hookup when time comes
+// All monsters query
+let SQL_monsters = 'SELECT * FROM Monsters;' //TODO use the DMQ hookup when time comes
+// All quest givers query
+let SQL_questGivers = 'SELECT * FROM QuestGivers;' //TODO use the DMQ hookup when time comes
+// All quests query
+function get_SQL_allEntity(entity)
+{
+    return 'SELECT * FROM '+entity+';' //TODO use the DMQ hookup when time comes
+}
+// All quests query
+function get_SQL_thisQuest(questID)
+{
+    return 'SELECT * FROM Quests WHERE questId='+questID+';'   //TODO use the DMQ hookup when time comes
+                                                                            //TODO also need to serve up the monster stuff and quest giver, so we need a join here
+}
+
+const SQL_thisQuest1 = get_SQL_thisQuest(1)
+const SQL_thisQuest2 = get_SQL_thisQuest(2)
+const SQL_thisQuest3 = get_SQL_thisQuest(3)
+
+// Catch arguments
+const ARG_OFFLINE = '-offline'
+let db_offline = {
+    SQL_availableQuests : {},
+    SQL_monsters : {},
+    SQL_questGivers : {},
+    get_SQL_thisQuest(1) : {},
+}
+let useOffline = false
+if (process.argv.length === 3 && process.argv[2] === ARG_OFFLINE)
+{
+    useOffline = true
+}
+
+/**
  * Middleware to parse POST body
  */
 app.use(express.json())
@@ -35,9 +76,6 @@ app.use(express.static("src/"))
 ///Homepage
 app.get('/', function(req, res)
 {
-    // Homepage query (available quests)
-    let SQL_availableQuests = 'SELECT * FROM Quests WHERE available=TRUE;' //TODO use the DMQ hookup when time comes
-
     // SELECT *...
     db.pool.query(SQL_availableQuests, function(err, results, fields){
 
@@ -54,11 +92,8 @@ app.get('/:entity/view', function(req, res)
 {
     let entity = req.params.entity
 
-    // All quests query
-    let SQL_allEntity = 'SELECT * FROM '+entity+';' //TODO use the DMQ hookup when time comes
-
     // SELECT *...
-    db.pool.query(SQL_allEntity, function(err, results, fields){
+    db.pool.query(get_SQL_allEntity(entity), function(err, results, fields){
 
         let context = {
             "queryName" : "All "+entity,
@@ -68,31 +103,10 @@ app.get('/:entity/view', function(req, res)
     })
 })
 
-//View a quest details page
-app.get('/Quests/:questID', function(req, res)
-{
-    let questID = req.params.questID
-
-    // All quests query
-    let SQL_thisQuest = 'SELECT * FROM Quests WHERE questId='+questID+';'   //TODO use the DMQ hookup when time comes
-                                                                            //TODO also need to serve up the monster stuff and quest giver, so we need a join here
-
-    // SELECT *...
-    db.pool.query(SQL_thisQuest, function(err, results, fields)
-    {
-        res.status(200).render("DetailsQuest", results[0])
-    })
-})
 
 ///Create new quest
 app.get('/Quests/new', function(req, res)
 {
-    // All monsters query
-    let SQL_monsters = 'SELECT * FROM Monsters;' //TODO use the DMQ hookup when time comes
-
-    // All quest givers query
-    let SQL_questGivers = 'SELECT * FROM QuestGivers;' //TODO use the DMQ hookup when time comes
-
     // SELECT *...
     db.pool.query(SQL_monsters, function(err, monsters, fields){
         db.pool.query(SQL_questGivers, function(err, questGivers, fields){
@@ -104,6 +118,17 @@ app.get('/Quests/new', function(req, res)
             }
             res.status(200).render("NewQuests", context)
         })
+    })
+})
+//View a quest details page
+app.get('/Quests/:questID', function(req, res)
+{
+    let questID = req.params.questID
+
+    // SELECT *...
+    db.pool.query(get_SQL_thisQuest(questID), function(err, results, fields)
+    {
+        res.status(200).render("DetailsQuest", results[0])
     })
 })
 ///Create new monster

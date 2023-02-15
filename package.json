@@ -1,7 +1,7 @@
 {
   "name": "toshstabletaskstorments",
   "version": "0.0.1",
-  "description": "CS 340 Final Project",
+  "description": "CS 340 Final Project - Tosh is a barkeep who fields questions from a lot of adventurers, this enchanted table helps him keep the facts straight.",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -24,6 +24,7 @@
   "dependencies": {
     "express": "^4.18.2",
     "express-handlebars": "^6.0.7",
+    "forever": "^4.0.3",
     "handlebars": "^4.7.7",
     "mysql": "^2.18.1"
   }

@@ -10,11 +10,13 @@ templates['questCard'] = template({"1":function(container,depth0,helpers,partial
         return undefined
     };
 
-  return "<h1>"
-    + alias4(((helper = (helper = lookupProperty(helpers,"questName") || (depth0 != null ? lookupProperty(depth0,"questName") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"questName","hash":{},"data":data,"loc":{"start":{"line":1,"column":4},"end":{"line":1,"column":17}}}) : helper)))
+  return "<a href=\"/Quests/"
+    + alias4(((helper = (helper = lookupProperty(helpers,"questId") || (depth0 != null ? lookupProperty(depth0,"questId") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"questId","hash":{},"data":data,"loc":{"start":{"line":1,"column":17},"end":{"line":1,"column":28}}}) : helper)))
+    + "\"><h1>"
+    + alias4(((helper = (helper = lookupProperty(helpers,"questName") || (depth0 != null ? lookupProperty(depth0,"questName") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"questName","hash":{},"data":data,"loc":{"start":{"line":1,"column":34},"end":{"line":1,"column":47}}}) : helper)))
     + " "
-    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"available") : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":1,"column":18},"end":{"line":1,"column":45}}})) != null ? stack1 : "")
-    + "</h1>\r\n<p>"
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"available") : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":1,"column":48},"end":{"line":1,"column":75}}})) != null ? stack1 : "")
+    + "</h1></a>\r\n<p>"
     + alias4(((helper = (helper = lookupProperty(helpers,"questDesc") || (depth0 != null ? lookupProperty(depth0,"questDesc") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"questDesc","hash":{},"data":data,"loc":{"start":{"line":2,"column":3},"end":{"line":2,"column":16}}}) : helper)))
     + "</p>";
 },"useData":true});
