@@ -1,56 +1,72 @@
-/*
-    SETUP
-*/
-// Express
-const handlebars = require('handlebars')
-let express                 = require('express')    // We are using the express library for the web server
-const express_handlebars    = require('express-handlebars')
-let server                  = express()             // We need to instantiate an express object to interact with the server in our code
-PORT                        = 2765                  // Set a port number at the top, so it's easy to change in the future
-
-server.engine('handlebars', express_handlebars.engine({
-    defaultLayout: "main"
-}));
-server.set('view engine', 'handlebars');
-
 /**
- * Middleware to parse POST body
+ * SETUP
  */
-server.use(express.json())
 
+// Server
+const express               = require('express')    // We are using the express library for the web app
+const handlebars            = require('handlebars')
+const express_handlebars    = require('express-handlebars')
+
+let app = express()             // We need to instantiate an express object to interact with the app in our code
+PORT    = 2765                  // Set a port number at the top, so it's easy to change in the future
 
 // Database
 let db = require('./src/db-connector')
 
-/*
-    ROUTES
-*/
-server.get('/about', function (req, res, next) {
-    res.status(200).render('aboutPage');
-});
+// Handlebars
+app.engine('handlebars', express_handlebars.engine({ defaultLayout: "main" }))
+app.set('view engine', 'handlebars');
 
-server.get('/', function(req, res)
+/**
+ * Middleware to parse POST body
+ */
+app.use(express.json())
+
+app.use(express.static("public/"))
+app.use(express.static("src/"))
+
+/**
+ * ROUTES
+ */
+///Homepage
+app.get('/', function(req, res)
 {
-    // Define our queries
-    testQuery = 'SELECT * FROM Monsters;'
-
-    // Execute every query in an asynchronous manner, we want each query to finish before the next one starts
+    // Homepage query (available quests)
+    let SQL_availableQuests = 'SELECT * FROM Quests WHERE available=TRUE;' //TODO use the DMQ hookup when time comes
 
     // SELECT *...
-    db.pool.query(testQuery, function(err, results, fields){
+    db.pool.query(SQL_availableQuests, function(err, results, fields){
 
         let context = {
+            "queryName" : "Available Quests",
             "results" : results
         }
+        res.status(200).render("quests", context)
+    })
+})
 
-        res.status(200).render("index", context)
+///View all queries
+app.get('/:entity/view', function(req, res)
+{
+    let entity = req.params.entity
 
+    // All quests query
+    let SQL_quests = 'SELECT * FROM '+entity+';' //TODO use the DMQ hookup when time comes
+
+    // SELECT *...
+    db.pool.query(SQL_quests, function(err, results, fields){
+
+        let context = {
+            "queryName" : "All "+entity,
+            "results" : results
+        }
+        res.status(200).render(entity, context)
     })
 })
 
 /*
     LISTENER
 */
-server.listen(PORT, function(){            // This is the basic syntax for what is called the 'listener' which receives incoming requests on the specified PORT.
+app.listen(PORT, function(){            // This is the basic syntax for what is called the 'listener' which receives incoming requests on the specified PORT.
     console.log('Express started on http://localhost:' + PORT + '; press Ctrl-C to terminate.')
 })

@@ -1,0 +1,14 @@
+.nav {
+    padding: 2px;
+    border-radius: 2px;
+}
+
+.new {
+    color: #020118;
+    background-color: aquamarine;
+}
+
+.view {
+    color: #010701;
+    background-color: #88ff7f;
+}
