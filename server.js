@@ -13,6 +13,10 @@ PORT    = 2765                  // Set a port number at the top, so it's easy to
 // Database
 let db = require('./src/db-connector')
 
+//Tools
+let names = require('./src/name-generator')
+// const {getMonsterName, getQuestName, getLootItemName} = require("./src/name-generator");
+
 // Handlebars
 app.engine('handlebars', express_handlebars.engine({ defaultLayout: "main" }))
 app.set('view engine', 'handlebars');
@@ -51,10 +55,10 @@ app.get('/:entity/view', function(req, res)
     let entity = req.params.entity
 
     // All quests query
-    let SQL_quests = 'SELECT * FROM '+entity+';' //TODO use the DMQ hookup when time comes
+    let SQL_allEntity = 'SELECT * FROM '+entity+';' //TODO use the DMQ hookup when time comes
 
     // SELECT *...
-    db.pool.query(SQL_quests, function(err, results, fields){
+    db.pool.query(SQL_allEntity, function(err, results, fields){
 
         let context = {
             "queryName" : "All "+entity,
@@ -62,6 +66,87 @@ app.get('/:entity/view', function(req, res)
         }
         res.status(200).render(entity, context)
     })
+})
+
+//View a quest details page
+app.get('/Quests/:questID', function(req, res)
+{
+    let questID = req.params.questID
+
+    // All quests query
+    let SQL_thisQuest = 'SELECT * FROM Quests WHERE questId='+questID+';'   //TODO use the DMQ hookup when time comes
+                                                                            //TODO also need to serve up the monster stuff and quest giver, so we need a join here
+
+    // SELECT *...
+    db.pool.query(SQL_thisQuest, function(err, results, fields)
+    {
+        res.status(200).render("DetailsQuest", results[0])
+    })
+})
+
+///Create new quest
+app.get('/Quests/new', function(req, res)
+{
+    // All monsters query
+    let SQL_monsters = 'SELECT * FROM Monsters;' //TODO use the DMQ hookup when time comes
+
+    // All quest givers query
+    let SQL_questGivers = 'SELECT * FROM QuestGivers;' //TODO use the DMQ hookup when time comes
+
+    // SELECT *...
+    db.pool.query(SQL_monsters, function(err, monsters, fields){
+        db.pool.query(SQL_questGivers, function(err, questGivers, fields){
+
+            let context = {
+                "monsters" : monsters,
+                "questGivers" : questGivers,
+                "placeholderQuestName" : names.getQuestName()
+            }
+            res.status(200).render("NewQuests", context)
+        })
+    })
+})
+///Create new monster
+app.get('/Monsters/new', function(req, res)
+{
+    // All monster types query
+    let SQL_monsterTypes = 'SELECT * FROM MonsterTypes;' //TODO use the DMQ hookup when time comes
+
+    // SELECT *...
+    db.pool.query(SQL_monsterTypes, function(err, results, fields){
+
+        let context = {
+            "monsterTypes" : results,
+            "placeholderMonsterName" : names.getMonsterName()
+        }
+        res.status(200).render("NewMonsters", context)
+    })
+})
+///Create new loot item
+app.get('/LootItems/new', function(req, res)
+{
+    // All loot item types query
+    let SQL_lootItemTypes = 'SELECT * FROM LootItemTypes;' //TODO use the DMQ hookup when time comes
+
+    // SELECT *...
+    db.pool.query(SQL_lootItemTypes, function(err, results, fields){
+
+        let context = {
+            "lootItemTypes" : results,
+            "placeholderItemName" : names.getLootItemName()
+        }
+        res.status(200).render("NewLootItems", context)
+    })
+})
+///Create new ability
+app.get('/Abilities/new', function(req, res)
+{
+    res.status(200).render("NewAbilities")
+})
+
+app.get('*', function (req, res)
+{
+    res.status(404).render("PageNotFound")
 })
 
 /*

@@ -1,0 +1,40 @@
+<h1>Add a new quest</h1>
+
+<form>
+    <label for="quest-questName">Quest Name:</label>
+    <input type="text" id="quest-questName" placeholder="{{placeholderQuestName}}">
+
+    <label for="quest-available">Available?</label>
+    <input type="checkbox" id="quest-available" checked>
+
+    <label for="quest-questDesc">Quest Description:</label>
+    <textarea id="quest-questDesc"></textarea>
+
+    <label for="quest-questGiver">Quest Giver:</label>
+    <input list="quest-questGivers-list" id="quest-questGiver" name="quest-questGiver">
+    <datalist id="quest-questGivers-list">
+        {{#each questGivers}}
+        <option value="{{questGiverName}}">
+        {{/each}}
+    </datalist>
+
+    <label for="quest-monsterName">Monster:</label>
+    <input list="quest-monsterNames-list" id="quest-monsterName" name="quest-monsterName">
+    <datalist id="quest-monsterNames-list">
+        {{#each monsters}}
+            <option value="{{monsterName}}">{{monsterDesc}}</option>
+        {{/each}}
+    </datalist>
+
+    <label for="quest-monsterQty">How many monsters?</label>
+    <input type="number" min="1" placeholder="1" id="quest-monsterQty">
+
+    <label for="quest-suggestedLevel">Suggested Level:</label>
+    <input type="number" min="1" placeholder="1" id="quest-suggestedLevel">
+
+    <label for="quest-rewardXp">Reward XP:</label>
+    <input type="number" min="0" placeholder="1" id="quest-rewardXp">
+
+    <label for="quest-rewardGold">Reward Gold:</label>
+    <input type="number" min="0" placeholder="1" id="quest-rewardGold">
+</form>
