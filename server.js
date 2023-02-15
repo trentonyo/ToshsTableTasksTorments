@@ -2,9 +2,22 @@
     SETUP
 */
 // Express
-let express     = require('express')    // We are using the express library for the web server
-let server      = express()             // We need to instantiate an express object to interact with the server in our code
-PORT            = 2538                  // Set a port number at the top so it's easy to change in the future
+const handlebars = require('handlebars')
+let express                 = require('express')    // We are using the express library for the web server
+const express_handlebars    = require('express-handlebars')
+let server                  = express()             // We need to instantiate an express object to interact with the server in our code
+PORT                        = 2765                  // Set a port number at the top, so it's easy to change in the future
+
+server.engine('handlebars', express_handlebars.engine({
+    defaultLayout: "main"
+}));
+server.set('view engine', 'handlebars');
+
+/**
+ * Middleware to parse POST body
+ */
+server.use(express.json())
+
 
 // Database
 let db = require('./src/db-connector')
@@ -12,6 +25,10 @@ let db = require('./src/db-connector')
 /*
     ROUTES
 */
+server.get('/about', function (req, res, next) {
+    res.status(200).render('aboutPage');
+});
+
 server.get('/', function(req, res)
 {
     // Define our queries
@@ -22,9 +39,12 @@ server.get('/', function(req, res)
     // SELECT *...
     db.pool.query(testQuery, function(err, results, fields){
 
-        // Send the results to the browser
-        let base = "<h1>MySQL Results:</h1>"
-        res.send(base + JSON.stringify(results))
+        let context = {
+            "results" : results
+        }
+
+        res.status(200).render("index", context)
+
     })
 })
 
