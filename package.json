@@ -1,0 +1,23 @@
+{
+  "name": "toshstabletaskstorments",
+  "version": "0.0.1",
+  "description": "CS 340 Final Project",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/trentonyo/ToshsTableTasksTorments.git"
+  },
+  "author": "Trenton Young, Josh Williams",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/trentonyo/ToshsTableTasksTorments/issues"
+  },
+  "homepage": "https://github.com/trentonyo/ToshsTableTasksTorments#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mysql": "^2.18.1"
+  }
+}
