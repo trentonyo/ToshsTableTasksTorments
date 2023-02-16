@@ -1,3 +1,11 @@
-<h1>{{monsterName}}</h1>
-<h3>{{attack}} ATK | {{defense}} DEF | {{speed}} SPD</h3>
-<p>{{monsterDesc}}</p>
+<a href="/Monsters/{{monsterId}}">
+    <div class="card monster">
+        <div class="title">
+            {{monsterName}} ({{healthPool}} hp)
+        </div>
+        <div class="description">
+            <div class="stats">{{attack}} ATK | {{defense}} DEF | {{speed}} SPD</div>
+            {{monsterDesc}}
+        </div>
+    </div>
+</a>

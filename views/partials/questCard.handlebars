@@ -1,2 +1,13 @@
-<a href="/Quests/{{questId}}"><h1>{{questName}} {{#if available}}!!!{{/if}}</h1></a>
-<p>{{questDesc}}</p>
+<a href="/Quests/{{questId}}">
+<div class="card quest">
+    <div class="title">
+        {{questName}} {{#if available}}(!){{/if}}
+    </div>
+    <div class="description">
+        {{questDesc}}
+    </div>
+    <div class="giver">
+        - Quest Giver
+    </div>
+</div>
+</a>

@@ -1,3 +1,9 @@
+.card_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
 .logo {
     color: #88ff7f;
     background-color: #010701;
@@ -16,4 +22,74 @@
 .view {
     color: #010701;
     background-color: #88ff7f;
+}
+
+.card {
+    margin: 10px;
+    padding-bottom: 15px;
+
+    border: rgba(0, 0, 0, 0) 1px solid;
+
+    -moz-border-radius-bottomleft: 10px;
+    -moz-border-radius-bottomright: 10px;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+
+    min-width: 300px;
+    max-width: 300px;
+}
+.card:hover {
+    border: #010701 1px solid;
+}
+
+.card>.title {
+    font-family: serif;
+    font-size: x-large;
+    font-weight: bold;
+
+    text-shadow: #595656 3px 3px 5px;
+
+    padding: 10px;
+    margin: 0;
+
+    background-color: #a9a9a9;
+
+    border-bottom: #010701 1px solid;
+}
+.description>.stats {
+    font-family: serif;
+    text-align: center;
+
+    margin-bottom: 10px;
+}
+.card>.description {
+    font-family: sans-serif;
+
+    margin: 10px;
+}
+.card>.giver {
+    font-style: italic;
+    text-align: end;
+    padding: 10px;
+}
+
+.quest {
+    background-color: #f2e4f6;
+    color: #19021f;
+}
+.monster {
+    background-color: #f6e4e4;
+    color: #1f0202;
+}
+.loot {
+    background-color: #f4f6e4;
+    color: #1f1f02;
+}
+.ability {
+    background-color: #e4edf6;
+    color: #12143b;
+}
+
+a {
+    text-decoration: none;
 }

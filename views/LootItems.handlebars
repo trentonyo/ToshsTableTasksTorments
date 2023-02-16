@@ -1,8 +1,7 @@
 <h1>{{queryName}}</h1>
-<ul>
+
+<div class="card_container">
     {{#each results}}
-        <li>
-            {{> lootItemCard}}
-        </li>
+        {{> lootItemCard}}
     {{/each}}
-</ul>
+</div>

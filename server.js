@@ -100,7 +100,7 @@ app.get('/', function(req, res)
             "queryName" : "Available Quests" + (useOffline ? " (OFFLINE MODE)" : ""),
             "results" : results
         }
-        res.status(200).render("quests", context)
+        res.status(200).render("Quests", context)
     })
 })
 
