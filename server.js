@@ -44,22 +44,36 @@ function get_SQL_thisQuest(questID)
                                                                             //TODO also need to serve up the monster stuff and quest giver, so we need a join here
 }
 
-const SQL_thisQuest1 = get_SQL_thisQuest(1)
-const SQL_thisQuest2 = get_SQL_thisQuest(2)
-const SQL_thisQuest3 = get_SQL_thisQuest(3)
+// const SQL_allQuests     = get_SQL_allEntity("Quests")
+// const SQL_allMonsters   = get_SQL_allEntity("Monsters")
+// const SQL_allLootItems  = get_SQL_allEntity("LootItems")
+// const SQL_allAbilities  = get_SQL_allEntity("Abilities")
+//
+// const SQL_thisQuest1 = get_SQL_thisQuest(1)
+// const SQL_thisQuest2 = get_SQL_thisQuest(2)
+// const SQL_thisQuest3 = get_SQL_thisQuest(3)
 
 // Catch arguments
 const ARG_OFFLINE = '-offline'
 let db_offline = {
-    SQL_availableQuests : {},
-    SQL_monsters : {},
-    SQL_questGivers : {},
-    get_SQL_thisQuest(1) : {},
+    SQL_availableQuests : require("./offline_sources/availableQuests.json"),
+    SQL_monsters : require("./offline_sources/monsters.json"),
+    SQL_monsterTypes : require("./offline_sources/monsterTypes.json"),
+    SQL_lootItemTypes : require("./offline_sources/lootItemTypes.json"),
+    SQL_questGivers : require("./offline_sources/questGivers.json"),
+    SQL_thisQuest1 : require("./offline_sources/questDetails1.json"),
+    SQL_thisQuest2 : require("./offline_sources/questDetails2.json"),
+    SQL_thisQuest3 : require("./offline_sources/questDetails3.json"),
+    SQL_allQuests     : require("./offline_sources/allQuests.json"),
+    SQL_allMonsters   : require("./offline_sources/allMonsters.json"),
+    SQL_allLootItems  : require("./offline_sources/allLootItems.json"),
+    SQL_allAbilities  : require("./offline_sources/allAbilities.json")
 }
 let useOffline = false
 if (process.argv.length === 3 && process.argv[2] === ARG_OFFLINE)
 {
     useOffline = true
+    console.log("Server running in offline mode.")
 }
 
 /**
@@ -79,8 +93,11 @@ app.get('/', function(req, res)
     // SELECT *...
     db.pool.query(SQL_availableQuests, function(err, results, fields){
 
+        //Offline override
+        if(useOffline) { results = db_offline['SQL_availableQuests'] }
+
         let context = {
-            "queryName" : "Available Quests",
+            "queryName" : "Available Quests" + (useOffline ? " (OFFLINE MODE)" : ""),
             "results" : results
         }
         res.status(200).render("quests", context)
@@ -94,6 +111,9 @@ app.get('/:entity/view', function(req, res)
 
     // SELECT *...
     db.pool.query(get_SQL_allEntity(entity), function(err, results, fields){
+
+        //Offline override
+        if(useOffline) { results = db_offline['SQL_all'+entity] }
 
         let context = {
             "queryName" : "All "+entity,
@@ -110,6 +130,9 @@ app.get('/Quests/new', function(req, res)
     // SELECT *...
     db.pool.query(SQL_monsters, function(err, monsters, fields){
         db.pool.query(SQL_questGivers, function(err, questGivers, fields){
+
+            //Offline override
+            if(useOffline) { monsters = db_offline['SQL_monsters'];  questGivers = db_offline['SQL_questGivers'] }
 
             let context = {
                 "monsters" : monsters,
@@ -128,6 +151,9 @@ app.get('/Quests/:questID', function(req, res)
     // SELECT *...
     db.pool.query(get_SQL_thisQuest(questID), function(err, results, fields)
     {
+        //Offline override
+        if(useOffline) { results = [db_offline['SQL_thisQuest'+(Math.min(questID, 3))]] }
+
         res.status(200).render("DetailsQuest", results[0])
     })
 })
@@ -139,6 +165,9 @@ app.get('/Monsters/new', function(req, res)
 
     // SELECT *...
     db.pool.query(SQL_monsterTypes, function(err, results, fields){
+
+        //Offline override
+        if(useOffline) { results = db_offline['SQL_monsterTypes'] }
 
         let context = {
             "monsterTypes" : results,
@@ -155,6 +184,9 @@ app.get('/LootItems/new', function(req, res)
 
     // SELECT *...
     db.pool.query(SQL_lootItemTypes, function(err, results, fields){
+
+        //Offline override
+        if(useOffline) { results = db_offline['SQL_lootItemTypes'] }
 
         let context = {
             "lootItemTypes" : results,

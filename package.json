@@ -9,7 +9,8 @@
     "build_monsterCard": "handlebars views/partials/monsterCard.handlebars -f public/monsterCardTemplate.js",
     "build_abilityCard": "handlebars views/partials/abilityCard.handlebars -f public/abilityCardTemplate.js",
     "build_lootItemCard": "handlebars views/partials/lootItemCard.handlebars -f public/lootItemCardTemplate.js",
-    "prestart": "npm run build_questCard && npm run build_monsterCard && npm run build_abilityCard && npm run build_lootItemCard"
+    "prestart": "npm run build_questCard && npm run build_monsterCard && npm run build_abilityCard && npm run build_lootItemCard",
+    "offline": "node server.js -offline"
   },
   "repository": {
     "type": "git",
