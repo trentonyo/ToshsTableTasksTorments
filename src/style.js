@@ -34,30 +34,25 @@ let timer = setInterval(function()
 
 }, 20);
 
+function getAngle(timePassed, i)
+{
+    return (Math.sin(timePassed / 1000) * 90) + (timePassed / 1000) + (Math.sin(i) * 120)
+}
 function draw(timePassed)
 {
     //Wobble the text gradient
     for (let i = 0; i < text_gradient.length; i++)
     {
-        text_gradient[i].style.cssText = getGradient(
-            (Math.sin(timePassed / 1000) * 90) + (Math.sin(timePassed / 100000) * 100) + (Math.sin(i) * 120),
-            "#066903", "#1acd29", true
-        )
+        text_gradient[i].style.cssText = getGradient( getAngle(timePassed, i), "#066903", "#1acd29", true)
     }
 
     //Wobble background gradients
     for (let i = 0; i < new_background_gradient.length; i++)
     {
-        new_background_gradient[i].style.cssText = getGradient(
-            (Math.sin(timePassed / 1000) * 90) + (Math.sin(timePassed / 100000) * 100) + (Math.sin(i) * 120),
-            "#62c7b4", "#1ab2cd", false
-        )
+        new_background_gradient[i].style.cssText = getGradient( getAngle(timePassed, i), "#80edf1", "#1ab2cd", false)
     }
     for (let i = 0; i < view_background_gradient.length; i++)
     {
-        view_background_gradient[i].style.cssText = getGradient(
-            (Math.sin(timePassed / 1000) * 90) + (Math.sin(timePassed / 100000) * 100) + (Math.sin(i) * 120),
-            "#735eab", "#561acd", false
-        )
+        view_background_gradient[i].style.cssText = getGradient( getAngle(timePassed, i), "#735eab", "#561acd", false)
     }
 }
