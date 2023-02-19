@@ -40,7 +40,7 @@ function draw(timePassed)
     for (let i = 0; i < text_gradient.length; i++)
     {
         text_gradient[i].style.cssText = getGradient(
-            (Math.sin(timePassed / 1000) * 90) + (Math.sin(timePassed / 100000) * 100) + (Math.sin(i) * 120),
+            (Math.sin(timePassed / 1000) * 45) + (timePassed / 1000) + (Math.sin(i) * 120),
             "#066903", "#1acd29", true
         )
     }
@@ -49,14 +49,14 @@ function draw(timePassed)
     for (let i = 0; i < new_background_gradient.length; i++)
     {
         new_background_gradient[i].style.cssText = getGradient(
-            (Math.sin(timePassed / 1000) * 90) + (Math.sin(timePassed / 100000) * 100) + (Math.sin(i) * 120),
+            (Math.sin(timePassed / 1000) * 45) + (timePassed / 1000) + (Math.sin(i) * 120),
             "#62c7b4", "#1ab2cd", false
         )
     }
     for (let i = 0; i < view_background_gradient.length; i++)
     {
         view_background_gradient[i].style.cssText = getGradient(
-            (Math.sin(timePassed / 1000) * 90) + (Math.sin(timePassed / 100000) * 100) + (Math.sin(i) * 120),
+            (Math.sin(timePassed / 1000) * 45) + (timePassed / 1000) + (Math.sin(i) * 120),
             "#735eab", "#561acd", false
         )
     }
