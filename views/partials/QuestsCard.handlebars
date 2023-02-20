@@ -1,5 +1,5 @@
-<a href="/Quests/{{questId}}">
-<div class="card quest">
+{{#unless view}}<a href="/Quests/{{questId}}">{{/unless}}
+<div class="card quest {{# if view}}full static{{/if}}">
     <div class="title">
         {{questName}} {{#if available}}(!){{/if}}
     </div>
@@ -7,7 +7,7 @@
         {{questDesc}}
     </div>
     <div class="giver">
-        - Quest Giver
+        {{#if questGiverId}}- {{questGiverId}}{{else}}- Unknown{{/if}}
     </div>
 </div>
-</a>
+{{#unless view}}</a>{{/unless}}

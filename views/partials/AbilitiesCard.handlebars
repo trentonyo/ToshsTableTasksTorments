@@ -1,5 +1,5 @@
-<a href="/Abilities/{{questId}}">
-    <div class="card ability">
+{{#unless view}}<a href="/Abilities/{{questId}}">{{/unless}}
+    <div class="card ability {{#if view}}full static{{/if}}">
         <div class="title">
             {{abilityName}}
         </div>
@@ -7,4 +7,4 @@
             {{abilityDesc}}
         </div>
     </div>
-</a>
+{{#unless view}}</a>{{/unless}}

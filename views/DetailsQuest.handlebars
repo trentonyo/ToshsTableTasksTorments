@@ -1,30 +1,23 @@
 <div id="page_title" class="fadeout-gradient">
-    {{questName}}
-    {{#if available}}<span class="page_subtitle">- Currently Available!</span>{{/if}}
+    {{> (whichPartialTitle)}}
 </div>
 
-<div class="info_band">Level {{suggestedLevel}} | {{rewardXp}} XP | {{rewardGold}} gold</div>
+<div class="info_band">
+    {{> (whichPartialInfoBand)}}
+</div>
 
 <div id="detail_container">
-    <div class="card quest full static">
-        <div class="title">
-            {{questName}}
-        </div>
-        <div class="description">
-            {{questDesc}}
-        </div>
-        <div class="giver">
-            {{#if questGiverId}}- {{questGiverId}}{{else}}- Unknown{{/if}}
-        </div>
-    </div>
-
-    <div class="card monster full static">
-        <div class="title">
-            {{monsterId}} ({{monsterQty}} )
-        </div>
-        <div class="description">
-            <div class="stats">{{attack}} ATK | {{defense}} DEF | {{speed}} SPD</div>
-            {{monsterDesc}}
-        </div>
-    </div>
+    {{#if questId}}
+        {{> QuestsCard}}
+    {{/if}}
+    {{#if lootItemsId}}
+        {{> LootItemsCard}}
+    {{/if}}
+    {{#if monsterId}}
+        {{> MonstersCard}}
+    {{/if}}
+    {{#if abilitiesId}}
+<!--        Need to do a for each, don't know what it will look like though -->
+        {{> AbilitiesCard}}
+    {{/if}}
 </div>

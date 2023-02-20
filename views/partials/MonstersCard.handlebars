@@ -1,5 +1,5 @@
-<a href="/Monsters/{{monsterId}}">
-    <div class="card monster">
+{{#unless view}}<a href="/Monsters/{{questId}}">{{/unless}}
+    <div class="card monster {{# if view}}full static{{/if}}">
         <div class="title">
             {{monsterName}} ({{healthPool}} hp)
         </div>
@@ -8,4 +8,4 @@
             {{monsterDesc}}
         </div>
     </div>
-</a>
+{{#unless view}}</a>{{/unless}}

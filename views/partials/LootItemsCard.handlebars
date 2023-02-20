@@ -1,5 +1,5 @@
-<a href="/LootItems/{{lootId}}">
-    <div class="card loot">
+{{#unless view}}<a href="/LootItems/{{questId}}">{{/unless}}
+    <div class="card loot {{# if view}}full static{{/if}}">
         <div class="title">
             {{lootName}} ({{lootValue}} gold)
         </div>
@@ -7,4 +7,4 @@
             {{lootDesc}}
         </div>
     </div>
-</a>
+{{#unless view}}</a>{{/unless}}

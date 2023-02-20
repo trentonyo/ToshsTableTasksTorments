@@ -5,11 +5,12 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build_questCard": "handlebars views/partials/questCard.handlebars -f public/questCardTemplate.js",
-    "build_monsterCard": "handlebars views/partials/monsterCard.handlebars -f public/monsterCardTemplate.js",
-    "build_abilityCard": "handlebars views/partials/abilityCard.handlebars -f public/abilityCardTemplate.js",
-    "build_lootItemCard": "handlebars views/partials/lootItemCard.handlebars -f public/lootItemCardTemplate.js",
-    "prestart": "npm run build_questCard && npm run build_monsterCard && npm run build_abilityCard && npm run build_lootItemCard",
+    "build_QuestsCard": "handlebars views/partials/QuestsCard.handlebars -f public/QuestsCardTemplate.js",
+    "build_MonstersCard": "handlebars views/partials/MonstersCard.handlebars -f public/MonstersCardTemplate.js",
+    "build_AbilitiesCard": "handlebars views/partials/AbilitiesCard.handlebars -f public/AbilitiesCardTemplate.js",
+    "build_LootItemsCard": "handlebars views/partials/LootItemsCard.handlebars -f public/LootItemsCardTemplate.js",
+    "build_QuestsTitle": "handlebars views/partials/QuestsTitle.handlebars -f public/QuestsTitleTemplate.js",
+    "prestart": "npm run build_QuestsCard && npm run build_MonstersCard && npm run build_AbilitiesCard && npm run build_LootItemsCard && npm run build_QuestsTitle",
     "offline": "node server.js -offline"
   },
   "repository": {
