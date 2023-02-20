@@ -52,9 +52,9 @@ let db_offline = {
     SQL_monsterTypes : require("./offline_sources/monsterTypes.json"),
     SQL_lootItemTypes : require("./offline_sources/lootItemTypes.json"),
     SQL_questGivers : require("./offline_sources/questGivers.json"),
-    SQL_thisQuest1 : require("./offline_sources/questDetails1.json"),
-    SQL_thisQuest2 : require("./offline_sources/questDetails2.json"),
-    SQL_thisQuest3 : require("./offline_sources/questDetails3.json"),
+    SQL_thisQuests1 : require("./offline_sources/questDetails1.json"),
+    SQL_thisQuests2 : require("./offline_sources/questDetails2.json"),
+    SQL_thisQuests3 : require("./offline_sources/questDetails3.json"),
     SQL_allQuests     : require("./offline_sources/allQuests.json"),
     SQL_allMonsters   : require("./offline_sources/allMonsters.json"),
     SQL_allLootItems  : require("./offline_sources/allLootItems.json"),
@@ -130,24 +130,7 @@ app.get('/', function(req, res)
 })
 
 ///View all queries
-app.get('/:entity/view', function(req, res)
-{
-    let entity = req.params.entity
-
-    // SELECT *...
-    db.pool.query(get_SQL_allEntity(entity), function(err, results, fields){
-
-        //Offline override
-        if(useOffline) { results = db_offline['SQL_all'+entity] }
-
-        let context = {
-            "entity" : entity,
-            "queryName" : "All "+entity,
-            "results" : results
-        }
-        res.status(200).render("ViewCards", context)
-    })
-})
+app.get('/:entity/view', viewEntity)
 
 
 ///Create new quest
@@ -171,20 +154,23 @@ app.get('/Quests/new', function(req, res)
     })
 })
 //View a quest details page
-app.get('/Quests/:questID', function(req, res)
+app.get('/:entity/:entityID', function(req, res)
 {
-    let questID = req.params.questID
+    let entityID = req.params.entityID
+    let entity = req.params.entity
+
+    console.log("Got request to see '"+entity+"' with ID: "+entityID)
 
     // SELECT *...
-    db.pool.query(get_SQL_thisQuest(questID), function(err, results, fields)
+    db.pool.query(get_SQL_thisQuest(entityID), function(err, results, fields)
     {
         //Offline override
-        if(useOffline) { results = [db_offline['SQL_thisQuest'+(Math.min(questID, 3))]] }
+        if(useOffline) { results = [db_offline["SQL_this"+entity+(Math.min(entityID, 3))]] }
 
-        results[0]["entity"] = "Quests"
+        results[0]["entity"] = entity
         results[0]["view"] = true
 
-        res.status(200).render("DetailsQuest", results[0])
+        res.status(200).render("ViewDetails", results[0])
     })
 })
 ///Create new monster
