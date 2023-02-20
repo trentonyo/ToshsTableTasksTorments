@@ -4,10 +4,6 @@ let text_gradient = document.getElementsByClassName("text-gradient")
 let new_background_gradient = document.querySelectorAll(".new.background-gradient")
 let view_background_gradient = document.querySelectorAll(".view.background-gradient")
 
-console.log("text_gradient", text_gradient)
-console.log("new_background_gradient", new_background_gradient)
-console.log("view_background_gradient", view_background_gradient)
-
 function getGradient(angle, color1, color2, text)
 {
     return `    background: linear-gradient(${angle}deg, ${color1} 1.32%, ${color2} 50.03%);

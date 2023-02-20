@@ -44,15 +44,6 @@ function get_SQL_thisQuest(questID)
                                                                             //TODO also need to serve up the monster stuff and quest giver, so we need a join here
 }
 
-// const SQL_allQuests     = get_SQL_allEntity("Quests")
-// const SQL_allMonsters   = get_SQL_allEntity("Monsters")
-// const SQL_allLootItems  = get_SQL_allEntity("LootItems")
-// const SQL_allAbilities  = get_SQL_allEntity("Abilities")
-//
-// const SQL_thisQuest1 = get_SQL_thisQuest(1)
-// const SQL_thisQuest2 = get_SQL_thisQuest(2)
-// const SQL_thisQuest3 = get_SQL_thisQuest(3)
-
 // Catch arguments
 const ARG_OFFLINE = '-offline'
 let db_offline = {
@@ -77,6 +68,17 @@ if (process.argv.length === 3 && process.argv[2] === ARG_OFFLINE)
 }
 
 /**
+ * Handlebars steps
+ */
+handlebars.registerHelper('whichPartial', function(context, options)
+{
+    console.log(context.data.root)
+
+    return context.data.root['partialCard']
+});
+
+
+/**
  * Middleware to parse POST body
  */
 app.use(express.json())
@@ -97,10 +99,11 @@ app.get('/', function(req, res)
         if(useOffline) { results = db_offline['SQL_availableQuests'] }
 
         let context = {
+            "partialCard" : "QuestsCard",
             "queryName" : "Available Quests" + (useOffline ? " (OFFLINE MODE)" : ""),
             "results" : results
         }
-        res.status(200).render("Quests", context)
+        res.status(200).render("ViewCards", context)
     })
 })
 
@@ -116,10 +119,11 @@ app.get('/:entity/view', function(req, res)
         if(useOffline) { results = db_offline['SQL_all'+entity] }
 
         let context = {
+            "partialCard" : entity+"Card",
             "queryName" : "All "+entity,
             "results" : results
         }
-        res.status(200).render(entity, context)
+        res.status(200).render("ViewCards", context)
     })
 })
 
@@ -135,6 +139,7 @@ app.get('/Quests/new', function(req, res)
             if(useOffline) { monsters = db_offline['SQL_monsters'];  questGivers = db_offline['SQL_questGivers'] }
 
             let context = {
+                "partialCard" : "QuestsCard",
                 "monsters" : monsters,
                 "questGivers" : questGivers,
                 "placeholderQuestName" : names.getQuestName()
@@ -154,6 +159,8 @@ app.get('/Quests/:questID', function(req, res)
         //Offline override
         if(useOffline) { results = [db_offline['SQL_thisQuest'+(Math.min(questID, 3))]] }
 
+        results["partialCard"] = "questCard"
+
         res.status(200).render("DetailsQuest", results[0])
     })
 })
@@ -170,6 +177,7 @@ app.get('/Monsters/new', function(req, res)
         if(useOffline) { results = db_offline['SQL_monsterTypes'] }
 
         let context = {
+            "partialCard" : "MonstersCard",
             "monsterTypes" : results,
             "placeholderMonsterName" : names.getMonsterName()
         }
@@ -189,6 +197,7 @@ app.get('/LootItems/new', function(req, res)
         if(useOffline) { results = db_offline['SQL_lootItemTypes'] }
 
         let context = {
+            "partialCard" : "LootItemsCard",
             "lootItemTypes" : results,
             "placeholderItemName" : names.getLootItemName()
         }
