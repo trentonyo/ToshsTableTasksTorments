@@ -4,6 +4,9 @@ let text_gradient = document.getElementsByClassName("text-gradient")
 let new_background_gradient = document.querySelectorAll(".new.background-gradient")
 let view_background_gradient = document.querySelectorAll(".view.background-gradient")
 
+const animationSwitch = document.getElementById("animationSwitch")
+const animationSwitchContainer = document.getElementById("modal_animationSwitch")
+
 function getGradient(angle, color1, color2, text)
 {
     return `    background: linear-gradient(${angle}deg, ${color1} 1.32%, ${color2} 50.03%);
@@ -20,8 +23,9 @@ let timer = setInterval(function()
     // how much time passed from the start?
     let timePassed = Date.now() - start;
 
-    if (timePassed >= 60 * 1000) {
+    if (timePassed >= 60 * 1000 || !animationSwitch.checked) {
         clearInterval(timer); // finish the animation after 60 seconds
+        animationSwitchContainer.classList.add("hidden")
         return;
     }
 
