@@ -26,6 +26,7 @@ let timer = setInterval(function()
     if (timePassed >= 60 * 1000 || !animationSwitch.checked) {
         clearInterval(timer); // finish the animation after 60 seconds
         animationSwitchContainer.classList.add("hidden")
+        animationSwitch.remove()
         return;
     }
 

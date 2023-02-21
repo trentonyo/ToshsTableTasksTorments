@@ -6,7 +6,7 @@ body {
 
 #modal_animationSwitch {
     position: absolute;
-    top: 20px;
+    bottom: 20px;
     right: 20px;
     padding: 10px;
     border: #11181e solid 1px;
@@ -62,7 +62,7 @@ body {
 
     color: #fff;
 
-    font-family: Helvetica;
+    font-family: Helvetica sans-serif;
     font-size: 36px;
 }
 
@@ -91,12 +91,12 @@ body {
 .logo {
     margin-left: 24px;
 
-    font-family: Helvetica;
+    font-family: Helvetica sans-serif;
     font-size: 48px;
 }
 
 .nav {
-    font-family: Helvetica;
+    font-family: Helvetica sans-serif;
 
     font-style: italic;
 
@@ -185,7 +185,7 @@ body {
     border: #fff solid 2px;
     border-radius: 20px;
 
-    font-family: Helvetica;
+    font-family: Helvetica sans-serif;
     font-size: 24px;
 }
 .add>input, .add>textarea {
@@ -273,4 +273,5 @@ a {
 
 .hidden {
     display: none;
+    scale: 0;
 }
