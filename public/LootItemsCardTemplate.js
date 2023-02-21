@@ -8,8 +8,8 @@ templates['LootItemsCard'] = template({"1":function(container,depth0,helpers,par
         return undefined
     };
 
-  return "<a href=\"/LootItems/"
-    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"lootItemsId") || (depth0 != null ? lookupProperty(depth0,"lootItemsId") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"lootItemsId","hash":{},"data":data,"loc":{"start":{"line":1,"column":36},"end":{"line":1,"column":51}}}) : helper)))
+  return "<a href=\"/LootItems/view/"
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"lootItemsId") || (depth0 != null ? lookupProperty(depth0,"lootItemsId") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"lootItemsId","hash":{},"data":data,"loc":{"start":{"line":1,"column":41},"end":{"line":1,"column":56}}}) : helper)))
     + "\">";
 },"3":function(container,depth0,helpers,partials,data) {
     return "full static";
@@ -23,7 +23,7 @@ templates['LootItemsCard'] = template({"1":function(container,depth0,helpers,par
         return undefined
     };
 
-  return ((stack1 = lookupProperty(helpers,"unless").call(alias1,(depth0 != null ? lookupProperty(depth0,"view") : depth0),{"name":"unless","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":64}}})) != null ? stack1 : "")
+  return ((stack1 = lookupProperty(helpers,"unless").call(alias1,(depth0 != null ? lookupProperty(depth0,"view") : depth0),{"name":"unless","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":69}}})) != null ? stack1 : "")
     + "\r\n    <div class=\"card loot "
     + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"view") : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":2,"column":26},"end":{"line":2,"column":57}}})) != null ? stack1 : "")
     + "\">\r\n        <div class=\"title\">\r\n            "
