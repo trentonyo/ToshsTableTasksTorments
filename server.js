@@ -43,6 +43,17 @@ function get_SQL_thisQuest(questID)
     return 'SELECT * FROM Quests WHERE questId='+questID+';'   //TODO use the DMQ hookup when time comes
                                                                             //TODO also need to serve up the monster stuff and quest giver, so we need a join here
 }
+const entityToID = {
+    "Abilities": "abilityId",
+    "LootItems": "lootId",
+    "Monsters": "monsterId",
+    "Quests": "questId",
+}
+// Find a specific entity
+function get_SQL_thisEntity(entity, id)
+{
+    return 'SELECT * FROM '+entity+' where '+entityToID[entity]+'='+id+';'
+}
 
 // Catch arguments
 const ARG_OFFLINE = '-offline'
@@ -159,10 +170,8 @@ app.get('/:entity/view/:entityID', function(req, res)
     let entityID = req.params.entityID
     let entity = req.params.entity
 
-    console.log("Got request to see '"+entity+"' with ID: "+entityID)
-
     // SELECT *...
-    db.pool.query(get_SQL_thisQuest(entityID), function(err, results, fields)
+    db.pool.query(get_SQL_thisEntity(entity, entityID), function(err, results, fields)
     {
         //Offline override
         if(useOffline) { results = [db_offline["SQL_this"+entity+(Math.min(entityID, 3))]] }

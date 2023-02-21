@@ -139,8 +139,8 @@ body {
     border: #fff 2px solid;
 }
 .full {
-    min-width: 90%;
-    max-width: 90%;
+    min-width: 40%;
+    max-width: 40%;
 }
 
 .card>.title {
@@ -201,6 +201,7 @@ body {
     display: flex;
     justify-content: center;
 
+    min-width: 40%;
     max-width: 40%;
 
     background-color: #b6f6e8;

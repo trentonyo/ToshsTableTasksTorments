@@ -4,7 +4,7 @@
             {{monsterName}} ({{healthPool}} hp)
         </div>
         <div class="description">
-            <div class="stats">{{attack}} ATK | {{defense}} DEF | {{speed}} SPD</div>
+            {{#unless view}}<div class="stats">{{attack}} ATK | {{defense}} DEF | {{speed}} SPD</div>{{/unless}}
             {{monsterDesc}}
         </div>
     </div>
