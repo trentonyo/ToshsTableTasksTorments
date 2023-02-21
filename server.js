@@ -170,11 +170,15 @@ app.get('/:entity/view/:entityID', function(req, res)
     let entityID = req.params.entityID
     let entity = req.params.entity
 
+    //TODO need to do some verification here before assuming that the entity and the entity ID are valid.
+
     // SELECT *...
     db.pool.query(get_SQL_thisEntity(entity, entityID), function(err, results, fields)
     {
         //Offline override
         if(useOffline) { results = [db_offline["SQL_this"+entity+(Math.min(entityID, 3))]] }
+
+        //TODO also need to verify that there even IS a zeroth element to fuck with.
 
         results[0]["entity"] = entity
         results[0]["view"] = true
