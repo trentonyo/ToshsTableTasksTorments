@@ -154,7 +154,7 @@ app.get('/Quests/new', function(req, res)
     })
 })
 //View a quest details page
-app.get('/:entity/:entityID', function(req, res)
+app.get('/:entity/view/:entityID', function(req, res)
 {
     let entityID = req.params.entityID
     let entity = req.params.entity
