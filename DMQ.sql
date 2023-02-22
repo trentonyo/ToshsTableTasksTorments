@@ -55,6 +55,20 @@ UPDATE Quests
 SET questGiverId = NULL
 WHERE questId = (SELECT questId FROM Quests WHERE questName = :questName);
 
+-- UPDATE operations several other tables
+-- Updatable fields are the ones that have inherent uncertainty, such as drop chances
+UPDATE Monsters
+SET healthPool = :healthPool, attack = :attack, defense = :defense, speed = :speed
+WHERE monsterId = :monsterId;
+
+UPDATE Monster_Abilities
+SET abilityCooldown = :abilityCooldown
+WHERE monsterId = :monsterId AND abilityId = :abilityId;
+
+UPDATE Monsters_LootItems
+SET dropQuantity = :dropQuantity, dropChance = :dropChance
+WHERE monsterId = :monsterId AND lootId = :lootId;
+
 -- DELETE operation to remove a particular ability from a particular monster, based on name
 DELETE FROM Monsters_Abilities
 WHERE monsterId = (SELECT monsterId FROM Monsters WHERE monsterName = :monsterName)
