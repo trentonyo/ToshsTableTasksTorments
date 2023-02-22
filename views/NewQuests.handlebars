@@ -3,72 +3,20 @@
 </div>
 
 <div id="forms_container">
-    <div class="form_column"> <form id="add_new_ability">
-        <div class="new add title">
-            New Quest
-        </div>
-        <div class="new add background-gradient">
-            <label for="quest-questName">Quest Name:</label>
-            <br>
-            <input type="text" id="quest-questName" placeholder="{{placeholderQuestName}}">
-        </div>
-        <div class="new add background-gradient">
-            <label for="quest-available">Quest Available?</label>
-            <br>
-            <input type="checkbox" id="quest-available" checked>
-        </div>
+    <div class="form_column">
+        {{> QuestsFormNew}}
+    </div>
+    <div class="form_column">
+        {{> MonstersFormNew}}
 
-        <div class="new add background-gradient">
-            <label for="quest-questDesc">Quest Description:</label>
-            <br>
-            <textarea id="quest-questDesc"></textarea>
-        </div>
-
-        <div class="new add background-gradient">
-            <label for="quest-questGiver">Quest Giver:</label>
-            <br>
-            <input list="quest-questGivers-list" id="quest-questGiver" name="quest-questGiver">
-            <datalist id="quest-questGivers-list">
-                {{#each questGivers}}
-                <option value="{{questGiverName}}">
-                {{/each}}
-            </datalist>
-        </div>
-
-        <div class="new add background-gradient">
-            <label for="quest-monsterName">Monster:</label>
-            <br>
-            <input list="quest-monsterNames-list" id="quest-monsterName" name="quest-monsterName">
-            <datalist id="quest-monsterNames-list">
-                {{#each monsters}}
-                    <option value="{{monsterName}}">{{monsterDesc}}</option>
-                {{/each}}
-            </datalist>
-        </div>
-        <div class="new add background-gradient">
-            <label for="quest-monsterQty">How many monsters?</label>
-            <br>
-            <input type="number" min="1" placeholder="1" id="quest-monsterQty">
-        </div>
-
-        <div class="form_section">
-            <div class="new add background-gradient">
-                <label for="quest-rewardXp">Reward XP:</label>
-                <br>
-                <input type="number" min="0" placeholder="1" id="quest-rewardXp">
+        <div class="form_column two_column">
+            <div id="abilities_column">
+                {{> AbilitiesFormNew}}
             </div>
-            <div class="new add background-gradient">
-                <label for="quest-rewardGold">Reward Gold:</label>
-                <br>
-                <input type="number" min="0" placeholder="1" id="quest-rewardGold">
-            </div>
-            <div class="new add background-gradient">
-                <label for="quest-suggestedLevel">Suggested Level:</label>
-                <br>
-                <input type="number" min="1" placeholder="1" id="quest-suggestedLevel">
+            <div id="lootItems_column">
+                {{> LootItemsFormNew}}
             </div>
         </div>
-
-    </form> </div>
+    </div>
 </div>
 

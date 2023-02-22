@@ -1,0 +1,55 @@
+<div class="form_card"><form id="add_new_ability">
+    <div class="new add title monster">
+        New Monster
+    </div>
+    <div class="new add background-gradient">
+        <label for="monster-monsterName">Monster Name:</label>
+        <br>
+        <input type="text" id="monster-monsterName" placeholder="{{placeholderMonsterName}}">
+    </div>
+
+    <div class="new add background-gradient">
+        <label for="monster-monsterDesc">Monster Description:</label>
+        <br>
+        <textarea id="monster-monsterDesc"></textarea>
+    </div>
+
+    <div class="new add background-gradient">
+        <label for="monster-type">Monster Type:</label>
+        <br>
+        <input list="monster-types-list" id="monster-type" name="monster-type">
+        <datalist id="monster-types-list">
+            {{#each monsterTypes}}
+            <option value="{{monsterTypeName}}">
+            {{/each}}
+        </datalist>
+    </div>
+
+    <div class="form_section">
+        <div class="new add background-gradient">
+            <label for="monster-healthPool">Health Pool:</label>
+            <br>
+            <input type="number" min="1" max="100" placeholder="1" id="monster-healthPool">
+        </div>
+        <div class="new add background-gradient">
+            <label for="monster-attack">Attack:</label>
+            <br>
+            <input type="number" min="1" max="100" placeholder="1" id="monster-attack">
+        </div>
+        <div class="new add background-gradient">
+            <label for="monster-defense">Defense:</label>
+            <br>
+            <input type="number" min="1" max="100" placeholder="1" id="monster-defense">
+        </div>
+        <div class="new add background-gradient">
+            <label for="monster-speed">Speed:</label>
+            <br>
+            <input type="number" min="1" max="100" placeholder="1" id="monster-speed">
+        </div>
+    </div>
+</form>
+
+</div>
+
+<div class="add ability title add_form"> + </div>
+<div class="add loot title add_form"> + </div>

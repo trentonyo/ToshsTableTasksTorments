@@ -5,7 +5,7 @@ body {
 }
 
 #modal_animationSwitch {
-    position: absolute;
+    position: fixed;
     bottom: 20px;
     right: 20px;
     padding: 10px;
@@ -42,7 +42,7 @@ body {
     min-width: 100%;
     max-width: 100%;
     width: 100%;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: flex-start;
 }
@@ -62,7 +62,7 @@ body {
 
     color: #fff;
 
-    font-family: Helvetica sans-serif;
+    font-family: Helvetica;
     font-size: 36px;
 }
 
@@ -91,12 +91,12 @@ body {
 .logo {
     margin-left: 24px;
 
-    font-family: Helvetica sans-serif;
+    font-family: Helvetica;
     font-size: 48px;
 }
 
 .nav {
-    font-family: Helvetica sans-serif;
+    font-family: Helvetica;
 
     font-style: italic;
 
@@ -185,7 +185,7 @@ body {
     border: #fff solid 2px;
     border-radius: 20px;
 
-    font-family: Helvetica sans-serif;
+    font-family: Helvetica;
     font-size: 24px;
 }
 .add>input, .add>textarea {
@@ -195,19 +195,28 @@ body {
 
     border-radius: 10px;
 }
-
-.form_column {
+.form_card {
     margin-top: 20px;
     display: flex;
     justify-content: center;
 
-    min-width: 40%;
-    max-width: 40%;
+    line-height: 40px;
+
+    min-width: 700px;
+    max-width: 700px;
 
     background-color: #b6f6e8;
 
     border: #fff solid 1px;
     border-radius: 40px;
+}
+.form_column.two_column {
+    display: flex;
+    justify-content: space-between
+}
+.form_column.two_column .form_card {
+    min-width: 340px;
+    max-width: 340px;
 }
 .form_section {
     display: flex;
@@ -222,17 +231,64 @@ body {
     background-color: #f2e4f6;
     color: #19021f;
 }
+.quest.title {
+    background-color: #d396e5;
+}
+
 .monster {
     background-color: #f6e4e4;
     color: #1f0202;
 }
+.monster.title {
+    background-color: #de8f8f;
+}
+
 .loot {
     background-color: #f4f6e4;
     color: #1f1f02;
 }
+.loot.title {
+    background-color: #dae393;
+}
+
 .ability {
     background-color: #e4edf6;
     color: #12143b;
+}
+.ability.title {
+    background-color: #a0c2e5;
+}
+
+.add_form {
+    position: relative;
+    color: #fff;
+
+    border-radius: 100%;
+
+    font-size: 40px;
+
+    width: 40px;
+    height: 40px;
+    margin-bottom: -65px;
+
+    line-height: 40px;
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    user-select: none;
+
+    text-align: center;
+}
+.add_form.ability {
+    top: -60px;
+    right: -5px;
+}
+.add_form.loot {
+    top: -60px;
+    left: 445px;
+}
+.add_form:hover {
+    scale: 102%;
 }
 
 /*
