@@ -2,7 +2,13 @@
  * SETUP
  */
 
-const FileSystem = require("fs");
+// Define entities
+const ENTITIES = {
+    "Abilities" : {id: "abilityId", en_singular: "Ability", en_plural: "Abilities"},
+    "LootItems" : {id: "lootId", en_singular: "Loot Item", en_plural: "Loot Item"},
+    "Monsters" : {id: "monsterId", en_singular: "Monster", en_plural: "Monsters"},
+    "Quests" : {id: "questId", en_singular: "Quest", en_plural: "Quests"},
+}
 
 // Server
 const express               = require('express')    // We are using the express library for the web app
@@ -17,7 +23,6 @@ let db = require('./src/db-connector')
 
 //Tools
 let names = require('./src/name-generator')
-// const {getMonsterName, getQuestName, getLootItemName} = require("./src/name-generator");
 
 // Handlebars
 app.engine('handlebars', express_handlebars.engine({ defaultLayout: "main" }))
@@ -35,24 +40,25 @@ let SQL_questGivers = 'SELECT * FROM QuestGivers;' //TODO use the DMQ hookup whe
 // All quests query
 function get_SQL_allEntity(entity)
 {
-    return 'SELECT * FROM '+entity+';' //TODO use the DMQ hookup when time comes
+    if (ENTITIES.hasOwnProperty(entity))
+    {
+        return 'SELECT * FROM '+entity+';' //TODO use the DMQ hookup when time comes
+    }
+
+    return false
 }
-// All quests query
-function get_SQL_thisQuest(questID)
-{
-    return 'SELECT * FROM Quests WHERE questId='+questID+';'   //TODO use the DMQ hookup when time comes
-                                                                            //TODO also need to serve up the monster stuff and quest giver, so we need a join here
-}
-const entityToID = {
-    "Abilities": "abilityId",
-    "LootItems": "lootId",
-    "Monsters": "monsterId",
-    "Quests": "questId",
-}
+
 // Find a specific entity
 function get_SQL_thisEntity(entity, id)
 {
-    return 'SELECT * FROM '+entity+' where '+entityToID[entity]+'='+id+';'
+    id = parseInt(id)
+
+    if (ENTITIES.hasOwnProperty(entity) && typeof id === "number")
+    {
+        return 'SELECT * FROM '+entity+' where '+ENTITIES[entity].id+'='+id+';' //TODO use DMQ
+    }
+
+    return false
 }
 
 // Catch arguments
@@ -103,12 +109,23 @@ app.use(express.static("src/"))
  * ROUTES
  */
 ///View
-let viewEntity = function(req, res)
+let viewEntity = function(req, res, next)
 {
     let entity = req.params.entity
 
     // SELECT *...
-    db.pool.query(get_SQL_allEntity(entity), function(err, results, fields){
+    let query = ""
+
+    if(get_SQL_allEntity(entity))
+    {
+        query = get_SQL_allEntity(entity)
+    }
+    else
+    {
+        next()
+    }
+
+    db.pool.query(query, function(err, results, fields){
 
         //Offline override
         if(useOffline) { results = db_offline['SQL_all'+entity] }
@@ -165,25 +182,39 @@ app.get('/Quests/new', function(req, res)
     })
 })
 //View a quest details page
-app.get('/:entity/view/:entityID', function(req, res)
+app.get('/:entity/view/:entityID', function(req, res, next)
 {
     let entityID = req.params.entityID
     let entity = req.params.entity
 
-    //TODO need to do some verification here before assuming that the entity and the entity ID are valid.
+    let query = ""
+
+    if(get_SQL_thisEntity(entity, entityID))
+    {
+        query = get_SQL_thisEntity(entity, entityID)
+    }
+    else
+    {
+        next() // Called if entity is invalid or if entityID is not a number
+    }
 
     // SELECT *...
-    db.pool.query(get_SQL_thisEntity(entity, entityID), function(err, results, fields)
+    db.pool.query(query, function(err, results, fields)
     {
         //Offline override
         if(useOffline) { results = [db_offline["SQL_this"+entity+(Math.min(entityID, 3))]] }
 
-        //TODO also need to verify that there even IS a zeroth element to fuck with.
+        if(results === undefined || results.length === 0)
+        {
+            next() // Called if there was no result return
+        }
+        else
+        {
+            results[0]["entity"] = entity
+            results[0]["view"] = true
 
-        results[0]["entity"] = entity
-        results[0]["view"] = true
-
-        res.status(200).render("ViewDetails", results[0])
+            res.status(200).render("ViewDetails", results[0])
+        }
     })
 })
 ///Create new monster

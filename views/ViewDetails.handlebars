@@ -11,13 +11,14 @@
         {{> QuestsCard}}
     {{/if}}
     {{#if lootId}}
+<!--        Also needs to be an each AND also do conditional with two columns below if a monster-->
         {{> LootItemsCard}}
     {{/if}}
     {{#if monsterId}}
         {{> MonstersCard}}
     {{/if}}
     {{#if abilityId}}
-<!--        Need to do a for each, don't know what it will look like though -->
+<!--        Need to do a for each, don't know what it will look like though AND also do conditional with two columns below if a monster -->
         {{> AbilitiesCard}}
     {{/if}}
 </div>
