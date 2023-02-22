@@ -3,20 +3,7 @@
 </div>
 
 <div id="forms_container">
-    <div class="form_column"> <form id="add_new_ability">
-        <div class="new add title">
-            New Ability
-        </div>
-        <div class="new add background-gradient">
-            <label for="ability-abilityName">Ability Name:</label>
-            <br>
-            <input type="text" id="ability-abilityName" placeholder="Fireball">
-        </div>
-
-        <div class="new add background-gradient">
-            <label for="ability-abilityDesc">Ability Description:</label>
-            <br>
-            <textarea id="ability-abilityDesc"></textarea>
-        </div>
-    </form> </div>
+    <div class="form_column">
+        {{> AbilitiesFormNew}}
+    </div>
 </div>

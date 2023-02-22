@@ -1,8 +1,15 @@
 console.log("Loaded style.js")
 
-let text_gradient = document.getElementsByClassName("text-gradient")
-let new_background_gradient = document.querySelectorAll(".new.background-gradient")
-let view_background_gradient = document.querySelectorAll(".view.background-gradient")
+let text_gradient               = document.getElementsByClassName("text-gradient")
+let new_background_gradient     = document.querySelectorAll(".new.background-gradient")
+let view_background_gradient    = document.querySelectorAll(".view.background-gradient")
+
+let updateGradientElements = function ()
+{
+    text_gradient               = document.getElementsByClassName("text-gradient")
+    new_background_gradient     = document.querySelectorAll(".new.background-gradient")
+    view_background_gradient    = document.querySelectorAll(".view.background-gradient")
+}
 
 const animationSwitch = document.getElementById("animationSwitch")
 const animationSwitchContainer = document.getElementById("modal_animationSwitch")

@@ -6,6 +6,23 @@
     <link rel="stylesheet" href="/main.css">
     <script src="/style.js" defer></script>
     <script src="/ux.js" defer></script>
+    <script>
+        let addAbilitiesForm = function ()
+        {
+            let new_element = document.createElement("a")
+            new_element.innerHTML = `{{> AbilitiesFormNew}}`
+
+            document.getElementById("abilities_column").appendChild(new_element)
+        }
+
+        let addLootItemsForm = function ()
+        {
+            let new_element = document.createElement("a")
+            new_element.innerHTML = `{{> LootItemsFormNew}}`
+
+            document.getElementById("lootItems_column").appendChild(new_element)
+        }
+    </script>
 </head>
 <body>
 
