@@ -1,20 +1,41 @@
-<h1>Add a new loot item</h1>
+<div id="page_title" class="fadeout-gradient">
+    Add a New Loot Item
+</div>
 
-<form>
-    <label for="lootItem-lootName">Loot Item Name:</label>
-    <input type="text" id="lootItem-lootName" placeholder="{{placeholderItemName}}">
+<div id="forms_container">
+    <div class="form_column"> <form id="add_new_ability">
+        <div class="new add title">
+            New Loot Item
+        </div>
+        <div class="new add background-gradient">
+            <label for="lootItem-lootName">Loot Item Name:</label>
+            <br>
+            <input type="text" id="lootItem-lootName" placeholder="{{placeholderItemName}}">
+        </div>
 
-    <label for="lootItem-lootDesc">Loot Item Description:</label>
-    <textarea id="lootItem-lootDesc"></textarea>
+        <div class="new add background-gradient">
+            <label for="lootItem-lootDesc">Loot Item Description:</label>
+            <br>
+            <textarea id="lootItem-lootDesc"></textarea>
+        </div>
 
-    <label for="lootItem-lootItemTypeName">Loot Item Type:</label>
-    <input list="lootItem-lootItemTypeNames-list" id="lootItem-lootItemTypeName" name="lootItem-lootItemTypeName">
-    <datalist id="lootItem-lootItemTypeNames-list">
-        {{#each lootItemTypes}}
-            <option value="{{lootItemTypeName}}">{{#if equipable}}Equipable{{/if}}</option>
-        {{/each}}
-    </datalist>
+        <div class="new add background-gradient">
+            <label for="lootItem-lootItemTypeName">Loot Item Type:</label>
+            <br>
+            <input list="lootItem-lootItemTypeNames-list" id="lootItem-lootItemTypeName" name="lootItem-lootItemTypeName">
+            <datalist id="lootItem-lootItemTypeNames-list">
+                {{#each lootItemTypes}}
+                    <option value="{{lootItemTypeName}}">{{#if equipable}}Equipable{{/if}}</option>
+                {{/each}}
+            </datalist>
+        </div>
 
-    <label for="lootItem-lootValue">Loot Value (gold):</label>
-    <input type="number" min="0" placeholder="1" id="lootItem-lootValue">
-</form>
+        <div class="new add background-gradient">
+            <label for="lootItem-lootValue">Loot Value (gold):</label>
+            <br>
+            <input type="number" min="0" placeholder="1" id="lootItem-lootValue">
+        </div>
+
+    </form> </div>
+</div>
+

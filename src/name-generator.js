@@ -7,8 +7,8 @@ const particles = ["The", "A"]
 const adj_monst = ["Great", "Lesser", "Dark", "Spotted", "Hairless", "Carnivorous", "Timid"]
 const adj_items = ["Shiny", "Cursed", "Whizzing", "Crusty", "Glistening", "Shimmering", "Blessed"]
 const verbs_ing = ["Flying", "Burning", "Weeping", "Slinking", "Burrowing"]
-const verbs_act = ["Free", "Grind", "Liberate", "Defeat", "Siege", "Protect", "Finish"]
-const nouns = ["Cave", "Vampire", "Tree", "River", "Skull", "Bird", "Fire", "Ice", "Town", "Castle"]
+const verbs_act = ["Free", "Grind", "Liberate", "Defeat", "Siege", "Protect", "Finish", "Investigate", "Defend"]
+const nouns = ["Cave", "Vampire", "Tree", "River", "Skull", "Bird", "Fire", "Ice", "Town", "Castle", "Sky", "Dragon", "King", "Queen", "Mountain"]
 
 function randEl(list)
 {
@@ -87,7 +87,22 @@ function getLootItemName()
     return output
 }
 function getQuestName() {
-    return randEl(verbs_act) + " " + randEl(nouns)
+    let output = ""
+    let form = Math.floor(Math.random() * 2)
+
+    switch (form)
+    {
+        case 0:
+            output += randEl(verbs_act) + " " + randEl(nouns)
+            break;
+        case 1:
+            output += randEl(verbs_act) + " " + randEl(nouns) + randEl(nouns)
+            break;
+        default:
+            output += randEl(verbs_act) + " " + randEl(nouns) + randEl(nouns)
+    }
+
+    return output
 }
 
 // Export for use

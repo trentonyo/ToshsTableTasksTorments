@@ -1,29 +1,58 @@
-<h1>Add a new monster</h1>
+<div id="page_title" class="fadeout-gradient">
+    Add a New Monster
+</div>
 
-<form>
-    <label for="monster-monsterName">Monster Name:</label>
-    <input type="text" id="monster-monsterName" placeholder="{{placeholderMonsterName}}">
+<div id="forms_container">
+    <div class="form_column"> <form id="add_new_ability">
+        <div class="new add title">
+            New Monster
+        </div>
+        <div class="new add background-gradient">
+            <label for="monster-monsterName">Monster Name:</label>
+            <br>
+            <input type="text" id="monster-monsterName" placeholder="{{placeholderMonsterName}}">
+        </div>
 
-    <label for="monster-monsterDesc">Monster Description:</label>
-    <textarea id="monster-monsterDesc"></textarea>
+        <div class="new add background-gradient">
+            <label for="monster-monsterDesc">Monster Description:</label>
+            <br>
+            <textarea id="monster-monsterDesc"></textarea>
+        </div>
 
-    <label for="monster-type">Monster Type:</label>
-    <input list="monster-types-list" id="monster-type" name="monster-type">
-    <datalist id="monster-types-list">
-        {{#each monsterTypes}}
-        <option value="{{monsterTypeName}}">
-        {{/each}}
-    </datalist>
+        <div class="new add background-gradient">
+            <label for="monster-type">Monster Type:</label>
+            <br>
+            <input list="monster-types-list" id="monster-type" name="monster-type">
+            <datalist id="monster-types-list">
+                {{#each monsterTypes}}
+                <option value="{{monsterTypeName}}">
+                {{/each}}
+            </datalist>
+        </div>
 
-    <label for="monster-healthPool">Health pool:</label>
-    <input type="number" min="1" max="100" placeholder="1" id="monster-healthPool">
+        <div class="form_section">
+            <div class="new add background-gradient">
+                <label for="monster-healthPool">Health Pool:</label>
+                <br>
+                <input type="number" min="1" max="100" placeholder="1" id="monster-healthPool">
+            </div>
+            <div class="new add background-gradient">
+                <label for="monster-attack">Attack:</label>
+                <br>
+                <input type="number" min="1" max="100" placeholder="1" id="monster-attack">
+            </div>
+            <div class="new add background-gradient">
+                <label for="monster-defense">Defense:</label>
+                <br>
+                <input type="number" min="1" max="100" placeholder="1" id="monster-defense">
+            </div>
+            <div class="new add background-gradient">
+                <label for="monster-speed">Speed:</label>
+                <br>
+                <input type="number" min="1" max="100" placeholder="1" id="monster-speed">
+            </div>
+        </div>
 
-    <label for="monster-attack">Attack:</label>
-    <input type="number" min="1" max="100" placeholder="1" id="monster-attack">
+    </form> </div>
+</div>
 
-    <label for="monster-defense">Defense:</label>
-    <input type="number" min="1" max="100" placeholder="1" id="monster-defense">
-
-    <label for="monster-speed">Speed:</label>
-    <input type="number" min="1" max="100" placeholder="1" id="monster-speed">
-</form>

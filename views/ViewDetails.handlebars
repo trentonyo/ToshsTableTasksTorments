@@ -1,0 +1,23 @@
+<div id="page_title" class="fadeout-gradient">
+    {{> (whichPartialTitle)}}
+</div>
+
+<div class="info_band">
+    {{> (whichPartialInfoBand)}}
+</div>
+
+<div id="detail_container">
+    {{#if questId}}
+        {{> QuestsCard}}
+    {{/if}}
+    {{#if lootId}}
+        {{> LootItemsCard}}
+    {{/if}}
+    {{#if monsterId}}
+        {{> MonstersCard}}
+    {{/if}}
+    {{#if abilityId}}
+<!--        Need to do a for each, don't know what it will look like though -->
+        {{> AbilitiesCard}}
+    {{/if}}
+</div>

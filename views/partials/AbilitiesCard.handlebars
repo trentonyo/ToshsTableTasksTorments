@@ -1,0 +1,10 @@
+{{#unless view}}<a href="/Abilities/view/{{abilityId}}">{{/unless}}
+    <div class="card ability {{#if view}}full static{{/if}}">
+        <div class="title">
+            {{abilityName}}
+        </div>
+        <div class="description">
+            {{abilityDesc}}
+        </div>
+    </div>
+{{#unless view}}</a>{{/unless}}
