@@ -80,7 +80,20 @@ app.get('/Quests/:questID', function(req, res)
     // SELECT *...
     db.pool.query(SQL_thisQuest, function(err, results, fields)
     {
-        res.status(200).render("DetailsQuest", results[0])
+        results = [
+            {
+                "questName": "Goblin Slayer",
+                "available": 1,
+                "suggestedLevel": 3,
+                "rewardXp": 100,
+                "rewardGold": 25,
+                "questDesc": "Clear the goblin infestation at the local farm",
+                "questGiverId": "Farmer Fred",
+                "monsterQty": 8,
+                "monsterId": "Goblin"
+            }
+        ]
+        res.status(200).render("DetailsQuest", results[0] || [''])
     })
 })
 
