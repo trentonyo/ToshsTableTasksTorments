@@ -291,6 +291,11 @@ app.get('/MonstersAbilities/new', function(req, res)
 {
     res.status(200).render("NewMonstersAbilities")
 })
+///Create new monster loot
+app.get('/MonstersLootItems/new', function(req, res)
+{
+    res.status(200).render("NewMonstersLootItems")
+})
 
 app.get('*', function (req, res)
 {
