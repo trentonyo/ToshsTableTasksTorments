@@ -217,6 +217,14 @@ app.get('/:entity/view/:entityID', function(req, res, next)
         }
     })
 })
+///Create new quest giver
+app.get('/QuestGivers/new', function(req, res)
+{
+    let context = {
+        "entity" : "QuestGivers"
+    }
+    res.status(200).render("NewQuestGivers", context)
+})
 ///Create new monster
 app.get('/Monsters/new', function(req, res)
 {
