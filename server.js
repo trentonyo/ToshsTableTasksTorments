@@ -4,11 +4,15 @@
 
 // Define entities
 const ENTITIES = {
-    "Abilities" : {id: "abilityId", en_singular: "Ability", en_plural: "Abilities"},
-    "LootItems" : {id: "lootId", en_singular: "Loot Item", en_plural: "Loot Item"},
-    "Monsters" : {id: "monsterId", en_singular: "Monster", en_plural: "Monsters"},
     "Quests" : {id: "questId", en_singular: "Quest", en_plural: "Quests"},
-    "QuestGivers" : {id: "questGiverId", en_singular: "Quest Giver", en_plural: "Quest Givers"}
+    "QuestGivers" : {id: "questGiverId", en_singular: "Quest Giver", en_plural: "Quest Givers"},
+    "Monsters" : {id: "monsterId", en_singular: "Monster", en_plural: "Monsters"},
+    "MonsterTypes" : {id: "monsterTypeId", en_singular: "Monster Type", en_plural: "Monster Types"},
+    "LootItems" : {id: "lootId", en_singular: "Loot Item", en_plural: "Loot Item"},
+    "LootItemTypes" : {id: "lootItemTypeId", en_singular: "Loot Item Type", en_plural: "Loot Item Types"},
+    "Abilities" : {id: "abilityId", en_singular: "Ability", en_plural: "Abilities"},
+    "MonstersAbilities" : {id: "monsterAbilityId", en_singular: "Monster Ability", en_plural: "Monster Abilities"}, //TODO implement proper ID
+    "MonstersLootItems" : {id: "monsterLootItemId", en_singular: "Monster Loot Item", en_plural: "Monster Loot Items"}, //TODO implement proper ID
 }
 
 // Server
