@@ -245,6 +245,14 @@ app.get('/Monsters/new', function(req, res)
         res.status(200).render("NewMonsters", context)
     })
 })
+///Create new monster type
+app.get('/MonsterTypes/new', function(req, res)
+{
+    let context = {
+        "entity" : "MonsterType"
+    }
+    res.status(200).render("NewMonsterTypes", context)
+})
 ///Create new loot item
 app.get('/LootItems/new', function(req, res)
 {

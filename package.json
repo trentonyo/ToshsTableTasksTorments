@@ -14,6 +14,7 @@
     "build_MonstersTitle": "handlebars views/partials/MonstersTitle.handlebars -f public/MonstersTitleTemplate.js",
     "build_MonstersInfoBand": "handlebars views/partials/MonstersInfoBand.handlebars -f public/MonstersInfoBandTemplate.js",
     "build_MonstersFormNew": "handlebars views/partials/MonstersFormNew.handlebars -f public/MonstersFormNewTemplate.js",
+    "build_MonsterTypesFormNew": "handlebars views/partials/MonsterTypesFormNew.handlebars -f public/MonsterTypesFormNewTemplate.js",
     "build_AbilitiesCard": "handlebars views/partials/AbilitiesCard.handlebars -f public/AbilitiesCardTemplate.js",
     "build_AbilitiesTitle": "handlebars views/partials/AbilitiesTitle.handlebars -f public/AbilitiesTitleTemplate.js",
     "build_AbilitiesInfoBand": "handlebars views/partials/AbilitiesInfoBand.handlebars -f public/AbilitiesInfoBandTemplate.js",
@@ -22,7 +23,7 @@
     "build_LootItemsTitle": "handlebars views/partials/LootItemsTitle.handlebars -f public/LootItemsTitleTemplate.js",
     "build_LootItemsInfoBand": "handlebars views/partials/LootItemsInfoBand.handlebars -f public/LootItemsInfoBandTemplate.js",
     "build_LootItemsFormNew": "handlebars views/partials/LootItemsFormNew.handlebars -f public/LootItemsFormNewTemplate.js",
-    "build_all": "npm run build_QuestsCard && npm run build_QuestsTitle && npm run build_QuestsInfoBand && npm run build_QuestsFormNew && npm run build_QuestGiversFormNew && npm run build_MonstersCard && npm run build_MonstersTitle && npm run build_MonstersInfoBand  && npm run build_MonstersFormNew && npm run build_AbilitiesCard && npm run build_AbilitiesTitle && npm run build_AbilitiesInfoBand && npm run build_AbilitiesFormNew && npm run build_LootItemsCard && npm run build_LootItemsTitle && npm run build_LootItemsInfoBand && npm run build_LootItemsFormNew",
+    "build_all": "npm run build_QuestsCard && npm run build_QuestsTitle && npm run build_QuestsInfoBand && npm run build_QuestsFormNew && npm run build_QuestGiversFormNew && npm run build_MonstersCard && npm run build_MonstersTitle && npm run build_MonstersInfoBand  && npm run build_MonstersFormNew && npm run build_MonsterTypesFormNew && npm run build_AbilitiesCard && npm run build_AbilitiesTitle && npm run build_AbilitiesInfoBand && npm run build_AbilitiesFormNew && npm run build_LootItemsCard && npm run build_LootItemsTitle && npm run build_LootItemsInfoBand && npm run build_LootItemsFormNew",
     "prestart": "npm run build_all",
     "offline": "node server.js -offline",
     "local_online": "node server.js"
