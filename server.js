@@ -8,6 +8,7 @@ const ENTITIES = {
     "LootItems" : {id: "lootId", en_singular: "Loot Item", en_plural: "Loot Item"},
     "Monsters" : {id: "monsterId", en_singular: "Monster", en_plural: "Monsters"},
     "Quests" : {id: "questId", en_singular: "Quest", en_plural: "Quests"},
+    "QuestGivers" : {id: "questGiverId", en_singular: "Quest Giver", en_plural: "Quest Givers"}
 }
 
 // Server
@@ -73,6 +74,7 @@ let db_offline = {
     SQL_thisQuests2 : require("./offline_sources/questDetails2.json"),
     SQL_thisQuests3 : require("./offline_sources/questDetails3.json"),
     SQL_allQuests     : require("./offline_sources/allQuests.json"),
+    SQL_allQuestGivers: require("./offline_sources/allQuestGivers.json"),
     SQL_allMonsters   : require("./offline_sources/allMonsters.json"),
     SQL_allLootItems  : require("./offline_sources/allLootItems.json"),
     SQL_allAbilities  : require("./offline_sources/allAbilities.json")
