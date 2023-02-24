@@ -286,6 +286,11 @@ app.get('/Abilities/new', function(req, res)
 {
     res.status(200).render("NewAbilities")
 })
+///Create new monster ability
+app.get('/MonstersAbilities/new', function(req, res)
+{
+    res.status(200).render("NewMonstersAbilities")
+})
 
 app.get('*', function (req, res)
 {
