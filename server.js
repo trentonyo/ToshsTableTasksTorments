@@ -273,6 +273,14 @@ app.get('/LootItems/new', function(req, res)
         res.status(200).render("NewLootItems", context)
     })
 })
+///Create new loot item type
+app.get('/LootItemTypes/new', function(req, res)
+{
+    let context = {
+        "entity" : "LootItemType"
+    }
+    res.status(200).render("NewLootItemTypes", context)
+})
 ///Create new ability
 app.get('/Abilities/new', function(req, res)
 {
