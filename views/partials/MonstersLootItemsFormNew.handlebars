@@ -1,0 +1,30 @@
+<div class="form_card"><form id="add_new_monster_loot_item">
+    <div class="new add title monsterLootItem">
+        New Monster Loot Item
+    </div>
+    <div class="new add background-gradient">
+        <label for="monsterLootItem-monsterName">Monster Name:</label>
+        <br>
+        <input type="text" id="monsterLootItem-monsterName" placeholder="{{placeholderMonsterName}}">
+    </div>
+
+    <div class="new add background-gradient">
+        <label for="monsterLootItem-lootItemName">Loot Item Name:</label>
+        <br>
+        <input type="text" id="monsterLootItem-lootItemName" placeholder="Gold Necklace"></textarea>
+    </div>
+
+    <div class="new add background-gradient">
+        <label for="monsterLootItem-dropQuantity">Drop Quantity:</label>
+        <br>
+        <input type="number" min="1" id="monsterLootItem-dropQuantity" name="monsterAbilitydropQuantity">
+    </div>
+
+    <div class="new add background-gradient">
+        <label for="monsterLootItem-dropChance">Drop Chance (decimal):</label>
+        <br>
+        <input type="number" max="1" min="0.001" step="0.001" id="monsterLootItem-dropChance" name="monsterAbility-dropChance">
+    </div>
+</form>
+
+</div>

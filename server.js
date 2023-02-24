@@ -4,10 +4,15 @@
 
 // Define entities
 const ENTITIES = {
-    "Abilities" : {id: "abilityId", en_singular: "Ability", en_plural: "Abilities"},
-    "LootItems" : {id: "lootId", en_singular: "Loot Item", en_plural: "Loot Item"},
-    "Monsters" : {id: "monsterId", en_singular: "Monster", en_plural: "Monsters"},
     "Quests" : {id: "questId", en_singular: "Quest", en_plural: "Quests"},
+    "QuestGivers" : {id: "questGiverId", en_singular: "Quest Giver", en_plural: "Quest Givers"},
+    "Monsters" : {id: "monsterId", en_singular: "Monster", en_plural: "Monsters"},
+    "MonsterTypes" : {id: "monsterTypeId", en_singular: "Monster Type", en_plural: "Monster Types"},
+    "LootItems" : {id: "lootId", en_singular: "Loot Item", en_plural: "Loot Item"},
+    "LootItemTypes" : {id: "lootItemTypeId", en_singular: "Loot Item Type", en_plural: "Loot Item Types"},
+    "Abilities" : {id: "abilityId", en_singular: "Ability", en_plural: "Abilities"},
+    "MonstersAbilities" : {id: "monsterAbilityId", en_singular: "Monster Ability", en_plural: "Monster Abilities"}, //TODO implement proper ID
+    "MonstersLootItems" : {id: "monsterLootItemId", en_singular: "Monster Loot Item", en_plural: "Monster Loot Items"}, //TODO implement proper ID
 }
 
 // Server
@@ -73,6 +78,7 @@ let db_offline = {
     SQL_thisQuests2 : require("./offline_sources/questDetails2.json"),
     SQL_thisQuests3 : require("./offline_sources/questDetails3.json"),
     SQL_allQuests     : require("./offline_sources/allQuests.json"),
+    SQL_allQuestGivers: require("./offline_sources/allQuestGivers.json"),
     SQL_allMonsters   : require("./offline_sources/allMonsters.json"),
     SQL_allLootItems  : require("./offline_sources/allLootItems.json"),
     SQL_allAbilities  : require("./offline_sources/allAbilities.json")
@@ -217,6 +223,14 @@ app.get('/:entity/view/:entityID', function(req, res, next)
         }
     })
 })
+///Create new quest giver
+app.get('/QuestGivers/new', function(req, res)
+{
+    let context = {
+        "entity" : "QuestGivers"
+    }
+    res.status(200).render("NewQuestGivers", context)
+})
 ///Create new monster
 app.get('/Monsters/new', function(req, res)
 {
@@ -236,6 +250,14 @@ app.get('/Monsters/new', function(req, res)
         }
         res.status(200).render("NewMonsters", context)
     })
+})
+///Create new monster type
+app.get('/MonsterTypes/new', function(req, res)
+{
+    let context = {
+        "entity" : "MonsterType"
+    }
+    res.status(200).render("NewMonsterTypes", context)
 })
 ///Create new loot item
 app.get('/LootItems/new', function(req, res)
@@ -257,10 +279,28 @@ app.get('/LootItems/new', function(req, res)
         res.status(200).render("NewLootItems", context)
     })
 })
+///Create new loot item type
+app.get('/LootItemTypes/new', function(req, res)
+{
+    let context = {
+        "entity" : "LootItemType"
+    }
+    res.status(200).render("NewLootItemTypes", context)
+})
 ///Create new ability
 app.get('/Abilities/new', function(req, res)
 {
     res.status(200).render("NewAbilities")
+})
+///Create new monster ability
+app.get('/MonstersAbilities/new', function(req, res)
+{
+    res.status(200).render("NewMonstersAbilities")
+})
+///Create new monster loot
+app.get('/MonstersLootItems/new', function(req, res)
+{
+    res.status(200).render("NewMonstersLootItems")
 })
 
 app.get('*', function (req, res)
