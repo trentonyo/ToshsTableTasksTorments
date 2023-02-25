@@ -35,15 +35,15 @@ templates['LootItemsCard'] = template({"1":function(container,depth0,helpers,par
     };
 
   return ((stack1 = lookupProperty(helpers,"unless").call(alias1,(depth0 != null ? lookupProperty(depth0,"view") : depth0),{"name":"unless","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":64}}})) != null ? stack1 : "")
-    + "\n    <div class=\"card loot "
+    + "\r\n    <div class=\"card loot "
     + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"view") : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":2,"column":26},"end":{"line":2,"column":57}}})) != null ? stack1 : "")
-    + "\">\n        <div class=\"title\">\n            "
+    + "\">\r\n        <div class=\"title\">\r\n            "
     + alias4(((helper = (helper = lookupProperty(helpers,"lootName") || (depth0 != null ? lookupProperty(depth0,"lootName") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"lootName","hash":{},"data":data,"loc":{"start":{"line":4,"column":12},"end":{"line":4,"column":24}}}) : helper)))
     + " "
     + ((stack1 = lookupProperty(helpers,"unless").call(alias1,(depth0 != null ? lookupProperty(depth0,"view") : depth0),{"name":"unless","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":4,"column":25},"end":{"line":4,"column":72}}})) != null ? stack1 : "")
-    + "\n        </div>\n        <div class=\"description\">\n            "
+    + "\r\n        </div>\r\n        <div class=\"description\">\r\n            "
     + alias4(((helper = (helper = lookupProperty(helpers,"lootDesc") || (depth0 != null ? lookupProperty(depth0,"lootDesc") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"lootDesc","hash":{},"data":data,"loc":{"start":{"line":7,"column":12},"end":{"line":7,"column":24}}}) : helper)))
-    + "\n        </div>\n    </div>\n"
+    + "\r\n        </div>\r\n    </div>\r\n"
     + ((stack1 = lookupProperty(helpers,"unless").call(alias1,(depth0 != null ? lookupProperty(depth0,"view") : depth0),{"name":"unless","hash":{},"fn":container.program(7, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":10,"column":0},"end":{"line":10,"column":31}}})) != null ? stack1 : "");
 },"useData":true});
 })();

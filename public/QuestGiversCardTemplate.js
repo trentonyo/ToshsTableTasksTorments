@@ -24,11 +24,11 @@ templates['QuestGiversCard'] = template({"1":function(container,depth0,helpers,p
     };
 
   return ((stack1 = lookupProperty(helpers,"unless").call(alias1,(depth0 != null ? lookupProperty(depth0,"view") : depth0),{"name":"unless","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":1,"column":0},"end":{"line":1,"column":72}}})) != null ? stack1 : "")
-    + "\n    <div class=\"card questGiver "
+    + "\r\n    <div class=\"card questGiver "
     + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"view") : depth0),{"name":"if","hash":{},"fn":container.program(3, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":2,"column":32},"end":{"line":2,"column":62}}})) != null ? stack1 : "")
-    + "\">\n        <div class=\"title\">\n            "
+    + "\">\r\n        <div class=\"title\">\r\n            "
     + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"questGiverName") || (depth0 != null ? lookupProperty(depth0,"questGiverName") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(alias1,{"name":"questGiverName","hash":{},"data":data,"loc":{"start":{"line":4,"column":12},"end":{"line":4,"column":30}}}) : helper)))
-    + "\n        </div>\n    </div>\n"
+    + "\r\n        </div>\r\n    </div>\r\n"
     + ((stack1 = lookupProperty(helpers,"unless").call(alias1,(depth0 != null ? lookupProperty(depth0,"view") : depth0),{"name":"unless","hash":{},"fn":container.program(5, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":7,"column":0},"end":{"line":7,"column":31}}})) != null ? stack1 : "");
 },"useData":true});
 })();
