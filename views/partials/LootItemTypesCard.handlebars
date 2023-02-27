@@ -8,5 +8,10 @@
             {{else}} Not equipable
             {{/if}}
         </div>
+        <div>Edit</div>
+        <form action="/delete/LootItemType" method="post">
+            <input type="hidden" name="lootItemTypeId" value="{{lootItemTypeId}}"> 
+            <button name="delete-lootitemtype" value="delete">Delete</button>
+        </form>
     </div>
 {{#unless view}}</a>{{/unless}}

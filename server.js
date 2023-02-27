@@ -317,6 +317,17 @@ app.post('/submit/LootItemType', function (req, res)
     })
     res.redirect('/LootItemTypes/new'); // TODO Add success/failure message on reload
 })
+///Delete loot item type
+app.post('/delete/LootItemType', function (req, res)
+{
+    let SQL_deleteLootItemType = `DELETE FROM LootItemTypes WHERE lootItemTypeId = ${parseInt(req.body.lootItemTypeId)};`
+    db.pool.query(SQL_deleteLootItemType, function(err, results){
+        console.log(SQL_deleteLootItemType)
+        console.log(results)
+        if(useOffline) { err = 'Unable to delete loot item types while offline' }
+    })
+    res.redirect('/LootItemTypes/view'); // TODO Add success/failure message on reload
+})
 
 /*
     LISTENER
