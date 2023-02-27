@@ -1,17 +1,51 @@
-{{#unless view}}<a href="/LootItemTypes/view/{{lootItemTypeId}}">{{/unless}}
-    <div class="card ability {{#if view}}full static{{/if}}">
-        <div class="title">
-            {{lootItemTypeName}}
-        </div>
-        <div class="description">
-            {{#if equipable}} Equipable
-            {{else}} Not equipable
-            {{/if}}
-        </div>
-        <div>Edit</div>
-        <form action="/delete/LootItemType" method="post">
-            <input type="hidden" name="lootItemTypeId" value="{{lootItemTypeId}}"> 
-            <button name="delete-lootitemtype" value="delete">Delete</button>
-        </form>
+<div class="card ability {{#if view}}full static{{/if}}">
+    <div class="title" contenteditable="false" id="lootitemtypename-{{lootItemTypeId}}">
+        {{lootItemTypeName}}
     </div>
-{{#unless view}}</a>{{/unless}}
+    <div class="description" contenteditable="false" id="equipable-{{lootItemTypeId}}">
+        {{#if equipable}} Equipable
+        {{else}} Not equipable
+        {{/if}}
+    </div>
+    
+    <!-- Button to toggle edit mode -->
+    <button onClick="toggleEditMode(this, {{lootItemTypeId}})">Edit</button>
+    
+    <!-- Form to submit update -->
+    <button hidden onClick="submitUpdate(this, {{lootItemTypeId}})" id="update-lootitemtype-{{lootItemTypeId}}" value="update">Submit</button>
+
+
+
+    <form action="/delete/LootItemType" method="post">
+        <input type="hidden" name="lootItemTypeId" value="{{lootItemTypeId}}"> 
+        <button name="delete-lootitemtype" value="delete">Delete</button>
+    </form>
+</div>
+
+<script>
+    function toggleEditMode(button, lootItemTypeId) {
+        // Toggle editing
+        let name = document.getElementById("lootitemtypename-" + lootItemTypeId)
+        let equipable = document.getElementById("equipable-" + lootItemTypeId)
+        if (name.contentEditable == "false") {
+            name.contentEditable = "true"
+            equipable.contentEditable = "true"
+            document.getElementById("update-lootitemtype-" + lootItemTypeId).removeAttribute("hidden")
+            button.innerHTML = "Cancel"
+        } else {
+            name.contentEditable = "false"
+            equipable.contentEditable = "false"
+            document.getElementById("update-lootitemtype-" + lootItemTypeId).setAttribute("hidden", "hidden")
+            button.innerHTML = "Edit"
+        }
+    }
+
+    function submitUpdate(button, lootItemTypeId) {
+        let xhttp = new XMLHttpRequest();
+        let name = document.getElementById("lootitemtypename-" + lootItemTypeId).textContent.trim()
+        //let equipable = TODO Add ability to edit equipable
+        xhttp.open("POST", '/update/LootItemType', true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send("lootItemTypeId=" + lootItemTypeId + "&lootItemTypeName=" + name);
+    }
+</script>
