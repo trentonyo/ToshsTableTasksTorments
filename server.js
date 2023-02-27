@@ -107,6 +107,7 @@ partialTypes.forEach(function (value, index, array)
  * Middleware to parse POST body
  */
 app.use(express.json())
+app.use(express.urlencoded())
 
 app.use(express.static("public/"))
 app.use(express.static("src/"))
@@ -306,6 +307,15 @@ app.get('/MonstersLootItems/new', function(req, res)
 app.get('*', function (req, res)
 {
     res.status(404).render("PageNotFound")
+})
+///Create loot item type
+app.post('/submit/LootItemType', function (req, res)
+{
+    let SQL_createLootItemType = `INSERT INTO LootItemTypes (lootItemTypeName, equipable) VALUES ('${req.body.lootItemTypeName}', '${req.body.equipable}');`
+    db.pool.query(SQL_createLootItemType, function(err, results){
+        if(useOffline) { err = 'Unable to add loot item types while offline' }
+    })
+    res.redirect('/LootItemTypes/new'); // TODO Add success/failure message on reload
 })
 
 /*
