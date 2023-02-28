@@ -318,7 +318,7 @@ app.post('/submit/LootItemType', function (req, res)
     res.redirect('/LootItemTypes/new'); // TODO Add success/failure message on reload
 })
 ///Update loot item type
-app.post('/update/LootItemType', function (req, res)
+app.post('/LootItemType/update', function (req, res)
 {
     let SQL_updateLootItemType = `UPDATE LootItemTypes SET lootItemTypeName = '${req.body.lootItemTypeName}', equipable = '${req.body.equipable}' WHERE lootItemTypeId = ${parseInt(req.body.lootItemTypeId)};`
     db.pool.query(SQL_updateLootItemType, function(err, results){
@@ -329,13 +329,20 @@ app.post('/update/LootItemType', function (req, res)
     res.redirect('/LootItemTypes/view'); // TODO Add success/failure message on reload
 })
 ///Delete loot item type
-app.post('/delete/LootItemType', function (req, res)
+app.post('/LootItemType/delete', function (req, res)
 {
     let SQL_deleteLootItemType = `DELETE FROM LootItemTypes WHERE lootItemTypeId = ${parseInt(req.body.lootItemTypeId)};`
     db.pool.query(SQL_deleteLootItemType, function(err, results){
         if(useOffline) { err = 'Unable to delete loot item types while offline' }
+        if(err) {
+            if (err.errno === 1451) {
+                res.status(400).send("Cannot delete loot item type in use")
+            }   
+        } else {
+            res.redirect('/LootItemTypes/view');
+        }
     })
-    res.redirect('/LootItemTypes/view'); // TODO Add success/failure message on reload
+    
 })
 
 /*
