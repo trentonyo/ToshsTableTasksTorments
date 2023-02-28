@@ -316,6 +316,7 @@ app.post('/submit/LootItemType', function (req, res)
         if(useOffline) { err = 'Unable to add loot item types while offline' }
     })
     res.redirect('/LootItemTypes/new'); // TODO Add success/failure message on reload
+                                            // Further TODO Perhaps we could get the ID returned and redirect to the details page of larger entities (quests, monsters, not loot item types or quest givers)
 })
 ///Update loot item type
 app.post('/LootItemType/update', function (req, res)
