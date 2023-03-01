@@ -8,6 +8,7 @@
     <script src="/ux.js" defer></script>
     <script src="/ENTITIES.js"></script>
     <script>
+<!--        TODO place this AND ux.js only in the appropriate pages     -->
         let addAbilitiesForm = function ()
         {
             let new_element = document.createElement("a")
@@ -25,37 +26,37 @@
         }
     </script>
 </head>
-<body>
+<body class="jsp-global-medium-backgroundColor">
 
 <a href="/"><div id="logo_container" class="fadeout-gradient">
-    <div class="logo text-gradient">Tosh's Table of Tasks and Torments</div>
+    <div class="animate-text-gradient jsp-logo-medium-textColor" data-jsp-palette="logo">Tosh's Table of Tasks and Torments</div>
 </div></a>
 
-<div id="nav_container" class="fadeout-gradient">
-    <a href="/Quests/new"><div class="nav new background-gradient">Quest +</div></a>
-    <a href="/QuestGivers/new"><div class="nav new background-gradient">Quest giver +</div></a>
-    <a href="/Monsters/new"><div class="nav new background-gradient">Monster +</div></a>
-    <a href="/MonsterTypes/new"><div class="nav new background-gradient">Monster type +</div></a>
-    <a href="/LootItems/new"><div class="nav new background-gradient">Loot item +</div></a>
-    <a href="/LootItemTypes/new"><div class="nav new background-gradient">Loot item type +</div></a>
-    <a href="/Abilities/new"><div class="nav new background-gradient">Ability +</div></a>
-    <a href="/MonstersAbilities/new"><div class="nav new background-gradient">Monster ability +</div></a>
-    <a href="/MonstersLootItems/new"><div class="nav new background-gradient">Monster loot +</div></a>
+<div id="nav_container" class="fadeout-gradient jsp-global-dark-backgroundColor">
+    <a href="/Quests/new"><div class="nav animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Quest +</div></a>
+    <a href="/QuestGivers/new"><div class="nav animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Quest giver +</div></a>
+    <a href="/Monsters/new"><div class="nav animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Monster +</div></a>
+    <a href="/MonsterTypes/new"><div class="nav animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Monster type +</div></a>
+    <a href="/LootItems/new"><div class="nav animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Loot item +</div></a>
+    <a href="/LootItemTypes/new"><div class="nav animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Loot item type +</div></a>
+    <a href="/Abilities/new"><div class="nav animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Ability +</div></a>
+    <a href="/MonstersAbilities/new"><div class="nav animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Monster ability +</div></a>
+    <a href="/MonstersLootItems/new"><div class="nav animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Monster loot +</div></a>
 
-    <a href="/Quests/view"><div class="nav view background-gradient">View quests</div></a>
-    <a href="/QuestGivers/view"><div class="nav view background-gradient">View quest givers</div></a>
-    <a href="/Monsters/view"><div class="nav view background-gradient">View monsters</div></a>
-    <a href="/MonsterTypes/view"><div class="nav view background-gradient">View monster types</div></a>
-    <a href="/LootItems/view"><div class="nav view background-gradient">View loot items</div></a>
-    <a href="/LootItemTypes/view"><div class="nav view background-gradient">View loot item types</div></a>
-    <a href="/Abilities/view"><div class="nav view background-gradient">View abilities</div></a>
-    <a href="/MonstersAbilities/view"><div class="nav view background-gradient">View monster abilities</div></a>
-    <a href="/MonstersLootItems/view"><div class="nav view background-gradient">View monster loot items</div></a>
+    <a href="/Quests/view"><div class="nav animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View quests</div></a>
+    <a href="/QuestGivers/view"><div class="nav animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View quest givers</div></a>
+    <a href="/Monsters/view"><div class="nav animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View monsters</div></a>
+    <a href="/MonsterTypes/view"><div class="nav animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View monster types</div></a>
+    <a href="/LootItems/view"><div class="nav animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View loot items</div></a>
+    <a href="/LootItemTypes/view"><div class="nav animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View loot item types</div></a>
+    <a href="/Abilities/view"><div class="nav animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View abilities</div></a>
+    <a href="/MonstersAbilities/view"><div class="nav animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View monster abilities</div></a>
+    <a href="/MonstersLootItems/view"><div class="nav animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View monster loot items</div></a>
 </div>
 
 {{{body}}}
 
-<div id="modal_animationSwitch" class="new nav background-gradient">
+<div id="modal_animationSwitch" class="nav animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor jsp-new-dark-thinBorderColor" data-jsp-palette="new">
     Animations <input type="checkbox" id="animationSwitch" checked>
 </div>
 
