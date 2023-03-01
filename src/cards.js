@@ -27,6 +27,31 @@ function toggleEditMode(button, lootItemTypeId) {
     }
 }
 
+function updateDOMEntity(updatedEntityData)
+{
+    switch (updatedEntityData.entity)
+    {
+        case "LootItemType":
+            document.getElementById(`lootItemTypeName-${updatedEntityData.id}`).innerText = updatedEntityData['title']
+            document.getElementById(`edit-equipable-${updatedEntityData.id}`).value = updatedEntityData['equipable']
+            break
+        default:
+            console.log(`Unexpected entity type '${updatedEntityData.entity}!`, updatedEntityData)
+    }
+}
+
+function deleteDOMEntity(updatedEntityData)
+{
+    switch (updatedEntityData.entity)
+    {
+        case "LootItemType":
+            document.getElementById(`LootItemTypeId-${updatedEntityData.id}`).remove()
+            break
+        default:
+            console.log(`Unexpected entity type '${updatedEntityData.entity}!`, updatedEntityData)
+    }
+}
+
 function updateEntity(button, updatedEntityData)
 {
     switch (updatedEntityData.entity)
@@ -45,20 +70,26 @@ function updateEntity(button, updatedEntityData)
     xhttp.send(JSON.stringify(updatedEntityData))
 }
 
-function deleteLootItemType(button, lootItemTypeId) {
-    if (confirm("Are you sure you want to delete this loot item type?")) {
+function deleteEntity(button, entityDataToDelete) {
+    if (confirm(`Are you sure you want to delete this ${entityDataToDelete.entity}?`))
+    {
         let xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function() {
-            if (this.readyState == 4) {
-                if (this.status == 400) {
+        xhttp.onreadystatechange = function()
+        {
+            if (this.readyState === 4)
+            {
+                if (this.status === 400)
+                {
                     alert(`Error: ${this.responseText}`);
                 }
             }
         };
-        xhttp.open("POST", '/delete/LootItemType', true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send(`lootItemTypeId=${lootItemTypeId}`);
-    } else {
+        xhttp.open("POST", '/deleteEntity', true);
+        xhttp.setRequestHeader("Content-type", "application/json")
+        xhttp.send(JSON.stringify(entityDataToDelete))
+    }
+    else
+    {
         return
     }
 }

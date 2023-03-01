@@ -1,4 +1,4 @@
-<div class="card loot {{#if view}}full static{{/if}}">
+<div class="card loot {{#if view}}full static{{/if}}" id="LootItemTypeId-{{lootItemTypeId}}">
     <div class="title" contenteditable="false" id="lootItemTypeName-{{lootItemTypeId}}">
         {{lootItemTypeName}}
     </div>
@@ -18,6 +18,6 @@
     </select>
 
     <button onClick="toggleEditMode(this, {{lootItemTypeId}})">Edit</button>
-    <button hidden onClick="updateEntity(this, {'entity': 'LootItemType', 'id': '{{lootItemTypeId}}'} )" id="update-lootItemType-{{lootItemTypeId}}">Submit</button>
-    <button onClick="deleteLootItemType(this, {{lootItemTypeId}})">Delete</button>
+    <button hidden onClick="updateEntity(this, {'entity': 'LootItemTypes', 'id': '{{lootItemTypeId}}'} )" id="update-lootItemType-{{lootItemTypeId}}">Submit</button>
+    <button onClick="deleteEntity(this, {'entity': 'LootItemTypes', 'id': '{{lootItemTypeId}}'} )">Delete</button>
 </div>

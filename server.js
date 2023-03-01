@@ -329,12 +329,9 @@ app.post('/updateEntity', function (req, res)
     let SQL_statement = ''
     let redirectTarget = ''
 
-    console.log("Received an update request") //TODO debug
-    console.log(updatedData) //TODO debug
-
     switch (updatedData.entity)
     {
-        case "LootItemType":
+        case "LootItemTypes":
             SQL_statement = `UPDATE LootItemTypes SET lootItemTypeName = '${updatedData.title}', equipable = '${updatedData.equipable}' WHERE lootItemTypeId = ${updatedData.id};`
             redirectTarget = '/LootItemTypes/view'
             break
@@ -344,27 +341,48 @@ app.post('/updateEntity', function (req, res)
 
     db.pool.query(SQL_statement, function(err, results){
         console.log(results)
-        if(useOffline) { err = 'Unable to update while offline' }
+        if(useOffline) { err = 'Unable to make database changes while offline' }
     })
 
     res.redirect(redirectTarget); // TODO Add success/failure message on reload
     // Further TODO Perhaps we could get the ID returned and redirect to the details page of larger entities (quests, monsters, not loot item types or quest givers)
 })
 
+app.post('/deleteEntity', function (req, res) {
+    let dataToDelete = req.body
+    let SQL_statement = ''
+    let redirectTarget = ''
+
+    console.log("Got a delete request")
+    console.log(dataToDelete)
+
+    if (ENTITIES.hasOwnProperty(dataToDelete.entity) && typeof parseInt(dataToDelete.id) === "number")
+    {
+        console.log("Validated ")
+        SQL_statement = `DELETE FROM ${dataToDelete.entity} WHERE ${ENTITIES[dataToDelete.entity].id} = ${dataToDelete.id};`
+        redirectTarget = `/${dataToDelete.entity}/view`
+    }
+    else
+    {
+        res.status(400) //TODO the entity not found
+    }
 
 
+    db.pool.query(SQL_statement, function (err, results)
+    {
+        if (useOffline) {
+            err = 'Unable to make database changes while offline'
+        }
 
-// ///Update loot item type
-// app.post('/update/LootItemType', function (req, res)
-// {
-//     let SQL_updateLootItemType = `UPDATE LootItemTypes SET lootItemTypeName = '${req.body.lootItemTypeName}', equipable = '${req.body.equipable}' WHERE lootItemTypeId = ${parseInt(req.body.lootItemTypeId)};`
-//     db.pool.query(SQL_updateLootItemType, function(err, results){
-//         console.log(SQL_updateLootItemType)
-//         console.log(results)
-//         if(useOffline) { err = 'Unable to update loot item types while offline' }
-//     })
-//     res.redirect('/LootItemTypes/view'); // TODO Add success/failure message on reload
-// })
+        if (err) {
+            if (err.errno === 1451) {
+                res.status(400).send(`Cannot delete ${dataToDelete.entity} in use`)
+            }
+        } else {
+            res.redirect(redirectTarget);
+        }
+    })
+})
 ///Delete loot item type
 app.post('/delete/LootItemType', function (req, res)
 {
