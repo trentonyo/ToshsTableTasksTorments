@@ -2,23 +2,11 @@
  * SETUP
  */
 
-// Define entities
-// const ENTITIES = {
-//     "Quests" : {id: "questId", en_singular: "Quest", en_plural: "Quests"},
-//     "QuestGivers" : {id: "questGiverId", en_singular: "Quest Giver", en_plural: "Quest Givers"},
-//     "Monsters" : {id: "monsterId", en_singular: "Monster", en_plural: "Monsters"},
-//     "MonsterTypes" : {id: "monsterTypeId", en_singular: "Monster Type", en_plural: "Monster Types"},
-//     "LootItems" : {id: "lootId", en_singular: "Loot Item", en_plural: "Loot Item"},
-//     "LootItemTypes" : {id: "lootItemTypeId", en_singular: "Loot Item Type", en_plural: "Loot Item Types"},
-//     "Abilities" : {id: "abilityId", en_singular: "Ability", en_plural: "Abilities"},
-//     "MonstersAbilities" : {id: ["monsterId", "abilityId"], en_singular: "Monster Ability", en_plural: "Monster Abilities"},
-//     "MonstersLootItems" : {id: ["monsterId", "lootId"], en_singular: "Monster Loot Item", en_plural: "Monster Loot Items"},
-// }
-
 // Server
 const express               = require('express')    // We are using the express library for the web app
 const handlebars            = require('handlebars')
 const express_handlebars    = require('express-handlebars')
+const filesystem            = require('fs')
 
 let app = express()             // We need to instantiate an express object to interact with the app in our code
 PORT    = 2765                  // Set a port number at the top, so it's easy to change in the future
@@ -28,8 +16,17 @@ let db = require('./src/db-connector')
 
 //Tools
 let names = require('./src/name-generator')
+
 let entities = require('./src/ENTITIES')
 const ENTITIES = entities.ENTITIES
+
+let style = require('./src/jsp')
+filesystem.writeFile('./src/jsp.css', style.generateCSSPalette(), function (err) {
+    if (err)
+    {
+        console.log("Error writing jsp.css:", err)
+    }
+})
 
 // Handlebars
 app.engine('handlebars', express_handlebars.engine({ defaultLayout: "main" }))
