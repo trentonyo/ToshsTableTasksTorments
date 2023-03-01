@@ -1,9 +1,9 @@
 {{#unless view}}<a href="/Abilities/view/{{abilityId}}">{{/unless}}
-    <div class="card ability {{#if view}}full static{{/if}}">
-        <div class="title">
+    <div class="card ability jsp-ability-light-backgroundColor jsp-ability-light-thickerBorderColor {{#if view}}full static{{/if}}">
+        <div class="title animate-background-gradient jsp-global-black-textColor" data-jsp-palette="ability">
             {{abilityName}}
         </div>
-        <div class="description">
+        <div class="description jsp-ability-dark-textColor">
             {{abilityDesc}}
         </div>
     </div>

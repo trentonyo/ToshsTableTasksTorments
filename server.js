@@ -230,7 +230,8 @@ app.get('/:entity/view/:entityID', function(req, res, next)
 app.get('/QuestGivers/new', function(req, res)
 {
     let context = {
-        "entity" : "QuestGivers"
+        "entity" : "QuestGivers",
+        "placeholderQuestGiverName" : names.getQuestGiverName()
     }
     res.status(200).render("NewQuestGivers", context)
 })
@@ -258,7 +259,8 @@ app.get('/Monsters/new', function(req, res)
 app.get('/MonsterTypes/new', function(req, res)
 {
     let context = {
-        "entity" : "MonsterType"
+        "entity" : "MonsterType",
+        "placeholder" : names.getMonsterType()
     }
     res.status(200).render("NewMonsterTypes", context)
 })
@@ -286,24 +288,61 @@ app.get('/LootItems/new', function(req, res)
 app.get('/LootItemTypes/new', function(req, res)
 {
     let context = {
-        "entity" : "LootItemType"
+        "entity" : "LootItemType",
+        "placeholder" : names.getLootType()
     }
     res.status(200).render("NewLootItemTypes", context)
 })
 ///Create new ability
 app.get('/Abilities/new', function(req, res)
 {
-    res.status(200).render("NewAbilities")
+    let context = {
+        "entity" : "Abilities",
+        "placeholder" : names.getAbilityName()
+    }
+    res.status(200).render("NewAbilities", context)
 })
 ///Create new monster ability
 app.get('/MonstersAbilities/new', function(req, res)
 {
-    res.status(200).render("NewMonstersAbilities")
+    // All monster types query
+    let SQL_monsters = 'SELECT * FROM Monsters;' //TODO use the DMQ hookup when time comes
+    // All monster types query
+    let SQL_abilities = 'SELECT * FROM Abilities;' //TODO use the DMQ hookup when time comes
+
+    db.pool.query(SQL_monsters, function (err, monsters, fields) {
+        db.pool.query(SQL_abilities, function (err, abilities, fields) {
+
+            let context = {
+                "entity" : "MonstersAbilities",
+                "monsters" : monsters,
+                "abilities" : abilities
+            }
+
+            res.status(200).render("NewMonstersAbilities", context)
+        })
+    })
 })
 ///Create new monster loot
 app.get('/MonstersLootItems/new', function(req, res)
 {
-    res.status(200).render("NewMonstersLootItems")
+    // All monster types query
+    let SQL_monsters = 'SELECT * FROM Monsters;' //TODO use the DMQ hookup when time comes
+    // All monster types query
+    let SQL_lootItems = 'SELECT * FROM LootItems;' //TODO use the DMQ hookup when time comes
+
+    db.pool.query(SQL_monsters, function (err, monsters, fields) {
+        db.pool.query(SQL_lootItems, function (err, lootItems, fields) {
+
+            let context = {
+                "entity" : "MonstersAbilities",
+                "monsters" : monsters,
+                "lootItems" : lootItems
+            }
+
+            res.status(200).render("NewMonstersLootItems", context)
+        })
+    })
 })
 
 app.get('*', function (req, res)

@@ -3,27 +3,39 @@
         Assign Loot Item to Monster
     </div>
     <div class="new add animate-background-gradient jsp-monster-dark-textColor" data-jsp-palette="monster">
-        <label for="monsterLootItem-monsterName">Monster Name:</label>
+
+        <label for="monsterLootItem-monsterNames">Monster:</label>
         <br>
-        <input type="text" id="monsterLootItem-monsterName" placeholder="{{placeholderMonsterName}}">
+        <input list="monsterLootItem-monsterNames-list" id="monsterLootItem-monsterNames" name="monsterLootItem-monsterNames">
+        <datalist id="monsterLootItem-monsterNames-list">
+            {{#each monsters}}
+            <option value="{{monsterName}}">
+            {{/each}}
+        </datalist>
     </div>
 
     <div class="new add animate-background-gradient jsp-loot-dark-textColor" data-jsp-palette="loot">
-        <label for="monsterLootItem-lootItemName">Loot Item Name:</label>
+
+        <label for="monsterLootItem-lootItemNames">Loot Item:</label>
         <br>
-        <input type="text" id="monsterLootItem-lootItemName" placeholder="Gold Necklace"></textarea>
+        <input list="monsterLootItem-lootItemNames-list" id="monsterLootItem-lootItemNames" name="monsterLootItem-lootItemNames">
+        <datalist id="monsterLootItem-lootItemNames-list">
+            {{#each lootItems}}
+            <option value="{{lootName}}">
+            {{/each}}
+        </datalist>
     </div>
 
     <div class="new add animate-background-gradient jsp-loot-dark-textColor" data-jsp-palette="loot">
         <label for="monsterLootItem-dropQuantity">Drop Quantity:</label>
         <br>
-        <input type="number" min="1" id="monsterLootItem-dropQuantity" name="monsterAbilitydropQuantity">
+        <input type="number" min="1" id="monsterLootItem-dropQuantity" name="monsterLootItemdropQuantity">
     </div>
 
     <div class="new add animate-background-gradient jsp-loot-dark-textColor" data-jsp-palette="loot">
         <label for="monsterLootItem-dropChance">Drop Chance (decimal):</label>
         <br>
-        <input type="number" max="1" min="0.001" step="0.001" id="monsterLootItem-dropChance" name="monsterAbility-dropChance">
+        <input type="number" max="1" min="0.001" step="0.1" value="1" id="monsterLootItem-dropChance" name="monsterLootItem-dropChance">
     </div>
 </form>
 
