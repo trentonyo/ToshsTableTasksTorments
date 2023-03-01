@@ -10,10 +10,10 @@
 .jsp-global-light-textColor { color: #dccae9; }
 .jsp-global-light-thinBorderColor { border: #dccae9 solid 1px; }
 .jsp-global-light-thickerBorderColor { border: #dccae9 solid 2px; }
-.jsp-global-black-backgroundColor { background-color: #171718; }
-.jsp-global-black-textColor { color: #171718; }
-.jsp-global-black-thinBorderColor { border: #171718 solid 1px; }
-.jsp-global-black-thickerBorderColor { border: #171718 solid 2px; }
+.jsp-global-black-backgroundColor { background-color: #0a0a0a; }
+.jsp-global-black-textColor { color: #0a0a0a; }
+.jsp-global-black-thinBorderColor { border: #0a0a0a solid 1px; }
+.jsp-global-black-thickerBorderColor { border: #0a0a0a solid 2px; }
 .jsp-global-white-backgroundColor { background-color: #e5e3ea; }
 .jsp-global-white-textColor { color: #e5e3ea; }
 .jsp-global-white-thinBorderColor { border: #e5e3ea solid 1px; }

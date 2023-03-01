@@ -24,7 +24,11 @@ let style = require('./src/jsp')
 filesystem.writeFile('./src/jsp.css', style.generateCSSPalette(), function (err) {
     if (err)
     {
-        console.log("Error writing jsp.css:", err)
+        console.log("Error writing ./src/jsp.css:", err)
+    }
+    else
+    {
+        console.log("Compiled", style.generateCSSPalette().split('\n').length, "lines from JSP to ./src/jsp.css")
     }
 })
 

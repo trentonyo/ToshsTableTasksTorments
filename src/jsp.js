@@ -1,5 +1,5 @@
 const JSP_PALETTE = {
-    global: {dark: "#0b0206", medium: "#2c1b47", light: "#dccae9", black: "#171718", white: "#e5e3ea"},
+    global: {dark: "#0b0206", medium: "#2c1b47", light: "#dccae9", black: "#0a0a0a", white: "#e5e3ea"},
     logo: {dark: "#030b02", medium: "#308c2a", light: "#5fc252"},
     quest: {dark: "#33122a", medium: "#7a2786", light: "#E99ff4"},
     monster: {dark: "#420a10", medium: "#ed3046", light: "#f2949f"},

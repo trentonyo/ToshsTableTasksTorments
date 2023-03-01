@@ -297,8 +297,8 @@ button:hover {
 }
 
 .fadeout-gradient {
-    background: linear-gradient(0deg, #010701 1.32%, rgba(255, 255, 255, 0) 100.03%);
-    background: -webkit-linear-gradient(0deg, #010701 1.32%, rgba(255, 255, 255, 0) 100.03%);
+    background: linear-gradient(0deg, #0a0a0a 1.32%, rgba(255, 255, 255, 0) 100.03%);
+    background: -webkit-linear-gradient(0deg, #0a0a0a 1.32%, rgba(255, 255, 255, 0) 100.03%);
 }
 
 .static:hover {
