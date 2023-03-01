@@ -2,23 +2,11 @@
  * SETUP
  */
 
-// Define entities
-const ENTITIES = {
-    "Quests" : {id: "questId", en_singular: "Quest", en_plural: "Quests"},
-    "QuestGivers" : {id: "questGiverId", en_singular: "Quest Giver", en_plural: "Quest Givers"},
-    "Monsters" : {id: "monsterId", en_singular: "Monster", en_plural: "Monsters"},
-    "MonsterTypes" : {id: "monsterTypeId", en_singular: "Monster Type", en_plural: "Monster Types"},
-    "LootItems" : {id: "lootId", en_singular: "Loot Item", en_plural: "Loot Item"},
-    "LootItemTypes" : {id: "lootItemTypeId", en_singular: "Loot Item Type", en_plural: "Loot Item Types"},
-    "Abilities" : {id: "abilityId", en_singular: "Ability", en_plural: "Abilities"},
-    "MonstersAbilities" : {id: ["monsterId", "abilityId"], en_singular: "Monster Ability", en_plural: "Monster Abilities"},
-    "MonstersLootItems" : {id: ["monsterId", "lootId"], en_singular: "Monster Loot Item", en_plural: "Monster Loot Items"},
-}
-
 // Server
 const express               = require('express')    // We are using the express library for the web app
 const handlebars            = require('handlebars')
 const express_handlebars    = require('express-handlebars')
+const filesystem            = require('fs')
 
 let app = express()             // We need to instantiate an express object to interact with the app in our code
 PORT    = 2765                  // Set a port number at the top, so it's easy to change in the future
@@ -28,6 +16,21 @@ let db = require('./src/db-connector')
 
 //Tools
 let names = require('./src/name-generator')
+
+let entities = require('./src/ENTITIES')
+const ENTITIES = entities.ENTITIES
+
+let style = require('./src/jsp')
+filesystem.writeFile('./src/jsp.css', style.generateCSSPalette(), function (err) {
+    if (err)
+    {
+        console.log("Error writing ./src/jsp.css:", err)
+    }
+    else
+    {
+        console.log("Compiled", style.generateCSSPalette().split('\n').length, "lines from JSP to ./src/jsp.css")
+    }
+})
 
 // Handlebars
 app.engine('handlebars', express_handlebars.engine({ defaultLayout: "main" }))
@@ -107,6 +110,7 @@ partialTypes.forEach(function (value, index, array)
  * Middleware to parse POST body
  */
 app.use(express.json())
+app.use(express.urlencoded())
 
 app.use(express.static("public/"))
 app.use(express.static("src/"))
@@ -227,7 +231,8 @@ app.get('/:entity/view/:entityID', function(req, res, next)
 app.get('/QuestGivers/new', function(req, res)
 {
     let context = {
-        "entity" : "QuestGivers"
+        "entity" : "QuestGivers",
+        "placeholderQuestGiverName" : names.getQuestGiverName()
     }
     res.status(200).render("NewQuestGivers", context)
 })
@@ -255,7 +260,8 @@ app.get('/Monsters/new', function(req, res)
 app.get('/MonsterTypes/new', function(req, res)
 {
     let context = {
-        "entity" : "MonsterType"
+        "entity" : "MonsterType",
+        "placeholder" : names.getMonsterType()
     }
     res.status(200).render("NewMonsterTypes", context)
 })
@@ -283,29 +289,157 @@ app.get('/LootItems/new', function(req, res)
 app.get('/LootItemTypes/new', function(req, res)
 {
     let context = {
-        "entity" : "LootItemType"
+        "entity" : "LootItemType",
+        "placeholder" : names.getLootType()
     }
     res.status(200).render("NewLootItemTypes", context)
 })
 ///Create new ability
 app.get('/Abilities/new', function(req, res)
 {
-    res.status(200).render("NewAbilities")
+    let context = {
+        "entity" : "Abilities",
+        "placeholder" : names.getAbilityName()
+    }
+    res.status(200).render("NewAbilities", context)
 })
 ///Create new monster ability
 app.get('/MonstersAbilities/new', function(req, res)
 {
-    res.status(200).render("NewMonstersAbilities")
+    // All monster types query
+    let SQL_monsters = 'SELECT * FROM Monsters;' //TODO use the DMQ hookup when time comes
+    // All monster types query
+    let SQL_abilities = 'SELECT * FROM Abilities;' //TODO use the DMQ hookup when time comes
+
+    db.pool.query(SQL_monsters, function (err, monsters, fields) {
+        db.pool.query(SQL_abilities, function (err, abilities, fields) {
+
+            let context = {
+                "entity" : "MonstersAbilities",
+                "monsters" : monsters,
+                "abilities" : abilities
+            }
+
+            res.status(200).render("NewMonstersAbilities", context)
+        })
+    })
 })
 ///Create new monster loot
 app.get('/MonstersLootItems/new', function(req, res)
 {
-    res.status(200).render("NewMonstersLootItems")
+    // All monster types query
+    let SQL_monsters = 'SELECT * FROM Monsters;' //TODO use the DMQ hookup when time comes
+    // All monster types query
+    let SQL_lootItems = 'SELECT * FROM LootItems;' //TODO use the DMQ hookup when time comes
+
+    db.pool.query(SQL_monsters, function (err, monsters, fields) {
+        db.pool.query(SQL_lootItems, function (err, lootItems, fields) {
+
+            let context = {
+                "entity" : "MonstersAbilities",
+                "monsters" : monsters,
+                "lootItems" : lootItems
+            }
+
+            res.status(200).render("NewMonstersLootItems", context)
+        })
+    })
 })
 
 app.get('*', function (req, res)
 {
     res.status(404).render("PageNotFound")
+})
+///Create loot item type
+app.post('/submit/LootItemType', function (req, res)
+{
+    let SQL_createLootItemType = `INSERT INTO LootItemTypes (lootItemTypeName, equipable) VALUES ('${req.body.lootItemTypeName}', '${req.body.equipable}');`
+    db.pool.query(SQL_createLootItemType, function(err, results){
+        if(useOffline) { err = 'Unable to add loot item types while offline' }
+    })
+    res.redirect('/LootItemTypes/new'); // TODO Add success/failure message on reload
+    // Further TODO Perhaps we could get the ID returned and redirect to the details page of larger entities (quests, monsters, not loot item types or quest givers)
+})
+
+
+
+
+///Create loot item type
+app.post('/updateEntity', function (req, res)
+{
+    let updatedData = req.body
+    let SQL_statement = ''
+    let redirectTarget = ''
+
+    switch (updatedData.entity)
+    {
+        case "LootItemTypes":
+            SQL_statement = `UPDATE LootItemTypes SET lootItemTypeName = '${updatedData.title}', equipable = '${updatedData.equipable}' WHERE lootItemTypeId = ${updatedData.id};`
+            redirectTarget = '/LootItemTypes/view'
+            break
+        default:
+            res.status(400) //TODO the entity not found
+    }
+
+    db.pool.query(SQL_statement, function(err, results){
+        console.log(results)
+        if(useOffline) { err = 'Unable to make database changes while offline' }
+    })
+
+    res.redirect(redirectTarget); // TODO Add success/failure message on reload
+    // Further TODO Perhaps we could get the ID returned and redirect to the details page of larger entities (quests, monsters, not loot item types or quest givers)
+})
+
+app.post('/deleteEntity', function (req, res) {
+    let dataToDelete = req.body
+    let SQL_statement = ''
+    let redirectTarget = ''
+
+    console.log("Got a delete request")
+    console.log(dataToDelete)
+
+    if (ENTITIES.hasOwnProperty(dataToDelete.entity) && typeof parseInt(dataToDelete.id) === "number")
+    {
+        console.log("Validated ")
+        SQL_statement = `DELETE FROM ${dataToDelete.entity} WHERE ${ENTITIES[dataToDelete.entity].id} = ${dataToDelete.id};`
+        redirectTarget = `/${dataToDelete.entity}/view`
+    }
+    else
+    {
+        res.status(400) //TODO the entity not found
+    }
+
+
+    db.pool.query(SQL_statement, function (err, results)
+    {
+        if (useOffline) {
+            err = 'Unable to make database changes while offline'
+        }
+
+        if (err) {
+            if (err.errno === 1451) {
+                res.status(400).send(`Cannot delete ${dataToDelete.entity} in use`)
+            }
+        } else {
+            res.redirect(redirectTarget);
+        }
+    })
+})
+///Delete loot item type
+app.post('/delete/LootItemType', function (req, res)
+{
+    let SQL_deleteLootItemType = `DELETE FROM LootItemTypes WHERE lootItemTypeId = ${parseInt(req.body.lootItemTypeId)};`
+    db.pool.query(SQL_deleteLootItemType, function(err, results){
+        if(useOffline) { err = 'Unable to delete loot item types while offline' }
+        if(err) {
+            if (err.errno === 1451) {
+                res.status(400).send("Cannot delete loot item type in use")
+            }   
+        } else {
+            res.redirect('/LootItemTypes/view');
+        }
+    })
+    
 })
 
 /*

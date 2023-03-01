@@ -10,24 +10,31 @@ let add_loot = document.getElementById("addLootItemForm")
 
 for (let i = 0; i < input_fields.length; i++)
 {
-    let plc = input_fields[i].placeholder
+    let placeholder = input_fields[i].placeholder
 
-    if (plc.length > 0)
+    if (placeholder.length > 0)
     {
         input_fields[i].addEventListener("auxclick", function (e)
         {
-            input_fields[i].value = plc
+            input_fields[i].value = placeholder
         })
     }
 }
 
-add_ability.addEventListener("click", function (e)
+if(add_ability)
 {
-    addAbilitiesForm()
-    updateGradientElements()
-})
-add_loot.addEventListener("click", function (e)
+    add_ability.addEventListener("click", function (e)
+    {
+        addAbilitiesForm()
+        updateGradientElements()
+    })
+}
+
+if(add_loot)
 {
-    addLootItemsForm()
-    updateGradientElements()
-})
+    add_loot.addEventListener("click", function (e)
+    {
+        addLootItemsForm()
+        updateGradientElements()
+    })
+}

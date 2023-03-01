@@ -1,7 +1,5 @@
 body {
     margin: 0;
-
-    background-color: #2d2d2d;
 }
 
 #modal_animationSwitch {
@@ -9,7 +7,6 @@ body {
     bottom: 20px;
     right: 20px;
     padding: 10px;
-    border: #11181e solid 1px;
     border-radius: 10px;
 }
 
@@ -23,6 +20,11 @@ body {
     display: flex;
     align-items: center;
 
+    padding-left: 24px;
+
+    font-family: Helvetica;
+    font-size: 48px;
+
     height: 80px;
 }
 
@@ -31,8 +33,6 @@ body {
     align-items: center;
     flex-wrap: wrap;
     justify-content: flex-start;
-
-    background-color: #010701;
 }
 
 #forms_container {
@@ -54,13 +54,16 @@ body {
 
 }
 
+.button_container {
+    display: flex;
+    justify-content: space-around;
+}
+
 #page_title {
     display: flex;
     align-items: center;
 
     padding: 12px 24px;
-
-    color: #fff;
 
     font-family: Helvetica;
     font-size: 36px;
@@ -88,13 +91,6 @@ body {
     background-color: #fff;
 }
 
-.logo {
-    margin-left: 24px;
-
-    font-family: Helvetica;
-    font-size: 48px;
-}
-
 .nav {
     font-family: Helvetica;
 
@@ -108,22 +104,11 @@ body {
     scale: 105%;
 }
 
-.new {
-    color: #020118;
-    background-color: #62c7b4;
-}
-
-.view {
-    color: #edeaf1;
-    background-color: #561acd;
-}
-
 .card {
+    position: relative;
+
     margin: 10px;
     padding-bottom: 15px;
-
-    /*border: #561acd 2px solid;*/
-    border: #020118 2px solid;
 
     -moz-border-radius-bottomleft: 10px;
     -moz-border-radius-bottomright: 10px;
@@ -135,44 +120,73 @@ body {
 }
 .card:hover {
     scale: 102%;
-    /*border: #735eab 2px solid;*/
-    border: #fff 2px solid;
+}
+.card_subtitle {
+    margin-left: 24px;
+
+    color: #fff;
+
+    font-size: 18px;
+    font-weight: lighter;
+    font-style: italic;
 }
 .full {
     min-width: 40%;
     max-width: 40%;
 }
+button {
+    margin: 4px;
 
-.card>.title {
-    font-family: serif;
+    border: none;
+    border-radius: 8px;
+
+    min-width: 20%;
+    max-width: 30%;
+
+    height: 30px;
+}
+button:hover {
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.card .title {
+    font-family: Helvetica;
     font-size: x-large;
     font-weight: bold;
-
-    text-shadow: #595656 3px 3px 5px;
 
     padding: 10px;
     margin: 0;
 
-    background-color: #a9a9a9;
-
-    border-bottom: #010701 1px solid;
+    border-bottom: #0a0909 1px solid;
 }
+
 .description>.stats {
     font-family: serif;
     text-align: center;
 
     margin-bottom: 10px;
 }
-.card>.description {
+.card .description {
     font-family: sans-serif;
+
+    min-height: 20px;
 
     margin: 10px;
 }
-.card>.giver {
+.card .giver {
     font-style: italic;
     text-align: end;
     padding: 10px;
 }
+.card .viewDetails {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+.card .viewDetails:hover {
+     box-shadow: 0 3px 6px #0a0909;
+ }
 
 .add {
     display: flex;
@@ -182,7 +196,7 @@ body {
     margin: 20px;
     padding: 20px;
 
-    border: #fff solid 2px;
+    /*border: #fff solid 2px;*/
     border-radius: 20px;
 
     font-family: Helvetica;
@@ -192,6 +206,7 @@ body {
     font-size: 18px;
 
     width: 90%;
+    padding: 6px;
 
     border-radius: 10px;
 }
@@ -205,7 +220,7 @@ body {
     min-width: 700px;
     max-width: 700px;
 
-    background-color: #b6f6e8;
+    /*background-color: #b6f6e8;*/
 
     border: #fff solid 1px;
     border-radius: 40px;
@@ -225,38 +240,6 @@ body {
 }
 .form_section>div {
     max-width: 30%;
-}
-
-.quest {
-    background-color: #f2e4f6;
-    color: #19021f;
-}
-.quest.title {
-    background-color: #d396e5;
-}
-
-.monster {
-    background-color: #f6e4e4;
-    color: #1f0202;
-}
-.monster.title {
-    background-color: #de8f8f;
-}
-
-.loot {
-    background-color: #f4f6e4;
-    color: #1f1f02;
-}
-.loot.title {
-    background-color: #dae393;
-}
-
-.ability {
-    background-color: #e4edf6;
-    color: #12143b;
-}
-.ability.title {
-    background-color: #a0c2e5;
 }
 
 .add_form {
@@ -300,7 +283,7 @@ body {
  Template:       wp-bootstrap-starter
  Version:        1.0.0
 */
-.text-gradient {
+.animate-text-gradient {
     background: linear-gradient(90deg, #066903 1.32%, #1acd29 100.03%);
     background: -webkit-linear-gradient(90deg, #066903 1.32%, #1acd29 100.03%);
     background-clip: text;
@@ -308,18 +291,18 @@ body {
     -webkit-text-fill-color: transparent;
 }
 
-.background-gradient {
+.animate-background-gradient {
     background: linear-gradient(90deg, #036956 1.32%, #1acdb8 100.03%);
     background: -webkit-linear-gradient(90deg, #036956 1.32%, #1acdb8 100.03%);
 }
 
 .fadeout-gradient {
-    background: linear-gradient(0deg, #010701 1.32%, rgba(255, 255, 255, 0) 100.03%);
-    background: -webkit-linear-gradient(0deg, #010701 1.32%, rgba(255, 255, 255, 0) 100.03%);
+    background: linear-gradient(0deg, #0a0a0a 1.32%, rgba(255, 255, 255, 0) 100.03%);
+    background: -webkit-linear-gradient(0deg, #0a0a0a 1.32%, rgba(255, 255, 255, 0) 100.03%);
 }
 
 .static:hover {
-    border: #020118 2px solid;
+    /*border: #020118 2px solid;*/
     scale: 100%;
 }
 
@@ -330,4 +313,26 @@ a {
 .hidden {
     display: none;
     scale: 0;
+}
+.blockPointerEvents {
+    pointer-events: none;
+}
+
+.editable {
+    background-color: #fff;
+    color: #000;
+
+    cursor: text;
+
+    font-style: italic;
+}
+.card .editable {
+    font-weight: normal;
+    border-bottom: #0a0909 1px dashed;
+}
+.card .editable::before {
+    content: '✎';
+}
+.card button.viewDetails::before {
+    content: '🔎';
 }

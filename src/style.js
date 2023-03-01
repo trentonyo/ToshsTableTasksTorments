@@ -1,14 +1,58 @@
 console.log("Loaded style.js")
 
-let text_gradient               = document.getElementsByClassName("text-gradient")
-let new_background_gradient     = document.querySelectorAll(".new.background-gradient")
-let view_background_gradient    = document.querySelectorAll(".view.background-gradient")
+// const JSP_PALETTE = {
+//     global: {dark: "#0b0206", medium: "#2c1b47", light: "#dccae9", black: "#171718", white: "#e5e3ea"},
+//     logo: {dark: "#030b02", medium: "#308c2a", light: "#5fc252"},
+//     quest: {dark: "#33122a", medium: "#7a2786", light: "#E99ff4"},
+//     monster: {dark: "#420a10", medium: "#ed3046", light: "#f2949f"},
+//     ability: {dark: "#0c2240", medium: "#264d60", light: "#6fc2bf"},
+//     loot: {dark: "#544018", medium: "#d1c25a", light: "#f7f0b5"},
+//     new: {dark: "#062120", medium: "#2cb2a2", light: "#8fe2ed"},
+//     view: {dark: "#150423", medium: "#644ac7", light: "#a794f0"},
+// }
+//
+// let generateCSSPalette = function ()
+// {
+//     let output = ""
+//     for (let category in JSP_PALETTE)
+//     {
+//         if (Object.hasOwnProperty.call(JSP_PALETTE, category))
+//         {
+//             for (let color in JSP_PALETTE[category])
+//             {
+//                 if (Object.hasOwnProperty.call(JSP_PALETTE[category], color))
+//                 {
+//                     output += `.jsp-${category}-${color}-backgroundColor { background-color: ${JSP_PALETTE[category][color]}; }\n`
+//                     output += `.jsp-${category}-${color}-textColor { color: ${JSP_PALETTE[category][color]}; }\n`
+//                     output += `.jsp-${category}-${color}-thinBorderColor { border: ${JSP_PALETTE[category][color]} solid 1px; }\n`
+//                     output += `.jsp-${category}-${color}-thickerBorderColor { border: ${JSP_PALETTE[category][color]} solid 2px; }\n`
+//                 }
+//             }
+//         }
+//     }
+//
+//     return output
+// }
+//
+// module.exports.generateCSSPalette = generateCSSPalette
+
+// console.log(generateCSSPalette())
+
+let text_gradient               = document.getElementsByClassName("animate-text-gradient")
+let new_background_gradient     = document.querySelectorAll(".new.animate-background-gradient")
+let view_background_gradient    = document.querySelectorAll(".view.animate-background-gradient")
+
+let animated_text_gradient_objects          = document.getElementsByClassName("animate-text-gradient")
+let animated_background_gradient_objects    = document.getElementsByClassName("animate-background-gradient")
 
 let updateGradientElements = function ()
 {
-    text_gradient               = document.getElementsByClassName("text-gradient")
-    new_background_gradient     = document.querySelectorAll(".new.background-gradient")
-    view_background_gradient    = document.querySelectorAll(".view.background-gradient")
+    text_gradient               = document.getElementsByClassName("animate-text-gradient")
+    new_background_gradient     = document.querySelectorAll(".new.animate-background-gradient")
+    view_background_gradient    = document.querySelectorAll(".view.animate-background-gradient")
+
+    animated_text_gradient_objects          = document.getElementsByClassName("animate-text-gradient")
+    animated_background_gradient_objects    = document.getElementsByClassName("animate-background-gradient")
 }
 
 const animationSwitch = document.getElementById("animationSwitch")
@@ -48,19 +92,37 @@ function getAngle(timePassed, i)
 }
 function draw(timePassed)
 {
-    //Wobble the text gradient
-    for (let i = 0; i < text_gradient.length; i++)
+    //Wobble any .animate-text-gradient by the colors of their jsp JSP_PALETTE
+    for (let i = 0; i < animated_text_gradient_objects.length; i++)
     {
-        text_gradient[i].style.cssText = getGradient( getAngle(timePassed, i), "#066903", "#1acd29", true)
+        let color1 = JSP_PALETTE.global.light
+        let color2 = JSP_PALETTE.global.medium
+
+        let currentJspPalette = animated_text_gradient_objects[i].dataset.jspPalette
+
+        if(currentJspPalette)
+        {
+            color1 = JSP_PALETTE[currentJspPalette].light
+            color2 = JSP_PALETTE[currentJspPalette].medium
+        }
+
+        animated_text_gradient_objects[i].style.cssText = getGradient( getAngle(timePassed, i), color1, color2, true )
     }
 
-    //Wobble background gradients
-    for (let i = 0; i < new_background_gradient.length; i++)
+    //Wobble any .animate-background-gradient by the colors of their jsp JSP_PALETTE
+    for (let i = 0; i < animated_background_gradient_objects.length; i++)
     {
-        new_background_gradient[i].style.cssText = getGradient( getAngle(timePassed, i), "#80edf1", "#1ab2cd", false)
-    }
-    for (let i = 0; i < view_background_gradient.length; i++)
-    {
-        view_background_gradient[i].style.cssText = getGradient( getAngle(timePassed, i), "#735eab", "#561acd", false)
+        let color1 = JSP_PALETTE.global.light
+        let color2 = JSP_PALETTE.global.medium
+
+        let currentJspPalette = animated_background_gradient_objects[i].dataset.jspPalette
+
+        if(currentJspPalette)
+        {
+            color1 = JSP_PALETTE[currentJspPalette].light
+            color2 = JSP_PALETTE[currentJspPalette].medium
+        }
+
+        animated_background_gradient_objects[i].style.cssText = getGradient( getAngle(timePassed, i), color1, color2 )
     }
 }
