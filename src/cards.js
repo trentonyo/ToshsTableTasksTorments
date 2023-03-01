@@ -9,25 +9,38 @@ function hideElementById(id) {
     // document.getElementById(id).setAttribute("hidden", "hidden")
     document.getElementById(id).classList.add("hidden")
 }
-function toggleEditMode(button, lootItemTypeId) {
-    let name = document.getElementById(`lootItemTypeName-${lootItemTypeId}`)
-    let equipable = document.getElementById(`equipable-${lootItemTypeId}`)
-    if (name.contentEditable == "false") { // Enables editing
-        name.contentEditable = "true"
-        name.classList.add("editable")
-        equipable.contentEditable = "true"
-        showElementById(`update-lootItemType-${lootItemTypeId}`)
-        showElementById(`edit-equipable-${lootItemTypeId}`)
-        hideElementById(`equipable-${lootItemTypeId}`)
-        button.innerHTML = "Cancel"
-    } else { // Disables editing
-        name.contentEditable = "false"
-        name.classList.remove("editable")
-        equipable.contentEditable = "false"
-        hideElementById(`update-lootItemType-${lootItemTypeId}`)
-        hideElementById(`edit-equipable-${lootItemTypeId}`)
-        showElementById(`equipable-${lootItemTypeId}`)
-        button.innerHTML = "Edit"
+
+function toggleElementById(id) {
+    if (document.getElementById(id).classList.contains("hidden"))
+    {
+        document.getElementById(id).classList.remove("hidden")
+    }
+    else
+    {
+        document.getElementById(id).classList.add("hidden")
+    }
+}
+function toggleEditMode(button, editToggleData) {
+    if (button.innerText === "Cancel")
+    {
+        button.innerText = "Edit"
+    }
+    else if (button.innerText === "Edit")
+    {
+        button.innerText = "Cancel"
+    }
+
+    switch (editToggleData.entity)
+    {
+        case "LootItemTypes": 
+            let lootItemTypeId = editToggleData.id
+            document.getElementById(`lootItemTypeName-${lootItemTypeId}`).toggleAttribute("contentEditable")
+            toggleElementById(`update-lootItemType-${lootItemTypeId}` )
+            toggleElementById(`edit-equipable-${lootItemTypeId}`)
+            toggleElementById(`equipable-${lootItemTypeId}`)
+            break
+        default:
+            console.log(`Unexpected entity type '${updatedEntityData.entity}!`, editToggleData.entity)
     }
 }
 
