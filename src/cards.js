@@ -20,22 +20,29 @@ function toggleElementById(id) {
         document.getElementById(id).classList.add("hidden")
     }
 }
-function toggleEditMode(button, editToggleData) {
+function toggleEditMode(button, editToggleData, restoreUnsavedName) {
     if (button.innerText === "Cancel")
     {
         button.innerText = "Edit"
+
+        if (restoreUnsavedName)
+        {
+            document.getElementById(`${editToggleData.entity}-Name-${editToggleData.id}`).innerText = document.getElementById(`${editToggleData.entity}-Name-${editToggleData.id}`).dataset.unchangedName
+        }
     }
     else if (button.innerText === "Edit")
     {
         button.innerText = "Cancel"
+
+        document.getElementById(`${editToggleData.entity}-Name-${editToggleData.id}`).dataset.unchangedName = document.getElementById(`${editToggleData.entity}-Name-${editToggleData.id}`).innerText
     }
 
     switch (editToggleData.entity)
     {
         case "LootItemTypes": 
             let lootItemTypeId = editToggleData.id
-            document.getElementById(`lootItemTypeName-${lootItemTypeId}`).toggleAttribute("contentEditable")
-            document.getElementById(`lootItemTypeName-${lootItemTypeId}`).classList.toggle("editable")
+            document.getElementById(`${editToggleData.entity}-Name-${lootItemTypeId}`).toggleAttribute("contentEditable")
+            document.getElementById(`${editToggleData.entity}-Name-${lootItemTypeId}`).classList.toggle("editable")
             toggleElementById(`update-lootItemType-${lootItemTypeId}` )
             toggleElementById(`edit-equipable-${lootItemTypeId}`)
             toggleElementById(`equipable-${lootItemTypeId}`)
@@ -52,7 +59,7 @@ function updateDOMEntity(updatedEntityData)
     switch (updatedEntityData.entity)
     {
         case "LootItemTypes":
-            document.getElementById(`lootItemTypeName-${updatedEntityData.id}`).innerText = updatedEntityData['title']
+            document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
             document.getElementById(`edit-equipable-${updatedEntityData.id}`).value = updatedEntityData['equipable']
             document.getElementById(`equipable-${updatedEntityData.id}`).innerText = (updatedEntityData['equipable'] === "1" ? "Equipable" : "Not Equipable")
             break
@@ -78,7 +85,7 @@ function updateEntity(button, updatedEntityData)
     switch (updatedEntityData.entity)
     {
         case "LootItemTypes":
-            updatedEntityData['title'] = document.getElementById(`lootItemTypeName-${updatedEntityData.id}`).textContent.trim()
+            updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
             updatedEntityData['equipable'] = document.getElementById(`edit-equipable-${updatedEntityData.id}`).value
             break
         default:
@@ -93,8 +100,7 @@ function updateEntity(button, updatedEntityData)
             if (this.status === 200)
             {
                 updateDOMEntity(updatedEntityData)
-                toggleEditMode(button, updatedEntityData)
-                // document.getElementById(`update-${updatedEntityData.entity}-${updatedEntityData.id}`).classList.toggle("hidden") //TODO construct id from updatedEntityData
+                toggleEditMode(button, updatedEntityData, false)
             }
             else
             {
@@ -120,7 +126,6 @@ function deleteEntity(button, entityDataToDelete) {
                 if (this.status === 200)
                 {
                     deleteDOMEntity(entityDataToDelete)
-                    toggleEditMode(button, entityDataToDelete)
                 }
                 else
                 {
