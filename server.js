@@ -319,7 +319,7 @@ app.post('/submit/LootItemType', function (req, res)
                                             // Further TODO Perhaps we could get the ID returned and redirect to the details page of larger entities (quests, monsters, not loot item types or quest givers)
 })
 ///Update loot item type
-app.post('/LootItemType/update', function (req, res)
+app.post('/update/LootItemType', function (req, res)
 {
     let SQL_updateLootItemType = `UPDATE LootItemTypes SET lootItemTypeName = '${req.body.lootItemTypeName}', equipable = '${req.body.equipable}' WHERE lootItemTypeId = ${parseInt(req.body.lootItemTypeId)};`
     db.pool.query(SQL_updateLootItemType, function(err, results){
@@ -330,7 +330,7 @@ app.post('/LootItemType/update', function (req, res)
     res.redirect('/LootItemTypes/view'); // TODO Add success/failure message on reload
 })
 ///Delete loot item type
-app.post('/LootItemType/delete', function (req, res)
+app.post('/delete/LootItemType', function (req, res)
 {
     let SQL_deleteLootItemType = `DELETE FROM LootItemTypes WHERE lootItemTypeId = ${parseInt(req.body.lootItemTypeId)};`
     db.pool.query(SQL_deleteLootItemType, function(err, results){

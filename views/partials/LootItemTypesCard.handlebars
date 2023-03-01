@@ -1,5 +1,5 @@
-<div class="card ability {{#if view}}full static{{/if}}">
-    <div class="title" contenteditable="false" id="lootitemtypename-{{lootItemTypeId}}">
+<div class="card loot {{#if view}}full static{{/if}}">
+    <div class="title" contenteditable="false" id="lootItemTypeName-{{lootItemTypeId}}">
         {{lootItemTypeName}}
     </div>
     <div class="description" contenteditable="false" id="equipable-{{lootItemTypeId}}">
@@ -18,7 +18,7 @@
     </select>
     
     <button onClick="toggleEditMode(this, {{lootItemTypeId}})">Edit</button>
-    <button hidden onClick="updateLootItemType(this, {{lootItemTypeId}})" id="update-lootitemtype-{{lootItemTypeId}}">Submit</button>
+    <button hidden onClick="updateLootItemType(this, {{lootItemTypeId}})" id="update-lootItemType-{{lootItemTypeId}}">Submit</button>
     <button onClick="deleteLootItemType(this, {{lootItemTypeId}})">Delete</button>
 </div>
 
@@ -31,19 +31,19 @@
         document.getElementById(id).setAttribute("hidden", "hidden")
     }
     function toggleEditMode(button, lootItemTypeId) {
-        let name = document.getElementById(`lootitemtypename-${lootItemTypeId}`)
+        let name = document.getElementById(`lootItemTypeName-${lootItemTypeId}`)
         let equipable = document.getElementById(`equipable-${lootItemTypeId}`)
         if (name.contentEditable == "false") { // Enables editing
             name.contentEditable = "true"
             equipable.contentEditable = "true"
-            showElementById(`update-lootitemtype-${lootItemTypeId}`)
+            showElementById(`update-lootItemType-${lootItemTypeId}`)
             showElementById(`edit-equipable-${lootItemTypeId}`)
             hideElementById(`equipable-${lootItemTypeId}`)
             button.innerHTML = "Cancel"
         } else { // Disables editing
             name.contentEditable = "false"
             equipable.contentEditable = "false"
-            hideElementById(`update-lootitemtype-${lootItemTypeId}`)
+            hideElementById(`update-lootItemType-${lootItemTypeId}`)
             hideElementById(`edit-equipable-${lootItemTypeId}`)
             showElementById(`equipable-${lootItemTypeId}`)
             button.innerHTML = "Edit"
@@ -51,10 +51,10 @@
     }
 
     function updateLootItemType(button, lootItemTypeId) {
-        let name = document.getElementById(`lootitemtypename-${lootItemTypeId}`).textContent.trim()
+        let name = document.getElementById(`lootItemTypeName-${lootItemTypeId}`).textContent.trim()
         let equipable = document.getElementById(`edit-equipable-${lootItemTypeId}`).value
         let xhttp = new XMLHttpRequest();
-        xhttp.open("POST", '/LootItemType/update', true);
+        xhttp.open("POST", '/update/LootItemType', true);
         xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
         xhttp.send(`lootItemTypeId=${lootItemTypeId}&lootItemTypeName=${name}&equipable=${equipable}`);
     }
@@ -69,7 +69,7 @@
                     }
                 }
             };
-            xhttp.open("POST", '/LootItemType/delete', true);
+            xhttp.open("POST", '/delete/LootItemType', true);
             xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
             xhttp.send(`lootItemTypeId=${lootItemTypeId}`);
         } else {
