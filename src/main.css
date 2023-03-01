@@ -118,8 +118,6 @@ body {
 }
 .card:hover {
     scale: 102%;
-    /*border: #735eab 2px solid;*/
-    /*border: #fff 2px solid;*/
 }
 .card_subtitle {
     margin-left: 24px;
@@ -134,7 +132,7 @@ body {
     min-width: 40%;
     max-width: 40%;
 }
-.card button {
+button {
     margin: 4px;
 
     border: none;
@@ -145,7 +143,7 @@ body {
 
     height: 30px;
 }
-.card button:hover {
+button:hover {
     cursor: pointer;
     font-weight: bold;
 }
@@ -155,14 +153,10 @@ body {
     font-size: x-large;
     font-weight: bold;
 
-    /*text-shadow: #595656 3px 3px 5px;*/
-
     padding: 10px;
     margin: 0;
 
-    /*background-color: #a9a9a9;*/
-
-    border-bottom: #010701 1px solid;
+    border-bottom: #0a0909 1px solid;
 }
 .description>.stats {
     font-family: serif;
@@ -191,7 +185,7 @@ body {
     margin: 20px;
     padding: 20px;
 
-    border: #fff solid 2px;
+    /*border: #fff solid 2px;*/
     border-radius: 20px;
 
     font-family: Helvetica;
@@ -201,6 +195,7 @@ body {
     font-size: 18px;
 
     width: 90%;
+    padding: 6px;
 
     border-radius: 10px;
 }
@@ -214,7 +209,7 @@ body {
     min-width: 700px;
     max-width: 700px;
 
-    background-color: #b6f6e8;
+    /*background-color: #b6f6e8;*/
 
     border: #fff solid 1px;
     border-radius: 40px;
