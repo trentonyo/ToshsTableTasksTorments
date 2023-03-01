@@ -99,22 +99,9 @@ body {
     scale: 105%;
 }
 
-.new {
-    color: #020118;
-    background-color: #62c7b4;
-}
-
-.view {
-    color: #edeaf1;
-    background-color: #561acd;
-}
-
 .card {
     margin: 10px;
     padding-bottom: 15px;
-
-    /*border: #561acd 2px solid;*/
-    border: #020118 2px solid;
 
     -moz-border-radius-bottomleft: 10px;
     -moz-border-radius-bottomright: 10px;
@@ -127,7 +114,7 @@ body {
 .card:hover {
     scale: 102%;
     /*border: #735eab 2px solid;*/
-    border: #fff 2px solid;
+    /*border: #fff 2px solid;*/
 }
 .full {
     min-width: 40%;
