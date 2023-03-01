@@ -36,13 +36,12 @@ function toggleEditMode(button, editToggleData) {
             let lootItemTypeId = editToggleData.id
             document.getElementById(`lootItemTypeName-${lootItemTypeId}`).toggleAttribute("contentEditable")
             document.getElementById(`lootItemTypeName-${lootItemTypeId}`).classList.toggle("editable")
-            document.getElementById(`lootItemTypeName-${lootItemTypeId}`).parentElement.classList.toggle("blockPointerEvents")
             toggleElementById(`update-lootItemType-${lootItemTypeId}` )
             toggleElementById(`edit-equipable-${lootItemTypeId}`)
             toggleElementById(`equipable-${lootItemTypeId}`)
             break
         default:
-            console.log(`Unexpected entity type '${updatedEntityData.entity}!`, editToggleData.entity)
+            console.log(`Unexpected entity type '${editToggleData.entity}!`, editToggleData.entity)
     }
 }
 
@@ -94,6 +93,8 @@ function updateEntity(button, updatedEntityData)
             if (this.status === 200)
             {
                 updateDOMEntity(updatedEntityData)
+                toggleEditMode(button, updatedEntityData)
+                // document.getElementById(`update-${updatedEntityData.entity}-${updatedEntityData.id}`).classList.toggle("hidden") //TODO construct id from updatedEntityData
             }
             else
             {
@@ -119,6 +120,7 @@ function deleteEntity(button, entityDataToDelete) {
                 if (this.status === 200)
                 {
                     deleteDOMEntity(entityDataToDelete)
+                    toggleEditMode(button, entityDataToDelete)
                 }
                 else
                 {

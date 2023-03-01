@@ -105,6 +105,8 @@ body {
 }
 
 .card {
+    position: relative;
+
     margin: 10px;
     padding-bottom: 15px;
 
@@ -158,10 +160,7 @@ button:hover {
 
     border-bottom: #0a0909 1px solid;
 }
-.card .title:hover {
-    box-shadow: 0 3px 6px #0a0909;
-    font-style: italic;
-}
+
 .description>.stats {
     font-family: serif;
     text-align: center;
@@ -175,11 +174,19 @@ button:hover {
 
     margin: 10px;
 }
-.card>.giver {
+.card .giver {
     font-style: italic;
     text-align: end;
     padding: 10px;
 }
+.card .viewDetails {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+}
+.card .viewDetails:hover {
+     box-shadow: 0 3px 6px #0a0909;
+ }
 
 .add {
     display: flex;
@@ -426,6 +433,7 @@ a {
     color: #000;
 
     cursor: text;
+    /*pointer-events: all;*/
 
     font-style: italic;
 }
