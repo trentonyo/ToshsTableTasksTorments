@@ -6,7 +6,7 @@ const palette = {
     quest: {dark: "#33122a", medium: "#7a2786", light: "#E99ff4"},
     monster: {dark: "#420a10", medium: "#ed3046", light: "#f2949f"},
     ability: {dark: "#0c2240", medium: "#264d60", light: "#6fc2bf"},
-    loot: {dark: "#2d2006", medium: "#d09827", light: "#efde4f"},
+    loot: {dark: "#544018", medium: "#d1c25a", light: "#f7f0b5"},
     new: {dark: "#062120", medium: "#2cb2a2", light: "#8fe2ed"},
     view: {dark: "#150423", medium: "#644ac7", light: "#a794f0"},
 }
@@ -34,7 +34,7 @@ let generateCSSPalette = function ()
     console.log(output)
 }
 
-// generateCSSPalette()
+generateCSSPalette()
 
 let text_gradient               = document.getElementsByClassName("animate-text-gradient")
 let new_background_gradient     = document.querySelectorAll(".new.animate-background-gradient")

@@ -1,17 +1,20 @@
 console.log("cards.js loaded")
 
 function showElementById(id) {
-    document.getElementById(id).removeAttribute("hidden")
+    // document.getElementById(id).removeAttribute("hidden")
+    document.getElementById(id).classList.remove("hidden")
 }
 
 function hideElementById(id) {
-    document.getElementById(id).setAttribute("hidden", "hidden")
+    // document.getElementById(id).setAttribute("hidden", "hidden")
+    document.getElementById(id).classList.add("hidden")
 }
 function toggleEditMode(button, lootItemTypeId) {
     let name = document.getElementById(`lootItemTypeName-${lootItemTypeId}`)
     let equipable = document.getElementById(`equipable-${lootItemTypeId}`)
     if (name.contentEditable == "false") { // Enables editing
         name.contentEditable = "true"
+        name.classList.add("editable")
         equipable.contentEditable = "true"
         showElementById(`update-lootItemType-${lootItemTypeId}`)
         showElementById(`edit-equipable-${lootItemTypeId}`)
@@ -19,6 +22,7 @@ function toggleEditMode(button, lootItemTypeId) {
         button.innerHTML = "Cancel"
     } else { // Disables editing
         name.contentEditable = "false"
+        name.classList.remove("editable")
         equipable.contentEditable = "false"
         hideElementById(`update-lootItemType-${lootItemTypeId}`)
         hideElementById(`edit-equipable-${lootItemTypeId}`)

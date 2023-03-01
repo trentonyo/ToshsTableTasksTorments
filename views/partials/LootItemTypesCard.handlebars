@@ -1,23 +1,29 @@
-<div class="card loot {{#if view}}full static{{/if}}" id="LootItemTypeId-{{lootItemTypeId}}">
-    <div class="title" contenteditable="false" id="lootItemTypeName-{{lootItemTypeId}}">
+<div class="card loot jsp-loot-medium-backgroundColor {{#if view}}full static{{/if}}" id="LootItemTypeId-{{lootItemTypeId}}">
+    <div class="title jsp-loot-dark-backgroundColor" contenteditable="false" id="lootItemTypeName-{{lootItemTypeId}}">
         {{lootItemTypeName}}
     </div>
-    <div class="description" contenteditable="false" id="equipable-{{lootItemTypeId}}">
-        {{#if equipable}} Equipable
-        {{else}} Not Equipable
-        {{/if}}
-    </div>
-    <select hidden id="edit-equipable-{{lootItemTypeId}}">
-        {{#if equipable}}
-        <option value="1" selected>Equipable</option>
-        <option value="0">Not Equipable</option>
-        {{else}}
-        <option value="1">Equipable</option>
-        <option value="0" selected>Not Equipable</option>
-        {{/if}}
-    </select>
 
-    <button onClick="toggleEditMode(this, {{lootItemTypeId}})" id="toggleEdit-lootItemType-{{lootItemTypeId}}">Edit</button>
-    <button hidden onClick="updateEntity(this, {'entity': 'LootItemTypes', 'id': '{{lootItemTypeId}}'} )" id="update-lootItemType-{{lootItemTypeId}}">Submit</button>
-    <button onClick="deleteEntity(this, {'entity': 'LootItemTypes', 'id': '{{lootItemTypeId}}'} )">Delete</button>
+    <div id="description_container">
+        <div class="description" contenteditable="false" id="equipable-{{lootItemTypeId}}">
+            {{#if equipable}} Equipable
+            {{else}} Not Equipable
+            {{/if}}
+        </div>
+<!--        <select class="description" hidden id="edit-equipable-{{lootItemTypeId}}">-->
+        <select class="description hidden"  id="edit-equipable-{{lootItemTypeId}}">
+            {{#if equipable}}
+            <option value="1" selected>Equipable</option>
+            <option value="0">Not Equipable</option>
+            {{else}}
+            <option value="1">Equipable</option>
+            <option value="0" selected>Not Equipable</option>
+            {{/if}}
+        </select>
+    </div>
+
+    <div class="button_container">
+        <button onClick="toggleEditMode(this, {{lootItemTypeId}})" id="toggleEdit-lootItemType-{{lootItemTypeId}}">Edit</button>
+        <button onClick="updateEntity(this, {'entity': 'LootItemTypes', 'id': '{{lootItemTypeId}}'} )" id="update-lootItemType-{{lootItemTypeId}}" class="hidden">Submit</button>
+        <button onClick="deleteEntity(this, {'entity': 'LootItemTypes', 'id': '{{lootItemTypeId}}'} )">Delete</button>
+    </div>
 </div>
