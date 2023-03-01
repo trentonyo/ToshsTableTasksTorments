@@ -35,6 +35,8 @@ function toggleEditMode(button, editToggleData) {
         case "LootItemTypes": 
             let lootItemTypeId = editToggleData.id
             document.getElementById(`lootItemTypeName-${lootItemTypeId}`).toggleAttribute("contentEditable")
+            document.getElementById(`lootItemTypeName-${lootItemTypeId}`).classList.toggle("editable")
+            document.getElementById(`lootItemTypeName-${lootItemTypeId}`).parentElement.classList.toggle("blockPointerEvents")
             toggleElementById(`update-lootItemType-${lootItemTypeId}` )
             toggleElementById(`edit-equipable-${lootItemTypeId}`)
             toggleElementById(`equipable-${lootItemTypeId}`)
