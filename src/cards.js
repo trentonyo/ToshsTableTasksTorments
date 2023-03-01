@@ -29,11 +29,14 @@ function toggleEditMode(button, lootItemTypeId) {
 
 function updateDOMEntity(updatedEntityData)
 {
+    toggleEditMode(document.getElementById(`toggleEdit-lootItemType-${updatedEntityData.id}`), updatedEntityData.id)
+
     switch (updatedEntityData.entity)
     {
-        case "LootItemType":
+        case "LootItemTypes":
             document.getElementById(`lootItemTypeName-${updatedEntityData.id}`).innerText = updatedEntityData['title']
             document.getElementById(`edit-equipable-${updatedEntityData.id}`).value = updatedEntityData['equipable']
+            document.getElementById(`equipable-${updatedEntityData.id}`).innerText = (updatedEntityData['equipable'] === "1" ? "Equipable" : "Not Equipable")
             break
         default:
             console.log(`Unexpected entity type '${updatedEntityData.entity}!`, updatedEntityData)
@@ -44,7 +47,7 @@ function deleteDOMEntity(updatedEntityData)
 {
     switch (updatedEntityData.entity)
     {
-        case "LootItemType":
+        case "LootItemTypes":
             document.getElementById(`LootItemTypeId-${updatedEntityData.id}`).remove()
             break
         default:
@@ -56,7 +59,7 @@ function updateEntity(button, updatedEntityData)
 {
     switch (updatedEntityData.entity)
     {
-        case "LootItemType":
+        case "LootItemTypes":
             updatedEntityData['title'] = document.getElementById(`lootItemTypeName-${updatedEntityData.id}`).textContent.trim()
             updatedEntityData['equipable'] = document.getElementById(`edit-equipable-${updatedEntityData.id}`).value
             break
@@ -65,25 +68,46 @@ function updateEntity(button, updatedEntityData)
     }
 
     let xhttp = new XMLHttpRequest()
+    xhttp.onreadystatechange = function()
+    {
+        if (this.readyState === 4)
+        {
+            if (this.status === 200)
+            {
+                updateDOMEntity(updatedEntityData)
+            }
+            else
+            {
+                alert(`Error: ${this.responseText}`)
+            }
+        }
+    }
+
     xhttp.open("POST", '/updateEntity', true)
     xhttp.setRequestHeader("Content-type", "application/json")
     xhttp.send(JSON.stringify(updatedEntityData))
 }
 
 function deleteEntity(button, entityDataToDelete) {
-    if (confirm(`Are you sure you want to delete this ${entityDataToDelete.entity}?`))
+    if (confirm(`Are you sure you want to delete this ${ENTITIES[entityDataToDelete.entity].en_singular}?`))
+    // if (confirm(`Are you sure you want to delete this ${entityDataToDelete.entity}?`))
     {
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function()
         {
             if (this.readyState === 4)
             {
-                if (this.status === 400)
+                if (this.status === 200)
                 {
-                    alert(`Error: ${this.responseText}`);
+                    deleteDOMEntity(entityDataToDelete)
+                }
+                else
+                {
+                    alert(`Error: ${this.responseText}`)
                 }
             }
-        };
+        }
+
         xhttp.open("POST", '/deleteEntity', true);
         xhttp.setRequestHeader("Content-type", "application/json")
         xhttp.send(JSON.stringify(entityDataToDelete))

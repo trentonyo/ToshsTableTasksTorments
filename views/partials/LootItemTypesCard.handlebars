@@ -17,7 +17,7 @@
         {{/if}}
     </select>
 
-    <button onClick="toggleEditMode(this, {{lootItemTypeId}})">Edit</button>
+    <button onClick="toggleEditMode(this, {{lootItemTypeId}})" id="toggleEdit-lootItemType-{{lootItemTypeId}}">Edit</button>
     <button hidden onClick="updateEntity(this, {'entity': 'LootItemTypes', 'id': '{{lootItemTypeId}}'} )" id="update-lootItemType-{{lootItemTypeId}}">Submit</button>
     <button onClick="deleteEntity(this, {'entity': 'LootItemTypes', 'id': '{{lootItemTypeId}}'} )">Delete</button>
 </div>
