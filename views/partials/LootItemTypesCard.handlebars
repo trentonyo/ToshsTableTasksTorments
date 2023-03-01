@@ -4,20 +4,20 @@
     </div>
     <div class="description" contenteditable="false" id="equipable-{{lootItemTypeId}}">
         {{#if equipable}} Equipable
-        {{else}} Not equipable
+        {{else}} Not Equipable
         {{/if}}
     </div>
     <select hidden id="edit-equipable-{{lootItemTypeId}}">
         {{#if equipable}}
         <option value="1" selected>Equipable</option>
-        <option value="0">Not equipable</option>
+        <option value="0">Not Equipable</option>
         {{else}}
         <option value="1">Equipable</option>
-        <option value="0" selected>Not equipable</option>
+        <option value="0" selected>Not Equipable</option>
         {{/if}}
     </select>
-    
+
     <button onClick="toggleEditMode(this, {{lootItemTypeId}})">Edit</button>
-    <button hidden onClick="updateLootItemType(this, {{lootItemTypeId}})" id="update-lootItemType-{{lootItemTypeId}}">Submit</button>
+    <button hidden onClick="updateEntity(this, {'entity': 'LootItemType', 'id': '{{lootItemTypeId}}'} )" id="update-lootItemType-{{lootItemTypeId}}">Submit</button>
     <button onClick="deleteLootItemType(this, {{lootItemTypeId}})">Delete</button>
 </div>

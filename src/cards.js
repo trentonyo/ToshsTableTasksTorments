@@ -27,13 +27,22 @@ function toggleEditMode(button, lootItemTypeId) {
     }
 }
 
-function updateLootItemType(button, lootItemTypeId) {
-    let name = document.getElementById(`lootItemTypeName-${lootItemTypeId}`).textContent.trim()
-    let equipable = document.getElementById(`edit-equipable-${lootItemTypeId}`).value
-    let xhttp = new XMLHttpRequest();
-    xhttp.open("POST", '/update/LootItemType', true);
-    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhttp.send(`lootItemTypeId=${lootItemTypeId}&lootItemTypeName=${name}&equipable=${equipable}`);
+function updateEntity(button, updatedEntityData)
+{
+    switch (updatedEntityData.entity)
+    {
+        case "LootItemType":
+            updatedEntityData['title'] = document.getElementById(`lootItemTypeName-${updatedEntityData.id}`).textContent.trim()
+            updatedEntityData['equipable'] = document.getElementById(`edit-equipable-${updatedEntityData.id}`).value
+            break
+        default:
+            console.log(`Unexpected entity type '${updatedEntityData.entity}!`, updatedEntityData)
+    }
+
+    let xhttp = new XMLHttpRequest()
+    xhttp.open("POST", '/updateEntity', true)
+    xhttp.setRequestHeader("Content-type", "application/json")
+    xhttp.send(JSON.stringify(updatedEntityData))
 }
 
 function deleteLootItemType(button, lootItemTypeId) {
