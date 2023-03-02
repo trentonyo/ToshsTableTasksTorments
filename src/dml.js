@@ -18,7 +18,7 @@ let STATEMENTS = {
     INSERT_Monsters_LootItems:  function (monsterId, lootId, dropQuantity, dropChance) {
                                     return `INSERT INTO Monsters_LootItems (monsterId, lootId, dropQuantity, dropChance) VALUES (${monsterId}, ${lootId}, ${dropQuantity}, ${dropChance});` },
 
-    SELECT_AllQuests :  `SELECT * FROM Quests;`,
+    SELECT_AllQuests :  `SELECT * FROM Quests INNER JOIN QuestGivers ON Quests.questGiverId = QuestGivers.questGiverId;`,
     SELECT_AllQuestGivers :  `SELECT * FROM QuestGivers;`,
     SELECT_AllMonsters :  `SELECT * FROM Monsters;`,
     SELECT_AllMonsterTypes :  `SELECT * FROM MonsterTypes;`,

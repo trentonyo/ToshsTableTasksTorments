@@ -33,7 +33,7 @@ templates['QuestsCard'] = template({"1":function(container,depth0,helpers,partia
     };
 
   return "- "
-    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"questGiverId") || (depth0 != null ? lookupProperty(depth0,"questGiverId") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"questGiverId","hash":{},"data":data,"loc":{"start":{"line":10,"column":30},"end":{"line":10,"column":46}}}) : helper)));
+    + container.escapeExpression(((helper = (helper = lookupProperty(helpers,"questGiverName") || (depth0 != null ? lookupProperty(depth0,"questGiverName") : depth0)) != null ? helper : container.hooks.helperMissing),(typeof helper === "function" ? helper.call(depth0 != null ? depth0 : (container.nullContext || {}),{"name":"questGiverName","hash":{},"data":data,"loc":{"start":{"line":10,"column":30},"end":{"line":10,"column":48}}}) : helper)));
 },"10":function(container,depth0,helpers,partials,data) {
     return "- Unknown";
 },"12":function(container,depth0,helpers,partials,data) {
@@ -56,7 +56,7 @@ templates['QuestsCard'] = template({"1":function(container,depth0,helpers,partia
     + "\r\n    </div>\r\n    <div class=\"description jsp-quest-dark-textColor\">\r\n        "
     + alias4(((helper = (helper = lookupProperty(helpers,"questDesc") || (depth0 != null ? lookupProperty(depth0,"questDesc") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"questDesc","hash":{},"data":data,"loc":{"start":{"line":7,"column":8},"end":{"line":7,"column":21}}}) : helper)))
     + "\r\n    </div>\r\n    <div class=\"giver jsp-quest-dark-textColor\">\r\n        "
-    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"questGiverId") : depth0),{"name":"if","hash":{},"fn":container.program(8, data, 0),"inverse":container.program(10, data, 0),"data":data,"loc":{"start":{"line":10,"column":8},"end":{"line":10,"column":70}}})) != null ? stack1 : "")
+    + ((stack1 = lookupProperty(helpers,"if").call(alias1,(depth0 != null ? lookupProperty(depth0,"questGiverId") : depth0),{"name":"if","hash":{},"fn":container.program(8, data, 0),"inverse":container.program(10, data, 0),"data":data,"loc":{"start":{"line":10,"column":8},"end":{"line":10,"column":72}}})) != null ? stack1 : "")
     + "\r\n    </div>\r\n</div>\r\n"
     + ((stack1 = lookupProperty(helpers,"unless").call(alias1,(depth0 != null ? lookupProperty(depth0,"view") : depth0),{"name":"unless","hash":{},"fn":container.program(12, data, 0),"inverse":container.noop,"data":data,"loc":{"start":{"line":13,"column":0},"end":{"line":13,"column":31}}})) != null ? stack1 : "");
 },"useData":true});
