@@ -12,7 +12,8 @@ const ENTITIES = {
         id: "lootItemTypeId", en_singular: "Loot Item Type", en_plural: "Loot Item Types",
         query_SelectAll: dml.STATEMENTS.SELECT_AllLootItemTypes,
         query_SelectById: dml.STATEMENTS.SELECT_LootItemTypesByID,
-        query_Update: dml.STATEMENTS.UPDATE_LootItemsTypes},
+        query_Update: dml.STATEMENTS.UPDATE_LootItemsTypes,
+        query_Delete: dml.STATEMENTS.DELETE_LootItemTypesByID},
     "Abilities" : {id: "abilityId", en_singular: "Ability", en_plural: "Abilities", query_SelectAll: dml.STATEMENTS.SELECT_AllAbilities, query_SelectById: dml.STATEMENTS.SELECT_AbilitiesByID},
     "MonstersAbilities" : {id: ["monsterId", "abilityId"], en_singular: "Monster Ability", en_plural: "Monster Abilities", query_SelectAll: dml.STATEMENTS.SELECT_AllMonsters_Abilities, query_SelectByCompoundId: dml.STATEMENTS.SELECT_Monsters_AbilitiesByID},
     "MonstersLootItems" : {id: ["monsterId", "lootId"], en_singular: "Monster Loot Item", en_plural: "Monster Loot Items", query_SelectAll: dml.STATEMENTS.SELECT_AllMonsters_LootItems, query_SelectByCompoundId: dml.STATEMENTS.SELECT_Monsters_LootItemsByID}

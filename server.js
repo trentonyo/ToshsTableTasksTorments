@@ -445,20 +445,15 @@ app.post('/deleteEntity', function (req, res) {
     let SQL_statement = ''
     let redirectTarget = ''
 
-    console.log("Got a delete request")
-    console.log(dataToDelete)
-
     if (ENTITIES.hasOwnProperty(dataToDelete.entity) && typeof parseInt(dataToDelete.id) === "number")
     {
-        console.log("Validated ")
-        SQL_statement = `DELETE FROM ${dataToDelete.entity} WHERE ${ENTITIES[dataToDelete.entity].id} = ${dataToDelete.id};`
+        SQL_statement = ENTITIES[dataToDelete.entity].query_Delete(dataToDelete.id)
         redirectTarget = `/${dataToDelete.entity}/view`
     }
     else
     {
         res.status(400) //TODO the entity not found
     }
-
 
     db.pool.query(SQL_statement, function (err, results)
     {
@@ -474,22 +469,6 @@ app.post('/deleteEntity', function (req, res) {
             res.redirect(redirectTarget);
         }
     })
-})
-///Delete loot item type
-app.post('/delete/LootItemType', function (req, res)
-{
-    let SQL_deleteLootItemType = `DELETE FROM LootItemTypes WHERE lootItemTypeId = ${parseInt(req.body.lootItemTypeId)};`
-    db.pool.query(SQL_deleteLootItemType, function(err, results){
-        if(useOffline) { err = 'Unable to delete loot item types while offline' }
-        if(err) {
-            if (err.errno === 1451) {
-                res.status(400).send("Cannot delete loot item type in use")
-            }
-        } else {
-            res.redirect('/LootItemTypes/view');
-        }
-    })
-
 })
 
 /*
