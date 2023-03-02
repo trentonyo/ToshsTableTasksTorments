@@ -1,5 +1,6 @@
 console.log("cards.js loaded")
 
+
 function showElementById(id) {
     // document.getElementById(id).removeAttribute("hidden")
     document.getElementById(id).classList.remove("hidden")

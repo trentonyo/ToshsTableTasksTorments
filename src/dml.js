@@ -40,6 +40,11 @@ let STATEMENTS = {
     SELECT_Monsters_AbilitiesByID : function (monsterId, abilityId) { return `SELECT * FROM Monsters_Abilities WHERE (monsterId=${monsterId} AND abilityId=${abilityId});` },
     SELECT_Monsters_LootItemsByID : function (monsterId, lootId) { return `SELECT * FROM Monsters_LootItems WHERE (monsterId=${monsterId} AND lootId=${lootId});` },
 
+    SELECT_QuestWithDetailsByID :   function (questId) { return `SELECT * FROM Quests 
+                                                                    INNER JOIN QuestGivers ON Quests.questGiverId = QuestGivers.questGiverId 
+                                                                    INNER JOIN Monsters ON Quests.monsterId = Monsters.monsterId 
+                                                                 WHERE Quests.questId=${questId} ;` },
+
     UPDATE_Quests :     function (questId, questName, questDesc, available, questGiverId, suggestedLevel, monsterQty, monsterId, rewardXp, rewardGold) {
                             return `UPDATE Quests SET questName='${questName}', questDesc='${questDesc}', available=${available}, questGiverId=${questGiverId}, suggestedLevel=${suggestedLevel}, monsterQty=${monsterQty}, rewardXp=${rewardXp}, rewardGold=${rewardGold}, monsterId=${monsterId} WHERE questId=${questId};` },
     UPDATE_Monsters :   function (monsterId, monsterName, monsterDesc, monsterTypeId, healthPool, attack, defense, speed) {

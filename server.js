@@ -215,6 +215,20 @@ app.get('/', function(req, res)
 //     res.send("Executing dirty DML test serverside")
 // })
 
+app.get('/testQuery', function (req, res, next)
+{
+    let statement = `SELECT * FROM Quests 
+                        INNER JOIN QuestGivers ON Quests.questGiverId = QuestGivers.questGiverId 
+                        INNER JOIN Monsters ON Quests.monsterId = Monsters.monsterId 
+                     WHERE Quests.questId=1 ;`
+    //GROUP BY Quests.questId
+    db.pool.query(statement, function (err, results, fields)
+    {
+        if (err) { results = err }
+        res.send(results)
+    })
+})
+
 ///View all queries
 app.get('/:entity/view', viewEntity)
 

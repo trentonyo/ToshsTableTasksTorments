@@ -3,7 +3,7 @@ let dml = {STATEMENTS: {}}
 if (typeof require === 'function') { dml = require('./dml') }
 
 const ENTITIES = {
-    "Quests" : {id: "questId", en_singular: "Quest", en_plural: "Quests", query_SelectAll: dml.STATEMENTS.SELECT_AllQuests, query_SelectById: dml.STATEMENTS.SELECT_QuestsByID},
+    "Quests" : {id: "questId", en_singular: "Quest", en_plural: "Quests", query_SelectAll: dml.STATEMENTS.SELECT_AllQuests, query_SelectById: dml.STATEMENTS.SELECT_QuestWithDetailsByID},
     "QuestGivers" : {id: "questGiverId", en_singular: "Quest Giver", en_plural: "Quest Givers", query_SelectAll: dml.STATEMENTS.SELECT_AllQuestGivers, query_SelectById: dml.STATEMENTS.SELECT_QuestGiversByID},
     "Monsters" : {id: "monsterId", en_singular: "Monster", en_plural: "Monsters", query_SelectAll: dml.STATEMENTS.SELECT_AllMonsters, query_SelectById: dml.STATEMENTS.SELECT_MonstersByID},
     "MonsterTypes" : {id: "monsterTypeId", en_singular: "Monster Type", en_plural: "Monster Types", query_SelectAll: dml.STATEMENTS.SELECT_AllMonsterTypes, query_SelectById: dml.STATEMENTS.SELECT_MonsterTypesByID},
