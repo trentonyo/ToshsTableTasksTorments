@@ -168,15 +168,50 @@ app.get('/', function(req, res)
     })
 })
 
-app.get('/test', function (req, res, next) {
-    db.pool.query(dml.STATEMENTS.SELECT_Monsters_LootItemsByID(3, 3), function (err, results, fields) {
-        res.send(results)
-    })
-})
+// app.get('/testDML', function (req, res, next) {
+//
+//     let test = []
+//
+//     let i = 0
+//
+//     for (let query in dml.STATEMENTS)
+//     {
+//         console.log(`Testing query #${++i}:`, query)
+//         if (Object.hasOwnProperty.call(dml.STATEMENTS, query))
+//         {
+//             console.log("--Verified query:", query)
+//             let statement = dml.STATEMENTS[query]
+//
+//             if (typeof statement === 'function')
+//             {
+//                 console.log("==Is a function")
+//                 statement = statement(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)
+//             }
+//
+//             db.pool.query(statement, function (err, results, fields) {
+//                 if(err)
+//                 {
+//                     test.push([statement, " :ERRORS : ", err])
+//                 }
+//                 else
+//                 {
+//                     test.push([statement, " :RESULTS: ", results])
+//                 }
+//                 console.log("----Got DB response")
+//
+//                 if (i === Object.keys(dml.STATEMENTS).length)
+//                 {
+//                     console.log(test)
+//                 }
+//             })
+//         }
+//     }
+//
+//     res.send("Executing dirty DML test serverside")
+// })
 
 ///View all queries
 app.get('/:entity/view', viewEntity)
-
 
 ///Create new quest
 app.get('/Quests/new', function(req, res)

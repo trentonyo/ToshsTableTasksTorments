@@ -1,5 +1,5 @@
 let STATEMENTS = {
-    INSERT_Quests:              function (questName, questDesc, available, questGiverId, suggestedLevel, monsterQty, monsterId, rewardXp, rewardGold) {
+    INSERT_Quests:              function (questName, questDesc, available, questGiverId, suggestedLevel, monsterQty, monsterId, rewardXp, rewardGold) { /* TODO A foreign key constraint fails */
                                     return `INSERT INTO Quests (questName, questDesc, available, questGiverId, suggestedLevel, monsterQty, monsterId, rewardXp, rewardGold) VALUES (${questName}, ${questDesc}, ${available}, ${questGiverId}, ${suggestedLevel}, ${monsterQty}, ${monsterId}, ${rewardXp}, ${rewardGold});` },
     INSERT_QuestGivers:         function (questGiverName) {
                                     return `INSERT INTO QuestGivers (questGiverName) VALUES (${questGiverName});` },
@@ -26,7 +26,7 @@ let STATEMENTS = {
     SELECT_AllLootItemTypes :  `SELECT * FROM LootItemTypes;`,
     SELECT_AllLootItems :  `SELECT * FROM LootItems;`,
     SELECT_AllMonsters_Abilities :  `SELECT * FROM Monsters_Abilities;`,
-    SELECT_AllMonster_LootItems :  `SELECT * FROM Monster_LootItems;`,
+    SELECT_AllMonsters_LootItems :  `SELECT * FROM Monsters_LootItems;`,
 
     SELECT_AvailableQuests: `SELECT * FROM Quests WHERE available=true;`,
 
