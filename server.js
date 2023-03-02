@@ -389,9 +389,6 @@ app.get('*', function (req, res)
 ///Create loot item type
 app.post('/submit/LootItemType', function (req, res, next)
 {
-    console.log(req.body.lootItemTypeName, req.body.equipable)
-    console.log(dml.STATEMENTS.INSERT_LootItemTypes(req.body.lootItemTypeName, req.body.equipable))
-
     db.pool.query(dml.STATEMENTS.INSERT_LootItemTypes(req.body.lootItemTypeName, req.body.equipable), function(err, results)
     {
         if(useOffline) { err = 'Unable to add loot item types while offline' }
@@ -402,15 +399,14 @@ app.post('/submit/LootItemType', function (req, res, next)
         }
         else
         {
-            res.redirect(`/LootItemTypes/view/${results.insertId}`)
-            // res.redirect('/LootItemTypes/new'); // TODO Add success/failure message on reload
-            // Further TODO Perhaps we could get the ID returned and redirect to the details page of larger entities (quests, monsters, not loot item types or quest givers)
+            // res.redirect(`/LootItemTypes/view/${results.insertId}`) // TODO use this for larger entities (quests, monsters, not loot item types or quest givers)
+            res.status(200).redirect('/LootItemTypes/view')
         }
     })
 })
 
 ///Create loot item type
-app.post('/updateEntity', function (req, res)
+app.post('/updateEntity', function (req, res, next)
 {
     let updatedData = req.body
     let SQL_statement = ''
@@ -419,20 +415,29 @@ app.post('/updateEntity', function (req, res)
     switch (updatedData.entity)
     {
         case "LootItemTypes":
-            SQL_statement = `UPDATE LootItemTypes SET lootItemTypeName = '${updatedData.title}', equipable = '${updatedData.equipable}' WHERE lootItemTypeId = ${updatedData.id};`
-            redirectTarget = '/LootItemTypes/view'
+            SQL_statement = ENTITIES[updatedData.entity].query_Update(updatedData.id, updatedData.title, updatedData.equipable)
+            redirectTarget = false
             break
         default:
             res.status(400) //TODO the entity not found
     }
 
-    db.pool.query(SQL_statement, function(err, results){
-        console.log(results)
+    db.pool.query(SQL_statement, function(err, results)
+    {
         if(useOffline) { err = 'Unable to make database changes while offline' }
-    })
 
-    res.redirect(redirectTarget); // TODO Add success/failure message on reload
-    // Further TODO Perhaps we could get the ID returned and redirect to the details page of larger entities (quests, monsters, not loot item types or quest givers)
+        if(err)
+        {
+            next()
+        }
+        else
+        {
+            res.status(200)
+            // res.redirect(`/LootItemTypes/view/${results.insertId}`) // TODO use this for larger entities (quests, monsters, not loot item types or quest givers)
+            if (redirectTarget) { res.redirect(redirectTarget) }
+            else { res.send() }
+        }
+    })
 })
 
 app.post('/deleteEntity', function (req, res) {

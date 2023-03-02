@@ -1,4 +1,6 @@
-let dml = require('./dml')
+let dml = {STATEMENTS: {}}
+
+if (typeof require === 'function') { dml = require('./dml') }
 
 const ENTITIES = {
     "Quests" : {id: "questId", en_singular: "Quest", en_plural: "Quests", query_SelectAll: dml.STATEMENTS.SELECT_AllQuests, query_SelectById: dml.STATEMENTS.SELECT_QuestsByID},
@@ -6,10 +8,14 @@ const ENTITIES = {
     "Monsters" : {id: "monsterId", en_singular: "Monster", en_plural: "Monsters", query_SelectAll: dml.STATEMENTS.SELECT_AllMonsters, query_SelectById: dml.STATEMENTS.SELECT_MonstersByID},
     "MonsterTypes" : {id: "monsterTypeId", en_singular: "Monster Type", en_plural: "Monster Types", query_SelectAll: dml.STATEMENTS.SELECT_AllMonsterTypes, query_SelectById: dml.STATEMENTS.SELECT_MonsterTypesByID},
     "LootItems" : {id: "lootId", en_singular: "Loot Item", en_plural: "Loot Item", query_SelectAll: dml.STATEMENTS.SELECT_AllLootItems, query_SelectById: dml.STATEMENTS.SELECT_LootItemsByID},
-    "LootItemTypes" : {id: "lootItemTypeId", en_singular: "Loot Item Type", en_plural: "Loot Item Types", query_SelectAll: dml.STATEMENTS.SELECT_AllLootItemTypes, query_SelectById: dml.STATEMENTS.SELECT_LootItemTypesByID},
+    "LootItemTypes" : {
+        id: "lootItemTypeId", en_singular: "Loot Item Type", en_plural: "Loot Item Types",
+        query_SelectAll: dml.STATEMENTS.SELECT_AllLootItemTypes,
+        query_SelectById: dml.STATEMENTS.SELECT_LootItemTypesByID,
+        query_Update: dml.STATEMENTS.UPDATE_LootItemsTypes},
     "Abilities" : {id: "abilityId", en_singular: "Ability", en_plural: "Abilities", query_SelectAll: dml.STATEMENTS.SELECT_AllAbilities, query_SelectById: dml.STATEMENTS.SELECT_AbilitiesByID},
     "MonstersAbilities" : {id: ["monsterId", "abilityId"], en_singular: "Monster Ability", en_plural: "Monster Abilities", query_SelectAll: dml.STATEMENTS.SELECT_AllMonsters_Abilities, query_SelectByCompoundId: dml.STATEMENTS.SELECT_Monsters_AbilitiesByID},
     "MonstersLootItems" : {id: ["monsterId", "lootId"], en_singular: "Monster Loot Item", en_plural: "Monster Loot Items", query_SelectAll: dml.STATEMENTS.SELECT_AllMonsters_LootItems, query_SelectByCompoundId: dml.STATEMENTS.SELECT_Monsters_LootItemsByID}
 }
 
-module.exports.ENTITIES = ENTITIES
+if (typeof require === 'function') { module.exports.ENTITIES = ENTITIES }
