@@ -13,6 +13,7 @@ PORT    = 2765                  // Set a port number at the top, so it's easy to
 
 // Database
 let db = require('./src/db-connector')
+let dml = require('./src/dml')
 
 //Tools
 let names = require('./src/name-generator')
