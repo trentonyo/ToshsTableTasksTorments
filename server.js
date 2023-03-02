@@ -51,20 +51,32 @@ function get_SQL_allEntity(entity)
 {
     if (ENTITIES.hasOwnProperty(entity))
     {
-        return 'SELECT * FROM '+entity+';' //TODO use the DMQ hookup when time comes
+        return ENTITIES[entity].query_SelectAll
     }
 
     return false
 }
 
 // Find a specific entity
-function get_SQL_thisEntity(entity, id)
+function get_SQL_thisEntity(entity, id, secondId)
 {
     id = parseInt(id)
+    secondId = parseInt(secondId)
 
     if (ENTITIES.hasOwnProperty(entity) && typeof id === "number")
     {
-        return 'SELECT * FROM '+entity+' where '+ENTITIES[entity].id+'='+id+';' //TODO use DMQ
+        if (ENTITIES[entity].hasOwnProperty('query_SelectById'))
+        {
+            return ENTITIES[entity].query_SelectById(id)
+        }
+        else if (ENTITIES[entity].hasOwnProperty('query_SelectByCompoundId') && typeof secondId === "number")
+        {
+            return ENTITIES[entity].query_SelectByCompoundId(id, secondId)
+        }
+        else
+        {
+            return false
+        }
     }
 
     return false
@@ -154,7 +166,7 @@ let viewEntity = function(req, res, next)
 app.get('/', function(req, res)
 {
     // SELECT *...
-    db.pool.query(SQL_availableQuests, function(err, results, fields){
+    db.pool.query(dml.STATEMENTS.SELECT_AvailableQuests, function(err, results, fields){
 
         //Offline override
         if(useOffline) { results = db_offline['SQL_availableQuests'] }
@@ -217,8 +229,8 @@ app.get('/:entity/view', viewEntity)
 app.get('/Quests/new', function(req, res)
 {
     // SELECT *...
-    db.pool.query(SQL_monsters, function(err, monsters, fields){
-        db.pool.query(SQL_questGivers, function(err, questGivers, fields){
+    db.pool.query(dml.STATEMENTS.SELECT_AllMonsters, function(err, monsters, fields){
+        db.pool.query(dml.STATEMENTS.SELECT_AllQuestGivers, function(err, questGivers, fields){
 
             //Offline override
             if(useOffline) { monsters = db_offline['SQL_monsters'];  questGivers = db_offline['SQL_questGivers'] }
@@ -233,19 +245,23 @@ app.get('/Quests/new', function(req, res)
         })
     })
 })
-//View a quest details page
+//View an entity details page
 app.get('/:entity/view/:entityID', function(req, res, next)
 {
     let entityID = req.params.entityID
+    let entityID2 = ""
     let entity = req.params.entity
 
-    let query = ""
-
-    if(get_SQL_thisEntity(entity, entityID))
+    if (entity === "MonstersAbilities" || entity === "MonstersLootItems")
     {
-        query = get_SQL_thisEntity(entity, entityID)
+        let tmp = entityID
+        entityID = tmp.split("-")[0]
+        entityID2 = tmp.split("-")[1]
     }
-    else
+
+    let query = get_SQL_thisEntity(entity, entityID, entityID2)
+
+    if(query === false)
     {
         next() // Called if entity is invalid or if entityID is not a number
     }
