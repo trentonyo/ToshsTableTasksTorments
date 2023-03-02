@@ -15,7 +15,6 @@ let db = require('./src/db-connector')
 
 //Tools
 let names = require('./src/name-generator')
-// const {getMonsterName, getQuestName, getLootItemName} = require("./src/name-generator");
 
 // Handlebars
 app.engine('handlebars', express_handlebars.engine({ defaultLayout: "main" }))
