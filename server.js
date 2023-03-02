@@ -168,6 +168,12 @@ app.get('/', function(req, res)
     })
 })
 
+app.get('/test', function (req, res, next) {
+    db.pool.query(dml.STATEMENTS.SELECT_Monsters_LootItemsByID(3, 3), function (err, results, fields) {
+        res.send(results)
+    })
+})
+
 ///View all queries
 app.get('/:entity/view', viewEntity)
 
