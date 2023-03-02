@@ -40,12 +40,6 @@ app.set('view engine', 'handlebars');
 /**
  * DMQ to replace this
  */
-// Homepage query (available quests)
-let SQL_availableQuests = 'SELECT * FROM Quests WHERE available=TRUE;' //TODO use the DMQ hookup when time comes
-// All monsters query
-let SQL_monsters = 'SELECT * FROM Monsters;' //TODO use the DMQ hookup when time comes
-// All quest givers query
-let SQL_questGivers = 'SELECT * FROM QuestGivers;' //TODO use the DMQ hookup when time comes
 // All quests query
 function get_SQL_allEntity(entity)
 {
@@ -136,7 +130,6 @@ let viewEntity = function(req, res, next)
 {
     let entity = req.params.entity
 
-    // SELECT *...
     let query = ""
 
     if(get_SQL_allEntity(entity))
@@ -297,18 +290,15 @@ app.get('/QuestGivers/new', function(req, res)
 ///Create new monster
 app.get('/Monsters/new', function(req, res)
 {
-    // All monster types query
-    let SQL_monsterTypes = 'SELECT * FROM MonsterTypes;' //TODO use the DMQ hookup when time comes
-
     // SELECT *...
-    db.pool.query(SQL_monsterTypes, function(err, results, fields){
+    db.pool.query(dml.STATEMENTS.SELECT_AllMonsterTypes, function(err, monsterTypes, fields){
 
         //Offline override
-        if(useOffline) { results = db_offline['SQL_monsterTypes'] }
+        if(useOffline) { monsterTypes = db_offline['SQL_monsterTypes'] }
 
         let context = {
             "entity" : "Monsters",
-            "monsterTypes" : results,
+            "monsterTypes" : monsterTypes,
             "placeholderMonsterName" : names.getMonsterName()
         }
         res.status(200).render("NewMonsters", context)
@@ -326,18 +316,15 @@ app.get('/MonsterTypes/new', function(req, res)
 ///Create new loot item
 app.get('/LootItems/new', function(req, res)
 {
-    // All loot item types query
-    let SQL_lootItemTypes = 'SELECT * FROM LootItemTypes;' //TODO use the DMQ hookup when time comes
-
     // SELECT *...
-    db.pool.query(SQL_lootItemTypes, function(err, results, fields){
+    db.pool.query(dml.STATEMENTS.SELECT_AllLootItemTypes, function(err, lootItemTypes, fields){
 
         //Offline override
-        if(useOffline) { results = db_offline['SQL_lootItemTypes'] }
+        if(useOffline) { lootItemTypes = db_offline['SQL_lootItemTypes'] }
 
         let context = {
             "entity" : "LootItems",
-            "lootItemTypes" : results,
+            "lootItemTypes" : lootItemTypes,
             "placeholderItemName" : names.getLootItemName()
         }
         res.status(200).render("NewLootItems", context)
@@ -364,13 +351,8 @@ app.get('/Abilities/new', function(req, res)
 ///Create new monster ability
 app.get('/MonstersAbilities/new', function(req, res)
 {
-    // All monster types query
-    let SQL_monsters = 'SELECT * FROM Monsters;' //TODO use the DMQ hookup when time comes
-    // All monster types query
-    let SQL_abilities = 'SELECT * FROM Abilities;' //TODO use the DMQ hookup when time comes
-
-    db.pool.query(SQL_monsters, function (err, monsters, fields) {
-        db.pool.query(SQL_abilities, function (err, abilities, fields) {
+    db.pool.query(dml.STATEMENTS.SELECT_AllMonsters, function (err, monsters, fields) {
+        db.pool.query(dml.STATEMENTS.SELECT_AllAbilities, function (err, abilities, fields) {
 
             let context = {
                 "entity" : "MonstersAbilities",
@@ -385,13 +367,8 @@ app.get('/MonstersAbilities/new', function(req, res)
 ///Create new monster loot
 app.get('/MonstersLootItems/new', function(req, res)
 {
-    // All monster types query
-    let SQL_monsters = 'SELECT * FROM Monsters;' //TODO use the DMQ hookup when time comes
-    // All monster types query
-    let SQL_lootItems = 'SELECT * FROM LootItems;' //TODO use the DMQ hookup when time comes
-
-    db.pool.query(SQL_monsters, function (err, monsters, fields) {
-        db.pool.query(SQL_lootItems, function (err, lootItems, fields) {
+    db.pool.query(dml.STATEMENTS.SELECT_AllMonsters, function (err, monsters, fields) {
+        db.pool.query(dml.STATEMENTS.SELECT_AllLootItems, function (err, lootItems, fields) {
 
             let context = {
                 "entity" : "MonstersAbilities",
@@ -403,24 +380,34 @@ app.get('/MonstersLootItems/new', function(req, res)
         })
     })
 })
-
 app.get('*', function (req, res)
 {
     res.status(404).render("PageNotFound")
 })
+
+
 ///Create loot item type
-app.post('/submit/LootItemType', function (req, res)
+app.post('/submit/LootItemType', function (req, res, next)
 {
-    let SQL_createLootItemType = `INSERT INTO LootItemTypes (lootItemTypeName, equipable) VALUES ('${req.body.lootItemTypeName}', '${req.body.equipable}');`
-    db.pool.query(SQL_createLootItemType, function(err, results){
+    console.log(req.body.lootItemTypeName, req.body.equipable)
+    console.log(dml.STATEMENTS.INSERT_LootItemTypes(req.body.lootItemTypeName, req.body.equipable))
+
+    db.pool.query(dml.STATEMENTS.INSERT_LootItemTypes(req.body.lootItemTypeName, req.body.equipable), function(err, results)
+    {
         if(useOffline) { err = 'Unable to add loot item types while offline' }
+
+        if(err)
+        {
+            next()
+        }
+        else
+        {
+            res.redirect(`/LootItemTypes/view/${results.insertId}`)
+            // res.redirect('/LootItemTypes/new'); // TODO Add success/failure message on reload
+            // Further TODO Perhaps we could get the ID returned and redirect to the details page of larger entities (quests, monsters, not loot item types or quest givers)
+        }
     })
-    res.redirect('/LootItemTypes/new'); // TODO Add success/failure message on reload
-    // Further TODO Perhaps we could get the ID returned and redirect to the details page of larger entities (quests, monsters, not loot item types or quest givers)
 })
-
-
-
 
 ///Create loot item type
 app.post('/updateEntity', function (req, res)
