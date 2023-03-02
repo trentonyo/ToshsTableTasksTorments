@@ -1,0 +1,47 @@
+<div id="page_title" class="fadeout-gradient jsp-global-light-textColor">
+    {{> (whichPartialTitle)}}
+</div>
+
+<div class="info_band">
+    {{> (whichPartialInfoBand)}}
+</div>
+
+<div id="detail_container">
+    {{#if questId}}
+        {{> QuestsCard}}
+    {{/if}}
+
+    {{#unless monsterId}}
+        {{#if lootId}}
+            <!--        Also needs to be an each-->
+            {{> LootItemsCard}}
+        {{/if}}
+    {{/unless}}
+
+    {{#if monsterId}}
+        {{> MonstersCard}}
+    {{/if}}
+
+    {{#unless monsterId}}
+        {{#if abilityId}}
+            <!--        Need to do a for each, don't know what it will look like though -->
+            {{> AbilitiesCard}}
+        {{/if}}
+    {{/unless}}
+
+    {{#if monsterId}}
+<!--         In two columns-->
+    <div class="two_column">
+        {{#if abilityId}}
+            <!--        Need to do a for each, don't know what it will look like though -->
+            {{> AbilitiesCard}}
+        {{/if}}
+
+        {{#if lootId}}
+            <!--        Also needs to be an each-->
+            {{> LootItemsCard}}
+        {{/if}}
+    </div>
+    {{/if}}
+
+</div>

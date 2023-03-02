@@ -1,0 +1,11 @@
+{{#unless view}}<a href="/Monsters/view/{{monsterId}}">{{/unless}}
+    <div class="card monster jsp-monster-light-backgroundColor jsp-monster-light-thickerBorderColor {{# if view}}full static{{/if}}">
+        <div class="title animate-background-gradient jsp-global-black-textColor" data-jsp-palette="monster">
+            {{monsterName}} ({{healthPool}} hp)
+        </div>
+        <div class="description jsp-quest-dark-textColor">
+            {{#unless view}}<div class="stats">{{attack}} ATK | {{defense}} DEF | {{speed}} SPD</div>{{/unless}}
+            {{monsterDesc}}
+        </div>
+    </div>
+{{#unless view}}</a>{{/unless}}

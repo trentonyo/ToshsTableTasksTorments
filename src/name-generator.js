@@ -1,14 +1,20 @@
 const names = ["Steve", "Randall", "Mary", "Janisha", "Gork", "Mork", "Qyzzyl", "Zyzzys", "Elyria", "Miphea"]
+const jobs = ["Farmer", "Sir", "Lady", "Hunter", "Fisherman", "Master", "Shaman"]
 const materials = ["Gold", "Stone", "Mithril", "Chitin", "Glass"]
 const items = ["Sword", "Pick", "Necklace", "Bucket", "Stool", "Cube"]
+const abilities = ["Fireball", "Ice Wall", "Teleport", "Bolt", "Water Jet"]
+
+const monster_types = ["Reundead", "Golemcore", "Kaiju", "Knowable Horror"]
+const loot_types = ["Gadget", "Gismo", "Whozit", "Whatzit", "Thingamabob"]
 
 const particles = ["The", "A"]
 
 const adj_monst = ["Great", "Lesser", "Dark", "Spotted", "Hairless", "Carnivorous", "Timid"]
 const adj_items = ["Shiny", "Cursed", "Whizzing", "Crusty", "Glistening", "Shimmering", "Blessed"]
+const adj_abilt = ["Delayed", "Burning", "Giant", "Reverse", "Bouncing", "Total", "Lesser"]
 const verbs_ing = ["Flying", "Burning", "Weeping", "Slinking", "Burrowing"]
-const verbs_act = ["Free", "Grind", "Liberate", "Defeat", "Siege", "Protect", "Finish"]
-const nouns = ["Cave", "Vampire", "Tree", "River", "Skull", "Bird", "Fire", "Ice", "Town", "Castle"]
+const verbs_act = ["Free", "Grind", "Liberate", "Defeat", "Siege", "Protect", "Finish", "Investigate", "Defend"]
+const nouns = ["Cave", "Vampire", "Tree", "River", "Skull", "Bird", "Fire", "Ice", "Town", "Castle", "Sky", "Dragon", "King", "Queen", "Mountain"]
 
 function randEl(list)
 {
@@ -19,6 +25,18 @@ function randEl(list)
 function getName()
 {
     return randEl(names)
+}
+
+// Generate a generic monster type
+function getMonsterType()
+{
+    return randEl(monster_types)
+}
+
+// Generate a generic loot type
+function getLootType()
+{
+    return randEl(loot_types)
 }
 
 // Generate a monster name
@@ -86,12 +104,70 @@ function getLootItemName()
 
     return output
 }
+// Generate an ability name
+function getAbilityName()
+{
+    let output = ""
+
+    let form = Math.floor(Math.random() * 10)
+
+    switch (form)
+    {
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 4:
+            output += randEl(abilities)
+            break;
+        case 5:
+        case 6:
+            output += randEl(adj_abilt) + " "
+            output += randEl(abilities)
+            break;
+        case 7:
+        case 8:
+            output += randEl(abilities) + " of the "
+            output += randEl(nouns)
+            break;
+        case 9:
+            output += "Summon " + getMonsterName()
+            break;
+        default:
+            output += "Summon " + getMonsterName()
+    }
+
+    return output
+}
 function getQuestName() {
-    return randEl(verbs_act) + " " + randEl(nouns)
+    let output = ""
+    let form = Math.floor(Math.random() * 2)
+
+    switch (form)
+    {
+        case 0:
+            output += randEl(verbs_act) + " " + randEl(nouns)
+            break;
+        case 1:
+            output += randEl(verbs_act) + " " + randEl(nouns) + randEl(nouns)
+            break;
+        default:
+            output += randEl(verbs_act) + " " + randEl(nouns) + randEl(nouns)
+    }
+
+    return output
+}
+
+function getQuestGiverName() {
+    return randEl(jobs) + " " + randEl(names)
 }
 
 // Export for use
 module.exports.getName = getName;
 module.exports.getQuestName = getQuestName;
+module.exports.getQuestGiverName = getQuestGiverName;
 module.exports.getLootItemName = getLootItemName;
+module.exports.getLootType = getLootType;
 module.exports.getMonsterName = getMonsterName;
+module.exports.getMonsterType = getMonsterType;
+module.exports.getAbilityName = getAbilityName;

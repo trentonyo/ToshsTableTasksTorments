@@ -1,0 +1,7 @@
+{{#unless view}}<a href="/QuestGivers/view/{{questGiverId}}">{{/unless}}
+    <div class="card questGiver jsp-quest-light-backgroundColor jsp-quest-light-thickerBorderColor {{#if view}}full static{{/if}}">
+        <div class="title animate-background-gradient jsp-global-black-textColor" data-jsp-palette="quest">
+            {{questGiverName}} {{#if view}}<span class="page_subtitle">- Quest Giver</span>{{/if}}
+        </div>
+    </div>
+{{#unless view}}</a>{{/unless}}

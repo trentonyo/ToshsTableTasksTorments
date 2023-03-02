@@ -81,7 +81,7 @@ CREATE OR REPLACE TABLE Monsters_LootItems (
     monsterId INT NOT NULL,
     lootId INT NOT NULL,
     dropQuantity INT NOT NULL DEFAULT 1,
-    dropChance DECIMAL NOT NULL,
+    dropChance DECIMAL(7,6) NOT NULL,
     PRIMARY KEY (monsterId, lootId),
     FOREIGN KEY (monsterId) REFERENCES Monsters(monsterId) ON DELETE RESTRICT,
     FOREIGN KEY (lootId) REFERENCES LootItems(lootId) ON DELETE RESTRICT

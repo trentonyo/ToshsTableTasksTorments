@@ -1,0 +1,36 @@
+<div class="form_card jsp-global-light-backgroundColor"><form id="add_new_monster_ability">
+    <div class="new add title monsterAbility">
+        Assign Ability to Monster
+    </div>
+    <div class="new add animate-background-gradient jsp-monster-dark-textColor" data-jsp-palette="monster">
+
+        <label for="monsterAbility-monsterNames">Monster:</label>
+        <br>
+        <input list="monsterAbility-monsterNames-list" id="monsterAbility-monsterNames" name="monsterAbility-monsterNames">
+        <datalist id="monsterAbility-monsterNames-list">
+            {{#each monsters}}
+            <option value="{{monsterName}}">
+            {{/each}}
+        </datalist>
+    </div>
+
+    <div class="new add animate-background-gradient jsp-ability-dark-textColor" data-jsp-palette="ability">
+
+        <label for="monsterAbility-abilityNames">Ability:</label>
+        <br>
+        <input list="monsterAbility-abilityNames-list" id="monsterAbility-abilityNames" name="monsterAbility-abilityNames">
+        <datalist id="monsterAbility-abilityNames-list">
+            {{#each abilities}}
+            <option value="{{abilityName}}">
+            {{/each}}
+        </datalist>
+    </div>
+
+    <div class="new add animate-background-gradient jsp-monster-dark-textColor" data-jsp-palette="monster">
+        <label for="monsterAbility-Cooldown">Cooldown (in seconds, enter 0 for passive):</label>
+        <br>
+        <input type="number" min="0" id="monsterAbility-Cooldown" name="monsterAbility-Cooldown">
+    </div>
+</form>
+
+</div>

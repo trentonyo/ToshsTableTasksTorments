@@ -1,29 +1,16 @@
-<h1>Add a new monster</h1>
+<div id="page_title" class="fadeout-gradient jsp-global-light-textColor">
+    Add a New Monster
+</div>
 
-<form>
-    <label for="monster-monsterName">Monster Name:</label>
-    <input type="text" id="monster-monsterName" placeholder="{{placeholderMonsterName}}">
+<div id="forms_container">
+    <div class="form_column">
+        {{> MonstersFormNew}}
 
-    <label for="monster-monsterDesc">Monster Description:</label>
-    <textarea id="monster-monsterDesc"></textarea>
-
-    <label for="monster-type">Monster Type:</label>
-    <input list="monster-types-list" id="monster-type" name="monster-type">
-    <datalist id="monster-types-list">
-        {{#each monsterTypes}}
-        <option value="{{monsterTypeName}}">
-        {{/each}}
-    </datalist>
-
-    <label for="monster-healthPool">Health pool:</label>
-    <input type="number" min="1" max="100" placeholder="1" id="monster-healthPool">
-
-    <label for="monster-attack">Attack:</label>
-    <input type="number" min="1" max="100" placeholder="1" id="monster-attack">
-
-    <label for="monster-defense">Defense:</label>
-    <input type="number" min="1" max="100" placeholder="1" id="monster-defense">
-
-    <label for="monster-speed">Speed:</label>
-    <input type="number" min="1" max="100" placeholder="1" id="monster-speed">
-</form>
+        <div class="form_column two_column">
+            <div id="abilities_column">
+            </div>
+            <div id="lootItems_column">
+            </div>
+        </div>
+    </div>
+</div>
