@@ -280,8 +280,8 @@ let viewWithMonsterDetails = function (req, res, next, entity) {
                 context["entity"] = entity
                 context["view"] = true
 
-                db.pool.query(dml.STATEMENTS.SELECT_AbilitiesByMonstersID(context.questId), function (err, abilities, fields) {
-                    db.pool.query(dml.STATEMENTS.SELECT_LootItemsByMonstersID(context.questId), function (err, lootItems, fields) {
+                db.pool.query(dml.STATEMENTS.SELECT_AbilitiesByMonstersID(context.monsterId), function (err, abilities, fields) {
+                    db.pool.query(dml.STATEMENTS.SELECT_LootItemsByMonstersID(context.monsterId), function (err, lootItems, fields) {
                         context["abilitiesList"] = abilities
                         context["lootItemsList"] = lootItems
 
