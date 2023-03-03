@@ -215,19 +215,16 @@ app.get('/', function(req, res)
 //     res.send("Executing dirty DML test serverside")
 // })
 
-app.get('/testQuery', function (req, res, next)
-{
-    let statement = `SELECT * FROM Quests 
-                        INNER JOIN QuestGivers ON Quests.questGiverId = QuestGivers.questGiverId 
-                        INNER JOIN Monsters ON Quests.monsterId = Monsters.monsterId 
-                     WHERE Quests.questId=1 ;`
-    //GROUP BY Quests.questId
-    db.pool.query(statement, function (err, results, fields)
-    {
-        if (err) { results = err }
-        res.send(results)
-    })
-})
+// app.get('/testQuery', function (req, res, next)
+// {
+//     let statement = dml.STATEMENTS.SELECT_LootItemsByMonstersID(3)
+//     //GROUP BY Quests.questId
+//     db.pool.query(statement, function (err, results, fields)
+//     {
+//         if (err) { results = err }
+//         res.send(results)
+//     })
+// })
 
 ///View all queries
 app.get('/:entity/view', viewEntity)
@@ -285,10 +282,11 @@ app.get('/:entity/view/:entityID', function(req, res, next)
         }
         else
         {
-            results[0]["entity"] = entity
-            results[0]["view"] = true
+            let context = results[0]
+            context["entity"] = entity
+            context["view"] = true
 
-            res.status(200).render("ViewDetails", results[0])
+            res.status(200).render("ViewDetails", context)
         }
     })
 })
