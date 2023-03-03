@@ -249,6 +249,53 @@ app.get('/Quests/new', function(req, res)
         })
     })
 })
+
+//View a Quest or Monster detail page
+app.get('/Quests/view/:entityID', function (req, res, next)
+{
+    let entityID = req.params.entityID
+
+    let query = get_SQL_thisEntity("Quests", entityID)
+
+    if(query === false)
+    {
+        next() // Called if entity is invalid or if entityID is not a number
+    }
+    else
+    {
+        // SELECT *...
+        db.pool.query(query, function(err, quest, fields)
+        {
+            //Offline override
+            if(useOffline) { err = "Too lazy" }
+
+            if(quest === undefined || quest.length === 0)
+            {
+                next() // Called if there was no result return
+            }
+            else
+            {
+                let context = quest[0]
+                context["entity"] = "Quests"
+                context["view"] = true
+
+                db.pool.query(dml.STATEMENTS.SELECT_AbilitiesByMonstersID(context.questId), function (err, abilities, fields)
+                {
+                    db.pool.query(dml.STATEMENTS.SELECT_LootItemsByMonstersID(context.questId), function (err, lootItems, fields)
+                    {
+                        context["abilitiesList"] = abilities
+                        context["lootItemsList"] = lootItems
+
+                        console.log(context)
+
+                        res.status(200).render("ViewDetails", context)
+                    })
+                })
+            }
+        })
+    }
+})
+
 //View an entity details page
 app.get('/:entity/view/:entityID', function(req, res, next)
 {
@@ -269,26 +316,28 @@ app.get('/:entity/view/:entityID', function(req, res, next)
     {
         next() // Called if entity is invalid or if entityID is not a number
     }
-
-    // SELECT *...
-    db.pool.query(query, function(err, results, fields)
+    else
     {
-        //Offline override
-        if(useOffline) { results = [db_offline["SQL_this"+entity+(Math.min(entityID, 3))]] }
-
-        if(results === undefined || results.length === 0)
+        // SELECT *...
+        db.pool.query(query, function(err, results, fields)
         {
-            next() // Called if there was no result return
-        }
-        else
-        {
-            let context = results[0]
-            context["entity"] = entity
-            context["view"] = true
+            //Offline override
+            if(useOffline) { results = [db_offline["SQL_this"+entity+(Math.min(entityID, 3))]] }
 
-            res.status(200).render("ViewDetails", context)
-        }
-    })
+            if(results === undefined || results.length === 0)
+            {
+                next() // Called if there was no result return
+            }
+            else
+            {
+                let context = results[0]
+                context["entity"] = entity
+                context["view"] = true
+
+                res.status(200).render("ViewDetails", context)
+            }
+        })
+    }
 })
 ///Create new quest giver
 app.get('/QuestGivers/new', function(req, res)
