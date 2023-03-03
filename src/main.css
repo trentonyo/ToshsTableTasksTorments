@@ -34,6 +34,33 @@ body {
     flex-wrap: wrap;
     justify-content: flex-start;
 }
+.nav_subcontainer {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+/*a.nav_subcontainer :not(.collapsing, a) {*/
+div.collapse-target {
+    -moz-border-radius-topleft: 0;
+    border-top-left-radius: 0;
+    -moz-border-radius-bottomleft: 0;
+    border-bottom-left-radius: 0;
+
+    border-left: #fff solid 2px;
+}
+
+.collapsing{
+    cursor: pointer;
+}
+.collapsing.uncollapsed {
+    -moz-border-radius-topright: 0;
+    border-top-right-radius: 0;
+    -moz-border-radius-bottomright: 0;
+    border-bottom-right-radius: 0;
+
+    border-right: #fff solid 2px;
+}
 
 #forms_container {
     display: flex;

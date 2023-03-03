@@ -1,6 +1,4 @@
 console.log("Loaded ux.js")
-console.log(
-    [{"questId":1,"questName":"Clear Cave","questDesc":"There's something in the old gemstone mine that's driven all the miners away, see if you can clear it out.","available":1,"questGiverId":1,"suggestedLevel":1,"monsterQty":5,"monsterId":1,"rewardXp":100,"rewardGold":100,"questGiverName":"Tosh","monsterName":"Slime","monsterDesc":"The living, hostile gel. Slow-moving, but inexorable while it remains intact.","monsterTypeId":1,"healthPool":10,"attack":5,"defense":1,"speed":1}])
 
 let input_fields = document.getElementsByTagName("input")
 
@@ -9,6 +7,26 @@ let column_loot = document.getElementById("lootItems_column")
 
 let add_ability = document.getElementById("addAbilityForm")
 let add_loot = document.getElementById("addLootItemForm")
+
+let nav_collapse_new = document.getElementById("collapse_new")
+let nav_collapse_view = document.getElementById("collapse_view")
+
+nav_collapse_new.addEventListener('click', function (ev) {
+    let collapseTarget = document.querySelectorAll('.collapse-target.new')
+    for (let i = 0; i < collapseTarget.length; i++)
+    {
+        collapseTarget[i].classList.toggle('hidden')
+        nav_collapse_new.classList.toggle('uncollapsed')
+    }
+})
+nav_collapse_view.addEventListener('click', function (ev) {
+    let collapseTarget = document.querySelectorAll('.collapse-target.view')
+    for (let i = 0; i < collapseTarget.length; i++)
+    {
+        collapseTarget[i].classList.toggle('hidden')
+        nav_collapse_view.classList.toggle('uncollapsed')
+    }
+})
 
 for (let i = 0; i < input_fields.length; i++)
 {
