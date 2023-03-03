@@ -250,39 +250,38 @@ app.get('/Quests/new', function(req, res)
     })
 })
 
-//View a Quest or Monster detail page
-app.get('/Quests/view/:entityID', function (req, res, next)
-{
+
+/**
+ * View a Quest or Monster detail page
+ * @param req pass in a req
+ * @param res pass in a res
+ * @param next pass in a next
+ * @param entity expects "Quests" or "Monsters"
+ */
+let viewWithMonsterDetails = function (req, res, next, entity) {
     let entityID = req.params.entityID
 
-    let query = get_SQL_thisEntity("Quests", entityID)
+    let query = get_SQL_thisEntity(entity, entityID)
 
-    if(query === false)
-    {
+    if (query === false) {
         next() // Called if entity is invalid or if entityID is not a number
-    }
-    else
-    {
+    } else {
         // SELECT *...
-        db.pool.query(query, function(err, quest, fields)
-        {
+        db.pool.query(query, function (err, quest, fields) {
             //Offline override
-            if(useOffline) { err = "Too lazy" }
-
-            if(quest === undefined || quest.length === 0)
-            {
-                next() // Called if there was no result return
+            if (useOffline) {
+                err = "Too lazy"
             }
-            else
-            {
+
+            if (quest === undefined || quest.length === 0) {
+                next() // Called if there was no result return
+            } else {
                 let context = quest[0]
-                context["entity"] = "Quests"
+                context["entity"] = entity
                 context["view"] = true
 
-                db.pool.query(dml.STATEMENTS.SELECT_AbilitiesByMonstersID(context.questId), function (err, abilities, fields)
-                {
-                    db.pool.query(dml.STATEMENTS.SELECT_LootItemsByMonstersID(context.questId), function (err, lootItems, fields)
-                    {
+                db.pool.query(dml.STATEMENTS.SELECT_AbilitiesByMonstersID(context.questId), function (err, abilities, fields) {
+                    db.pool.query(dml.STATEMENTS.SELECT_LootItemsByMonstersID(context.questId), function (err, lootItems, fields) {
                         context["abilitiesList"] = abilities
                         context["lootItemsList"] = lootItems
 
@@ -292,9 +291,18 @@ app.get('/Quests/view/:entityID', function (req, res, next)
             }
         })
     }
+}
+
+app.get('/Quests/view/:entityID', function (req, res, next)
+{
+    viewWithMonsterDetails(req, res, next, "Quests")
+})
+app.get('/Monsters/view/:entityID', function (req, res, next)
+{
+    viewWithMonsterDetails(req, res, next, "Monsters")
 })
 
-//View an entity details page
+//View any other entity's details page
 app.get('/:entity/view/:entityID', function(req, res, next)
 {
     let entityID = req.params.entityID
