@@ -30,17 +30,21 @@
 <!--         In two columns if there is a monster       -->
     {{#if monsterId}}
     <div class="two_column">
-        {{#if abilitiesList}}
-            {{#each abilitiesList}}
-                {{> AbilitiesCard}}
-            {{/each}}
-        {{/if}}
+        <div id="abilities_column">
+            {{#if abilitiesList}}
+                {{#each abilitiesList}}
+                    {{> AbilitiesCard}}
+                {{/each}}
+            {{/if}}
+        </div>
 
-        {{#if lootItemsList}}
-            {{#each lootItemsList}}
-                {{> LootItemsCard}}
-            {{/each}}
-        {{/if}}
+        <div id="lootItems_column">
+            {{#if lootItemsList}}
+                {{#each lootItemsList}}
+                    {{> LootItemsCard}}
+                {{/each}}
+            {{/if}}
+        </div>
     </div>
     {{/if}}
 

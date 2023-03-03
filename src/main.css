@@ -225,7 +225,8 @@ button:hover {
     border: #fff solid 1px;
     border-radius: 40px;
 }
-.form_column.two_column {
+/*.form_column.two_column {*/
+.two_column {
     display: flex;
     justify-content: space-between
 }

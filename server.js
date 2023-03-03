@@ -286,8 +286,6 @@ app.get('/Quests/view/:entityID', function (req, res, next)
                         context["abilitiesList"] = abilities
                         context["lootItemsList"] = lootItems
 
-                        console.log(context)
-
                         res.status(200).render("ViewDetails", context)
                     })
                 })
