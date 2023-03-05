@@ -112,6 +112,10 @@ partialTypes.forEach(function (value, index, array)
         return context.data.root['entity']+value
     })
 })
+handlebars.registerHelper('ifIsPassive', function (cooldown, options)
+{
+    return (cooldown === 0) ? options.fn(this) : options.inverse(this);
+})
 
 /**
  * Middleware to parse POST body

@@ -25,7 +25,7 @@ let STATEMENTS = {
     SELECT_AllAbilities :  `SELECT * FROM Abilities;`,
     SELECT_AllLootItemTypes :  `SELECT * FROM LootItemTypes;`,
     SELECT_AllLootItems :  `SELECT * FROM LootItems;`,
-    SELECT_AllMonsters_Abilities :  `SELECT * FROM Monsters_Abilities;`,
+    SELECT_AllMonsters_Abilities :  `SELECT * FROM Monsters_Abilities INNER JOIN Monsters ON Monsters_Abilities.monsterId = Monsters.monsterId INNER JOIN Abilities On Monsters_Abilities.abilityId = Abilities.abilityId;`,
     SELECT_AllMonsters_LootItems :  `SELECT * FROM Monsters_LootItems;`,
 
     SELECT_AvailableQuests: `SELECT * FROM Quests WHERE available=true;`,
