@@ -113,7 +113,7 @@ div.collapse-target {
 
     padding: 8px;
 
-    font-size: 18px;
+    font-size: 24px;
 
     background-color: #fff;
 }
@@ -146,7 +146,7 @@ div.collapse-target {
     max-width: 300px;
 }
 .card:hover {
-    scale: 102%;
+    /*scale: 102%;*/
 }
 .card_subtitle {
     margin-left: 24px;
@@ -183,9 +183,14 @@ button:hover {
     font-weight: bold;
 
     padding: 10px;
+    padding-right: 85px;
     margin: 0;
 
     border-bottom: #0a0909 1px solid;
+}
+
+.card .subtitle {
+    font-style: italic;
 }
 
 .description>.stats {
@@ -212,7 +217,8 @@ button:hover {
     top: 5px;
 }
 .card .viewDetails:hover {
-     box-shadow: 0 3px 6px #0a0909;
+    scale: 105%;
+    box-shadow: 0 3px 6px #0a0909;
  }
 
 .add {
@@ -338,6 +344,9 @@ a {
     text-decoration: none;
 }
 
+.nowrap {
+    white-space: nowrap;
+}
 .hidden {
     display: none;
     scale: 0;

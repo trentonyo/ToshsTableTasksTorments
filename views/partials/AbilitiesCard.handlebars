@@ -4,6 +4,12 @@
             {{abilityName}}
         </div>
         <div class="description jsp-ability-dark-textColor">
+            {{#if monsterId}}<div class="stats">{{#ifIsPassive abilityCooldown}}
+                Passive
+            {{else}}
+                {{abilityCooldown}}s Cooldown
+            {{/ifIsPassive}}</div>{{/if}}
+
             {{abilityDesc}}
         </div>
     </div>

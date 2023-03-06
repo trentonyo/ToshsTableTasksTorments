@@ -1,66 +1,69 @@
-<div class="form_card jsp-global-light-backgroundColor"><form id="add_new_ability">
+<div class="form_card jsp-global-light-backgroundColor"><form action="/createEntity" method="POST" id="add_new_quest">
     <div class="new add title quest">
         New Quest
     </div>
+    <input hidden id="entity" name="entity" value="quest"></input>
     <div class="new add animate-background-gradient jsp-quest-dark-textColor" data-jsp-palette="quest">
-        <label for="quest-questName">Quest Name:</label>
+        <label for="questName">Quest Name:</label>
         <br>
-        <input type="text" id="quest-questName" placeholder="{{placeholderQuestName}}">
+        <input type="text" id="quest-questName" name="questName" placeholder="{{placeholderQuestName}}">
     </div>
     <div class="new add animate-background-gradient jsp-quest-dark-textColor" data-jsp-palette="quest">
-        <label for="quest-available">Quest Available?</label>
-        <br>
-        <input type="checkbox" id="quest-available" checked>
-    </div>
-
-    <div class="new add animate-background-gradient jsp-quest-dark-textColor" data-jsp-palette="quest">
-        <label for="quest-questDesc">Quest Description:</label>
-        <br>
-        <textarea id="quest-questDesc"></textarea>
+        <label for="available">Quest Available?</label>
+        <select id="available" name="available">
+            <option value="1">Yes</option>
+            <option value="0">No</option>
+        </select>
     </div>
 
     <div class="new add animate-background-gradient jsp-quest-dark-textColor" data-jsp-palette="quest">
-        <label for="quest-questGiver">Quest Giver:</label>
+        <label for="questDesc">Quest Description:</label>
         <br>
-        <input list="quest-questGivers-list" id="quest-questGiver" name="quest-questGiver">
-        <datalist id="quest-questGivers-list">
+        <textarea id="questDesc" name="questDesc"></textarea>
+    </div>
+
+    <div class="new add animate-background-gradient jsp-quest-dark-textColor" data-jsp-palette="quest">
+        <label for="questGiver">Quest Giver:</label>
+        <select id="questGivers-list" name="questGiverId">
             {{#each questGivers}}
-            <option value="{{questGiverName}}">
+            <option value="{{questGiverId}}">{{questGiverName}}</option>
             {{/each}}
-        </datalist>
+        </select>
     </div>
 
     <div class="new add animate-background-gradient jsp-quest-dark-textColor" data-jsp-palette="quest">
-        <label for="quest-monsterName">Monster:</label>
+        <label for="monsterName">Monster:</label>
         <br>
-        <input list="quest-monsterNames-list" id="quest-monsterName" name="quest-monsterName">
-        <datalist id="quest-monsterNames-list">
+        <select id="monsterNames-list" name="monsterId">
             {{#each monsters}}
-                <option value="{{monsterName}}">{{monsterDesc}}</option>
+                <option value="{{monsterId}}">{{monsterName}}</option>
             {{/each}}
-        </datalist>
+        </select>
     </div>
     <div class="new add animate-background-gradient jsp-quest-dark-textColor" data-jsp-palette="quest">
-        <label for="quest-monsterQty">How many monsters?</label>
+        <label for="monsterQty">How many monsters?</label>
         <br>
-        <input type="number" min="1" placeholder="1" id="quest-monsterQty">
+        <input type="number" min="1" placeholder="1" id="monsterQty" name="monsterQty">
     </div>
 
     <div class="form_section">
         <div class="new add animate-background-gradient jsp-quest-dark-textColor" data-jsp-palette="quest">
-            <label for="quest-rewardXp">Reward XP:</label>
+            <label for="rewardXp">Reward XP:</label>
             <br>
-            <input type="number" min="0" placeholder="1" id="quest-rewardXp">
+            <input type="number" min="0" placeholder="1" id="rewardXp" name="rewardXp">
         </div>
         <div class="new add animate-background-gradient jsp-quest-dark-textColor" data-jsp-palette="quest">
-            <label for="quest-rewardGold">Reward Gold:</label>
+            <label for="rewardGold">Reward Gold:</label>
             <br>
-            <input type="number" min="0" placeholder="1" id="quest-rewardGold">
+            <input type="number" min="0" placeholder="1" id="rewardGold" name="rewardGold">
         </div>
         <div class="new add animate-background-gradient jsp-quest-dark-textColor" data-jsp-palette="quest">
-            <label for="quest-suggestedLevel">Suggested Level:</label>
+            <label for="suggestedLevel">Suggested Level:</label>
             <br>
-            <input type="number" min="1" placeholder="1" id="quest-suggestedLevel">
+            <input type="number" min="1" placeholder="1" id="suggestedLevel" name="suggestedLevel">
         </div>
+    </div>
+    <div class="new add animate-background-gradient jsp-quest-dark-textColor" data-jsp-palette="quest" value="Submit">
+        <button type="submit" value="Submit">Submit</button>
     </div>
 </form></div>

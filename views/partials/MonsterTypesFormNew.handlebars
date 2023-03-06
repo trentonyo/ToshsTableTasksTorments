@@ -1,10 +1,14 @@
-<div class="form_card jsp-global-light-backgroundColor"><form id="add_new_quest_giver">
+<div class="form_card jsp-global-light-backgroundColor"><form action="/createEntity" method="POST" id="add_new_monster_type">
     <div class="new add title monsterType">
         New Monster Type
     </div>
+    <input hidden id="entity" name="entity" value="monsterType"></input>
     <div class="new add animate-background-gradient jsp-monster-dark-textColor" data-jsp-palette="monster">
-        <label for="monsterType-monsterTypeName">Monster Type Name:</label>
+        <label for="monsterTypeName">Monster Type Name:</label>
         <br>
-        <input type="text" id="monsterType-monsterTypeName" placeholder="{{placeholder}}">
+        <input type="text" id="monsterTypeName" name="monsterTypeName" placeholder="{{placeholder}}">
+    </div>
+    <div class="new add animate-background-gradient jsp-monster-dark-textColor" data-jsp-palette="monster" value="Submit">
+        <button type="submit" value="Submit">Submit</button>
     </div>
 </form></div>

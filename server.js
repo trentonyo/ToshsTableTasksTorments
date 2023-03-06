@@ -22,6 +22,7 @@ let entities = require('./src/ENTITIES')
 const ENTITIES = entities.ENTITIES
 
 let style = require('./src/jsp')
+const {create} = require("express-handlebars");
 filesystem.writeFile('./src/jsp.css', style.generateCSSPalette(), function (err) {
     if (err)
     {
@@ -116,6 +117,11 @@ handlebars.registerHelper('ifIsPassive', function (cooldown, options)
 {
     return (cooldown === 0) ? options.fn(this) : options.inverse(this);
 })
+handlebars.registerHelper('localizeChance', function (chance, options)
+{
+    let percent = Number(chance).toLocaleString(undefined,{style: 'percent', minimumFractionDigits: (chance > 0.1 ? 0 : 2)});
+    return (chance === 1) ? "Guaranteed" : `${percent} Chance`;
+})
 
 /**
  * Middleware to parse POST body
@@ -155,6 +161,18 @@ let viewEntity = function(req, res, next)
             "queryName" : "All "+entity,
             "results" : results
         }
+
+        //These entities will not have a button linked to their detail page
+        switch (entity)
+        {
+            case "MonsterTypes":
+            case "LootItemTypes":
+                for (const resultsKey in results) {
+                    results[resultsKey]["suppressDetailsButton"] = true
+                }
+                break
+        }
+
         res.status(200).render("ViewCards", context)
     })
 }
@@ -456,25 +474,70 @@ app.get('*', function (req, res)
     res.status(404).render("PageNotFound")
 })
 
-
-///Create loot item type
-app.post('/submit/LootItemType', function (req, res, next)
+///Create entity
+app.post('/createEntity', function (req, res)
 {
-    db.pool.query(dml.STATEMENTS.INSERT_LootItemTypes(req.body.lootItemTypeName, req.body.equipable), function(err, results)
-    {
-        if(useOffline) { err = 'Unable to add loot item types while offline' }
+    let SQL_statement = ''
+    let redirectTarget = ''
+    let createData = req.body
+    console.log(createData)
 
-        if(err)
-        {
-            next()
-        }
-        else
-        {
-            // res.redirect(`/LootItemTypes/view/${results.insertId}`) // TODO use this for larger entities (quests, monsters, not loot item types or quest givers)
-            res.status(200).redirect('/LootItemTypes/view')
-        }
+    switch(createData.entity) {
+        case "quest":
+            SQL_statement = dml.STATEMENTS.INSERT_Quests(createData['questName'], createData['questDesc'],
+                createData['available'], createData['questGiverId'], createData['suggestedLevel'],
+                createData['monsterQty'], createData['monsterId'], createData['rewardXp'], createData['rewardGold'])
+            redirectTarget = '/Quests/new'
+            break
+        case "questGiver":
+            SQL_statement = dml.STATEMENTS.INSERT_QuestGivers(createData['questGiverName'])
+            redirectTarget = '/QuestGivers/new'
+            break
+        case "monster":
+            SQL_statement = dml.STATEMENTS.INSERT_Monsters(createData['monsterName'], createData['monsterDesc'],
+                createData['monsterTypeId'], createData['healthPool'], createData['attack'], createData['defense'], createData['speed'])
+            redirectTarget = '/Monsters/new'
+            break
+        case "monsterType":
+            SQL_statement = dml.STATEMENTS.INSERT_MonsterTypes(createData['monsterTypeName'])
+            redirectTarget = '/MonsterTypes/new'
+            break
+        case "lootItem":
+            SQL_statement = dml.STATEMENTS.INSERT_LootItems(createData['lootName'], createData['lootDesc'],
+                createData['lootItemTypeId'], createData['lootValue'])
+            redirectTarget = '/LootItems/new'
+            break
+        case "lootItemType":
+            SQL_statement = dml.STATEMENTS.INSERT_LootItemTypes(createData['lootItemTypeName'], createData['equipable'])
+            redirectTarget = '/LootItemTypes/new'
+            break
+        case "ability":
+            // SQL_statement = `INSERT INTO Abilities (abilityName, abilityDesc) VALUES ('${createData.abilityName}', '${createData.abilityDesc}');`
+            SQL_statement = dml.STATEMENTS.INSERT_Abilities(createData['abilityName'], createData['abilityDesc'])
+            redirectTarget = '/Abilities/new'
+            break
+        case "monsterAbility":
+            SQL_statement = dml.STATEMENTS.INSERT_Monsters_Abilities(createData['monsterId'], createData['abilityId'], createData['abilityCooldown'])
+            redirectTarget = '/MonstersAbilities/new'
+            break
+        case "monsterLootItem":
+            SQL_statement = dml.STATEMENTS.INSERT_Monsters_LootItems(createData['monsterId'], createData['lootId'], createData['dropQuantity'], createData['dropChance'])
+            redirectTarget = '/MonstersLootItems/new'
+            break
+        default:
+            res.status(400) //TODO the entity not found
+
+    }
+    console.log(SQL_statement)
+    db.pool.query(SQL_statement, function(err, results){
+        if(useOffline) { err = 'Unable to add entities while offline' }
+        // Error code 1062: duplicate primary key
+        console.log("Results: " + results)
     })
+    res.redirect(redirectTarget)
+    // Further TODO Perhaps we could get the ID returned and redirect to the details page of larger entities (quests, monsters, not loot item types or quest givers)
 })
+
 
 ///Create loot item type
 app.post('/updateEntity', function (req, res, next)

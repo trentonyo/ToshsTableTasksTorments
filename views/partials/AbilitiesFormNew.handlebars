@@ -1,16 +1,20 @@
-<div class="form_card jsp-global-light-backgroundColor"><form id="add_new_ability">
+<div class="form_card jsp-global-light-backgroundColor"><form action="/createEntity" method="POST" id="add_new_ability">
     <div class="new add title ability">
         New Ability
     </div>
+    <input hidden id="entity" name="entity" value="ability"></input>
     <div class="new add animate-background-gradient jsp-ability-dark-textColor" data-jsp-palette="ability">
-        <label for="ability-abilityName">Ability Name:</label>
+        <label for="abilityName">Ability Name:</label>
         <br>
-        <input type="text" id="ability-abilityName" placeholder="{{placeholder}}">
+        <input type="text" id="abilityName" name="abilityName" placeholder="{{placeholder}}">
     </div>
 
     <div class="new add animate-background-gradient jsp-ability-dark-textColor" data-jsp-palette="ability">
-        <label for="ability-abilityDesc">Ability Description:</label>
+        <label for="abilityDesc">Ability Description:</label>
         <br>
-        <textarea id="ability-abilityDesc"></textarea>
+        <textarea id="abilityDesc" name="abilityDesc"></textarea>
+    </div>
+    <div class="new add animate-background-gradient jsp-ability-dark-textColor" data-jsp-palette="ability" value="Submit">
+        <button type="submit" value="Submit">Submit</button>
     </div>
 </form></div>
