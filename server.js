@@ -398,6 +398,11 @@ app.post('/createEntity', function (req, res)
             VALUES ('${createData.monsterId}', '${createData.abilityId}', '${createData.abilityCooldown}');`
             redirectTarget = '/MonstersAbilities/new'
             break
+        case "monsterLootItem":
+            SQL_statement = `INSERT INTO Monsters_LootItems (monsterId, lootId, dropQuantity, dropChance)
+            VALUES ('${createData.monsterId}', '${createData.lootId}', '${createData.dropQuantity}', '${createData.dropChance}');`
+            redirectTarget = '/MonstersLootItems/new'
+            break
         default:
             res.status(400) //TODO the entity not found
 
