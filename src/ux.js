@@ -11,22 +11,29 @@ let add_loot = document.getElementById("addLootItemForm")
 let nav_collapse_new = document.getElementById("collapse_new")
 let nav_collapse_view = document.getElementById("collapse_view")
 
-nav_collapse_new.addEventListener('click', function (ev) {
+let toggleNewList = function (ev) {
     let collapseTarget = document.querySelectorAll('.collapse-target.new')
     for (let i = 0; i < collapseTarget.length; i++)
     {
         collapseTarget[i].classList.toggle('hidden')
         nav_collapse_new.classList.toggle('uncollapsed')
     }
-})
-nav_collapse_view.addEventListener('click', function (ev) {
+}
+
+nav_collapse_new.addEventListener('mouseenter', toggleNewList)
+nav_collapse_new.addEventListener('mouseleave', toggleNewList)
+
+let toggleViewList = function (ev) {
     let collapseTarget = document.querySelectorAll('.collapse-target.view')
-    for (let i = 0; i < collapseTarget.length; i++)
-    {
+    for (let i = 0; i < collapseTarget.length; i++) {
         collapseTarget[i].classList.toggle('hidden')
         nav_collapse_view.classList.toggle('uncollapsed')
     }
-})
+}
+
+nav_collapse_view.addEventListener('mouseenter', toggleViewList)
+nav_collapse_view.addEventListener('mouseleave', toggleViewList)
+
 
 for (let i = 0; i < input_fields.length; i++)
 {
