@@ -22,6 +22,7 @@ let entities = require('./src/ENTITIES')
 const ENTITIES = entities.ENTITIES
 
 let style = require('./src/jsp')
+const {create} = require("express-handlebars");
 filesystem.writeFile('./src/jsp.css', style.generateCSSPalette(), function (err) {
     if (err)
     {
@@ -466,46 +467,44 @@ app.post('/createEntity', function (req, res)
 
     switch(createData.entity) {
         case "quest":
-            SQL_statement = `INSERT INTO Quests (questName, questDesc, available, questGiverId, suggestedLevel, monsterQty, monsterId, rewardXp, rewardGold)
-            VALUES ('${createData['questName']}', '${createData['questDesc']}', '${createData['available']}', '${createData['questGiverId']}',
-            '${createData['suggestedLevel']}', '${createData['monsterQty']}', '${createData['monsterId']}', '${createData['rewardXp']}', '${createData['rewardGold']}');`
+            SQL_statement = dml.STATEMENTS.INSERT_Quests(createData['questName'], createData['questDesc'],
+                createData['available'], createData['questGiverId'], createData['suggestedLevel'],
+                createData['monsterQty'], createData['monsterId'], createData['rewardXp'], createData['rewardGold'])
             redirectTarget = '/Quests/new'
             break
         case "questGiver":
-            SQL_statement = `INSERT INTO QuestGivers (questGiverName) VALUES ('${createData['questGiverName']}');`
+            SQL_statement = dml.STATEMENTS.INSERT_QuestGivers(createData['questGiverName'])
             redirectTarget = '/QuestGivers/new'
             break
         case "monster":
-            SQL_statement = `INSERT INTO Monsters (monsterName, monsterDesc, monsterTypeId, healthPool, attack, defense, speed)
-            VALUES ('${createData.monsterName}', '${createData.monsterDesc}', '${createData.monsterTypeId}', '${createData.healthPool}',
-            '${createData.attack}', '${createData.defense}', '${createData.speed}');`
+            SQL_statement = dml.STATEMENTS.INSERT_Monsters(createData['monsterName'], createData['monsterDesc'],
+                createData['monsterTypeId'], createData['healthPool'], createData['attack'], createData['defense'], createData['speed'])
             redirectTarget = '/Monsters/new'
             break
         case "monsterType":
-            SQL_statement = `INSERT INTO MonsterTypes (monsterTypeName) VALUES ('${createData.monsterTypeName}');`
+            SQL_statement = dml.STATEMENTS.INSERT_MonsterTypes(createData['monsterTypeName'])
             redirectTarget = '/MonsterTypes/new'
             break
         case "lootItem":
-            SQL_statement = `INSERT INTO LootItems (lootName, lootDesc, lootItemTypeId, lootValue)
-            VALUES ('${createData.lootName}', '${createData.lootDesc}', '${createData.lootItemTypeId}', '${createData.lootValue}');`
+            SQL_statement = dml.STATEMENTS.INSERT_LootItems(createData['lootName'], createData['lootDesc'],
+                createData['lootItemTypeId'], createData['lootValue'])
             redirectTarget = '/LootItems/new'
             break
         case "lootItemType":
-            SQL_statement = `INSERT INTO LootItemTypes (lootItemTypeName, equipable) VALUES ('${req.body.lootItemTypeName}', '${req.body.equipable}');`
+            SQL_statement = dml.STATEMENTS.INSERT_LootItemTypes(createData['lootItemTypeName'], createData['equipable'])
             redirectTarget = '/LootItemTypes/new'
             break
         case "ability":
-            SQL_statement = `INSERT INTO Abilities (abilityName, abilityDesc) VALUES ('${createData.abilityName}', '${createData.abilityDesc}');`
+            // SQL_statement = `INSERT INTO Abilities (abilityName, abilityDesc) VALUES ('${createData.abilityName}', '${createData.abilityDesc}');`
+            SQL_statement = dml.STATEMENTS.INSERT_Abilities(createData['abilityName'], createData['abilityDesc'])
             redirectTarget = '/Abilities/new'
             break
         case "monsterAbility":
-            SQL_statement = `INSERT INTO Monsters_Abilities (monsterId, abilityId, abilityCooldown)
-            VALUES ('${createData.monsterId}', '${createData.abilityId}', '${createData.abilityCooldown}');`
+            SQL_statement = dml.STATEMENTS.INSERT_Monsters_Abilities(createData['monsterId'], createData['abilityId'], createData['abilityCooldown'])
             redirectTarget = '/MonstersAbilities/new'
             break
         case "monsterLootItem":
-            SQL_statement = `INSERT INTO Monsters_LootItems (monsterId, lootId, dropQuantity, dropChance)
-            VALUES ('${createData.monsterId}', '${createData.lootId}', '${createData.dropQuantity}', '${createData.dropChance}');`
+            SQL_statement = dml.STATEMENTS.INSERT_Monsters_LootItems(createData['monsterId'], createData['lootId'], createData['dropQuantity'], createData['dropChance'])
             redirectTarget = '/MonstersLootItems/new'
             break
         default:
