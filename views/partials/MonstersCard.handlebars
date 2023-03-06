@@ -4,7 +4,13 @@
             {{monsterName}} ({{healthPool}} hp)
         </div>
         <div class="description jsp-quest-dark-textColor">
-            {{#unless view}}<div class="stats">{{attack}} ATK | {{defense}} DEF | {{speed}} SPD</div>{{/unless}}
+            {{#if questId}}
+                <div class="stats">{{attack}} ATK | {{defense}} DEF | {{speed}} SPD</div>
+            {{else if view}}
+            {{else}}
+                <div class="stats">{{attack}} ATK | {{defense}} DEF | {{speed}} SPD</div>
+            {{/if}}
+
             {{monsterDesc}}
         </div>
     </div>
