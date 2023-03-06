@@ -9,6 +9,7 @@
             {{#if equipable}} Equipable
             {{else}} Not Equipable
             {{/if}}
+            {{suppressDetailsButton}}
         </div>
 <!--        <select class="description" hidden id="edit-equipable-{{lootItemTypeId}}">-->
         <select class="description hidden"  id="edit-equipable-{{lootItemTypeId}}">
@@ -28,8 +29,12 @@
         <button onClick="deleteEntity(this, {'entity': 'LootItemTypes', 'id': '{{lootItemTypeId}}'} )">Delete</button>
     </div>
 
-    {{#unless view}}<a href="/LootItemTypes/view/{{lootItemTypeId}}">
-        <button class="viewDetails"></button>
-    </a>{{/unless}}
+    {{#if suppressDetailsButton}}
+    {{else if view}}
+    {{else}}
+        <a href="/LootItemTypes/view/{{lootItemTypeId}}">
+            <button class="viewDetails"></button>
+        </a>
+    {{/if}}
 
 </div>

@@ -8,6 +8,26 @@ let column_loot = document.getElementById("lootItems_column")
 let add_ability = document.getElementById("addAbilityForm")
 let add_loot = document.getElementById("addLootItemForm")
 
+let nav_collapse_new = document.getElementById("collapse_new")
+let nav_collapse_view = document.getElementById("collapse_view")
+
+nav_collapse_new.addEventListener('click', function (ev) {
+    let collapseTarget = document.querySelectorAll('.collapse-target.new')
+    for (let i = 0; i < collapseTarget.length; i++)
+    {
+        collapseTarget[i].classList.toggle('hidden')
+        nav_collapse_new.classList.toggle('uncollapsed')
+    }
+})
+nav_collapse_view.addEventListener('click', function (ev) {
+    let collapseTarget = document.querySelectorAll('.collapse-target.view')
+    for (let i = 0; i < collapseTarget.length; i++)
+    {
+        collapseTarget[i].classList.toggle('hidden')
+        nav_collapse_view.classList.toggle('uncollapsed')
+    }
+})
+
 for (let i = 0; i < input_fields.length; i++)
 {
     let placeholder = input_fields[i].placeholder

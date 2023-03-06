@@ -34,6 +34,33 @@ body {
     flex-wrap: wrap;
     justify-content: flex-start;
 }
+.nav_subcontainer {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+}
+/*a.nav_subcontainer :not(.collapsing, a) {*/
+div.collapse-target {
+    -moz-border-radius-topleft: 0;
+    border-top-left-radius: 0;
+    -moz-border-radius-bottomleft: 0;
+    border-bottom-left-radius: 0;
+
+    border-left: #fff solid 2px;
+}
+
+.collapsing{
+    cursor: pointer;
+}
+.collapsing.uncollapsed {
+    -moz-border-radius-topright: 0;
+    border-top-right-radius: 0;
+    -moz-border-radius-bottomright: 0;
+    border-bottom-right-radius: 0;
+
+    border-right: #fff solid 2px;
+}
 
 #forms_container {
     display: flex;
@@ -86,7 +113,7 @@ body {
 
     padding: 8px;
 
-    font-size: 18px;
+    font-size: 24px;
 
     background-color: #fff;
 }
@@ -119,7 +146,7 @@ body {
     max-width: 300px;
 }
 .card:hover {
-    scale: 102%;
+    /*scale: 102%;*/
 }
 .card_subtitle {
     margin-left: 24px;
@@ -156,9 +183,14 @@ button:hover {
     font-weight: bold;
 
     padding: 10px;
+    padding-right: 85px;
     margin: 0;
 
     border-bottom: #0a0909 1px solid;
+}
+
+.card .subtitle {
+    font-style: italic;
 }
 
 .description>.stats {
@@ -185,7 +217,8 @@ button:hover {
     top: 5px;
 }
 .card .viewDetails:hover {
-     box-shadow: 0 3px 6px #0a0909;
+    scale: 105%;
+    box-shadow: 0 3px 6px #0a0909;
  }
 
 .add {
@@ -225,7 +258,8 @@ button:hover {
     border: #fff solid 1px;
     border-radius: 40px;
 }
-.form_column.two_column {
+/*.form_column.two_column {*/
+.two_column {
     display: flex;
     justify-content: space-between
 }
@@ -310,6 +344,9 @@ a {
     text-decoration: none;
 }
 
+.nowrap {
+    white-space: nowrap;
+}
 .hidden {
     display: none;
     scale: 0;

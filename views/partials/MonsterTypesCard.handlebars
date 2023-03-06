@@ -1,0 +1,25 @@
+<div class="card monster jsp-monster-medium-backgroundColor jsp-monster-light-backgroundColor jsp-monster-light-thickerBorderColor {{#if view}}full static{{/if}}" id="MonsterTypeId-{{monsterTypeId}}">
+
+    <div class="title animate-background-gradient jsp-global-black-textColor" data-jsp-palette="monster" id="MonsterTypes-Name-{{monsterTypeId}}">
+        {{monsterTypeName}}
+    </div>
+
+    <div id="description_container jsp-monster-dark-textColor">
+        <br>
+    </div>
+
+    <div class="button_container">
+        <button onClick="toggleEditMode(this, {'entity': 'MonsterTypes', 'id': '{{monsterTypeId}}'}, true)" id="toggleEdit-monsterItemType-{{monsterTypeId}}">Edit</button>
+        <button onClick="updateEntity(this, {'entity': 'MonsterTypes', 'id': '{{monsterTypeId}}'} )" id="update-monsterItemType-{{monsterTypeId}}" class="hidden">Submit</button>
+        <button onClick="deleteEntity(this, {'entity': 'MonsterTypes', 'id': '{{monsterTypeId}}'} )">Delete</button>
+    </div>
+
+    {{#if suppressDetailsButton}}
+    {{else if view}}
+    {{else}}
+        <a href="/MonsterTypes/view/{{monsterTypeId}}">
+            <button class="viewDetails"></button>
+        </a>
+    {{/if}}
+
+</div>

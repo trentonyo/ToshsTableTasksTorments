@@ -1,36 +1,35 @@
-<div class="form_card jsp-global-light-backgroundColor"><form id="add_new_monster_ability">
+<div class="form_card jsp-global-light-backgroundColor"><form action="/createEntity" method="POST" id="add_new_monster_ability">
     <div class="new add title monsterAbility">
         Assign Ability to Monster
     </div>
+        <input hidden id="entity" name="entity" value="monsterAbility"></input>
     <div class="new add animate-background-gradient jsp-monster-dark-textColor" data-jsp-palette="monster">
-
-        <label for="monsterAbility-monsterNames">Monster:</label>
+        <label for="monsterNames">Monster:</label>
         <br>
-        <input list="monsterAbility-monsterNames-list" id="monsterAbility-monsterNames" name="monsterAbility-monsterNames">
-        <datalist id="monsterAbility-monsterNames-list">
+        <select id="monsterNames-list" name="monsterId">
             {{#each monsters}}
-            <option value="{{monsterName}}">
+            <option value="{{monsterId}}">{{monsterName}}</option>
             {{/each}}
-        </datalist>
+        </select>
     </div>
 
     <div class="new add animate-background-gradient jsp-ability-dark-textColor" data-jsp-palette="ability">
 
-        <label for="monsterAbility-abilityNames">Ability:</label>
+        <label for="abilityNames">Ability:</label>
         <br>
-        <input list="monsterAbility-abilityNames-list" id="monsterAbility-abilityNames" name="monsterAbility-abilityNames">
-        <datalist id="monsterAbility-abilityNames-list">
+        <select id="abilityNames-list" name="abilityId">
             {{#each abilities}}
-            <option value="{{abilityName}}">
+            <option value="{{abilityId}}">{{abilityName}}</option>
             {{/each}}
-        </datalist>
+        </select>
     </div>
 
     <div class="new add animate-background-gradient jsp-monster-dark-textColor" data-jsp-palette="monster">
-        <label for="monsterAbility-Cooldown">Cooldown (in seconds, enter 0 for passive):</label>
+        <label for="coolabilityCooldowndown">Cooldown (in seconds, enter 0 for passive):</label>
         <br>
-        <input type="number" min="0" id="monsterAbility-Cooldown" name="monsterAbility-Cooldown">
+        <input type="number" min="0" id="abilityCooldown" name="abilityCooldown">
     </div>
-</form>
-
-</div>
+    <div class="new add animate-background-gradient jsp-monster-dark-textColor" data-jsp-palette="monster" value="Submit">
+        <button type="submit" value="Submit">Submit</button>
+    </div>
+</form></div>

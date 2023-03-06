@@ -1,42 +1,42 @@
-<div class="form_card jsp-global-light-backgroundColor"><form id="add_new_monster_loot_item">
+<div class="form_card jsp-global-light-backgroundColor"><form action="/createEntity" method="POST" id="add_new_monster_loot_item">
     <div class="new add title monsterLootItem">
         Assign Loot Item to Monster
     </div>
+    <input hidden id="entity" name="entity" value="monsterLootItem"></input>
     <div class="new add animate-background-gradient jsp-monster-dark-textColor" data-jsp-palette="monster">
 
-        <label for="monsterLootItem-monsterNames">Monster:</label>
+        <label for="monsterId">Monster:</label>
         <br>
-        <input list="monsterLootItem-monsterNames-list" id="monsterLootItem-monsterNames" name="monsterLootItem-monsterNames">
-        <datalist id="monsterLootItem-monsterNames-list">
+        <select id="monsterNames-list" name="monsterId">
             {{#each monsters}}
-            <option value="{{monsterName}}">
+            <option value="{{monsterId}}">{{monsterName}}</option>
             {{/each}}
-        </datalist>
+        </select>
     </div>
 
     <div class="new add animate-background-gradient jsp-loot-dark-textColor" data-jsp-palette="loot">
 
-        <label for="monsterLootItem-lootItemNames">Loot Item:</label>
+        <label for="lootItemName">Loot Item:</label>
         <br>
-        <input list="monsterLootItem-lootItemNames-list" id="monsterLootItem-lootItemNames" name="monsterLootItem-lootItemNames">
-        <datalist id="monsterLootItem-lootItemNames-list">
+        <select id="lootItemNames-list" name="lootId">
             {{#each lootItems}}
-            <option value="{{lootName}}">
+            <option value="{{lootId}}">{{lootName}}</option>
             {{/each}}
-        </datalist>
+        </select>
     </div>
 
     <div class="new add animate-background-gradient jsp-loot-dark-textColor" data-jsp-palette="loot">
-        <label for="monsterLootItem-dropQuantity">Drop Quantity:</label>
+        <label for="dropQuantity">Drop Quantity:</label>
         <br>
-        <input type="number" min="1" id="monsterLootItem-dropQuantity" name="monsterLootItemdropQuantity">
+        <input type="number" min="1" id="dropQuantity" name="dropQuantity">
     </div>
 
     <div class="new add animate-background-gradient jsp-loot-dark-textColor" data-jsp-palette="loot">
-        <label for="monsterLootItem-dropChance">Drop Chance (decimal):</label>
+        <label for="dropChance">Drop Chance (decimal):</label>
         <br>
-        <input type="number" max="1" min="0.001" step="0.1" value="1" id="monsterLootItem-dropChance" name="monsterLootItem-dropChance">
+        <input type="number" max="1" min="0.000001" step="0.000001" value="1" id="dropChance" name="dropChance">
     </div>
-</form>
-
-</div>
+    <div class="new add animate-background-gradient jsp-monster-dark-textColor" data-jsp-palette="monster" value="Submit">
+        <button type="submit" value="Submit">Submit</button>
+    </div>
+</form></div>

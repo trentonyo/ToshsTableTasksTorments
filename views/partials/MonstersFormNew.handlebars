@@ -1,51 +1,54 @@
-<div class="form_card jsp-global-light-backgroundColor"><form id="add_new_ability">
+<div class="form_card jsp-global-light-backgroundColor"><form action="/createEntity" method="POST" id="add_new_monster">
     <div class="new add title monster">
         New Monster
     </div>
+    <input hidden id="entity" name="entity" value="monster"></input>
     <div class="new add animate-background-gradient jsp-monster-dark-textColor" data-jsp-palette="monster">
-        <label for="monster-monsterName">Monster Name:</label>
+        <label for="monsterName">Monster Name:</label>
         <br>
-        <input type="text" id="monster-monsterName" placeholder="{{placeholderMonsterName}}">
+        <input type="text" id="monsterName" name="monsterName" placeholder="{{placeholderMonsterName}}">
     </div>
 
     <div class="new add animate-background-gradient jsp-monster-dark-textColor" data-jsp-palette="monster">
-        <label for="monster-monsterDesc">Monster Description:</label>
+        <label for="monsterDesc">Monster Description:</label>
         <br>
-        <textarea id="monster-monsterDesc"></textarea>
+        <textarea id="monsterDesc" name="monsterDesc"></textarea>
     </div>
 
     <div class="new add animate-background-gradient jsp-monster-dark-textColor" data-jsp-palette="monster">
-        <label for="monster-type">Monster Type:</label>
+        <label for="monsterTypeId">Monster Type:</label>
         <br>
-        <input list="monster-types-list" id="monster-type" name="monster-type">
-        <datalist id="monster-types-list">
+        <select id="monster-types-list" name="monsterTypeId">
             {{#each monsterTypes}}
-            <option value="{{monsterTypeName}}">
+            <option value="{{monsterTypeId}}">{{monsterTypeName}}</option>
             {{/each}}
-        </datalist>
+        </select>
     </div>
 
     <div class="form_section">
         <div class="new add animate-background-gradient jsp-monster-dark-textColor" data-jsp-palette="monster">
-            <label for="monster-healthPool">Health Pool:</label>
+            <label for="healthPool">Health Pool:</label>
             <br>
-            <input type="number" min="1" max="100" placeholder="1" id="monster-healthPool">
+            <input type="number" min="1" max="100" placeholder="1" id="healthPool" name="healthPool">
         </div>
         <div class="new add animate-background-gradient jsp-monster-dark-textColor" data-jsp-palette="monster">
-            <label for="monster-attack">Attack:</label>
+            <label for="attack">Attack:</label>
             <br>
-            <input type="number" min="1" max="100" placeholder="1" id="monster-attack">
+            <input type="number" min="1" max="100" placeholder="1" id="attack" name="attack">
         </div>
         <div class="new add animate-background-gradient jsp-monster-dark-textColor" data-jsp-palette="monster">
-            <label for="monster-defense">Defense:</label>
+            <label for="defense">Defense:</label>
             <br>
-            <input type="number" min="1" max="100" placeholder="1" id="monster-defense">
+            <input type="number" min="1" max="100" placeholder="1" id="defense" name="defense">
         </div>
         <div class="new add animate-background-gradient jsp-monster-dark-textColor" data-jsp-palette="monster">
-            <label for="monster-speed">Speed:</label>
+            <label for="speed">Speed:</label>
             <br>
-            <input type="number" min="1" max="100" placeholder="1" id="monster-speed">
+            <input type="number" min="1" max="100" placeholder="1" id="speed" name="speed">
         </div>
+    </div>
+    <div class="new add animate-background-gradient jsp-monster-dark-textColor" data-jsp-palette="monster" value="Submit">
+        <button type="submit" value="Submit">Submit</button>
     </div>
 </form>
 
