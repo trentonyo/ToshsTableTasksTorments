@@ -350,18 +350,40 @@ app.get('*', function (req, res)
 {
     res.status(404).render("PageNotFound")
 })
-///Create loot item type
-app.post('/submit/LootItemType', function (req, res)
+
+///Create entity
+
+///Create quest
+app.post('/createEntity', function (req, res)
 {
-    let SQL_createLootItemType = `INSERT INTO LootItemTypes (lootItemTypeName, equipable) VALUES ('${req.body.lootItemTypeName}', '${req.body.equipable}');`
-    db.pool.query(SQL_createLootItemType, function(err, results){
-        if(useOffline) { err = 'Unable to add loot item types while offline' }
+    let SQL_statement = ''
+    let redirectTarget = ''
+    let createData = req.body
+    console.log(createData)
+
+    switch(createData.entity) {
+        case "quest":
+            SQL_statement = `INSERT INTO Quests (questName, questDesc, available, questGiverId, suggestedLevel, monsterQty, monsterId, rewardXp, rewardGold)
+            VALUES ('${createData['questName']}', '${createData['questDesc']}', '${createData['available']}', '${createData['questGiverId']}',
+            '${createData['suggestedLevel']}', '${createData['monsterQty']}', '${createData['monsterId']}', '${createData['rewardXp']}', '${createData['rewardGold']}');`
+            redirectTarget = '/Quests/new'
+            break
+        case "lootItemType":
+            SQL_statement = `INSERT INTO LootItemTypes (lootItemTypeName, equipable) VALUES ('${req.body.lootItemTypeName}', '${req.body.equipable}');`
+            redirectTarget = '/LootItemTypes/new'
+        break
+        default:
+            res.status(400) //TODO the entity not found
+
+    }
+    console.log(SQL_statement)
+    db.pool.query(SQL_statement, function(err, results){
+        if(useOffline) { err = 'Unable to add entities while offline' }
+        console.log("Results: " + results)
     })
-    res.redirect('/LootItemTypes/new'); // TODO Add success/failure message on reload
+    res.redirect(redirectTarget)
     // Further TODO Perhaps we could get the ID returned and redirect to the details page of larger entities (quests, monsters, not loot item types or quest givers)
 })
-
-
 
 
 ///Create loot item type
