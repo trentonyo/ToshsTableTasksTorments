@@ -393,6 +393,11 @@ app.post('/createEntity', function (req, res)
             SQL_statement = `INSERT INTO Abilities (abilityName, abilityDesc) VALUES ('${createData.abilityName}', '${createData.abilityDesc}');`
             redirectTarget = '/Abilities/new'
             break
+        case "monsterAbility":
+            SQL_statement = `INSERT INTO Monsters_Abilities (monsterId, abilityId, abilityCooldown)
+            VALUES ('${createData.monsterId}', '${createData.abilityId}', '${createData.abilityCooldown}');`
+            redirectTarget = '/MonstersAbilities/new'
+            break
         default:
             res.status(400) //TODO the entity not found
 
@@ -400,6 +405,7 @@ app.post('/createEntity', function (req, res)
     console.log(SQL_statement)
     db.pool.query(SQL_statement, function(err, results){
         if(useOffline) { err = 'Unable to add entities while offline' }
+        // Error code 1062: duplicate primary key
         console.log("Results: " + results)
     })
     res.redirect(redirectTarget)
