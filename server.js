@@ -161,6 +161,18 @@ let viewEntity = function(req, res, next)
             "queryName" : "All "+entity,
             "results" : results
         }
+
+        //These entities will not have a button linked to their detail page
+        switch (entity)
+        {
+            case "MonsterTypes":
+            case "LootItemTypes":
+                for (const resultsKey in results) {
+                    results[resultsKey]["suppressDetailsButton"] = true
+                }
+                break
+        }
+
         res.status(200).render("ViewCards", context)
     })
 }
