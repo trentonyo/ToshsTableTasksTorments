@@ -1,33 +1,36 @@
-<div class="form_card jsp-global-light-backgroundColor"><form id="add_new_ability">
+<div class="form_card jsp-global-light-backgroundColor"><form action="/createEntity" method="POST" id="add_new_loot_item">
     <div class="new add title loot">
         New Loot Item
     </div>
+    <input hidden id="entity" name="entity" value="lootItem"></input>
     <div class="new add animate-background-gradient jsp-loot-dark-textColor" data-jsp-palette="loot">
-        <label for="lootItem-lootName">Loot Item Name:</label>
+        <label for="lootName">Loot Item Name:</label>
         <br>
-        <input type="text" id="lootItem-lootName" placeholder="{{placeholderItemName}}">
+        <input type="text" id="lootName" name="lootName" placeholder="{{placeholderItemName}}">
     </div>
 
     <div class="new add animate-background-gradient jsp-loot-dark-textColor" data-jsp-palette="loot">
-        <label for="lootItem-lootDesc">Loot Item Description:</label>
+        <label for="lootDesc">Loot Item Description:</label>
         <br>
-        <textarea id="lootItem-lootDesc"></textarea>
+        <textarea id="lootDesc" name="lootDesc"></textarea>
     </div>
 
     <div class="new add animate-background-gradient jsp-loot-dark-textColor" data-jsp-palette="loot">
-        <label for="lootItem-lootItemTypeName">Loot Item Type:</label>
+        <label for="lootItemTypeName">Loot Item Type:</label>
         <br>
-        <input list="lootItem-lootItemTypeNames-list" id="lootItem-lootItemTypeName" name="lootItem-lootItemTypeName">
-        <datalist id="lootItem-lootItemTypeNames-list">
+        <select id="lootItemTypeNames-list" name="lootItemTypeId">
             {{#each lootItemTypes}}
-                <option value="{{lootItemTypeName}}">{{#if equipable}}Equipable{{/if}}</option>
+                <option value="{{lootItemTypeId}}">{{lootItemTypeName}}{{#if equipable}} (Equipable){{/if}}</option>
             {{/each}}
-        </datalist>
+        </select>
     </div>
 
     <div class="new add animate-background-gradient jsp-loot-dark-textColor" data-jsp-palette="loot">
-        <label for="lootItem-lootValue">Loot Value (gold):</label>
+        <label for="lootValue">Loot Value (gold):</label>
         <br>
-        <input type="number" min="0" placeholder="1" id="lootItem-lootValue">
+        <input type="number" min="0" placeholder="1" id="lootValue" name="lootValue">
+    </div>
+    <div class="new add animate-background-gradient jsp-loot-dark-textColor" data-jsp-palette="loot" value="Submit">
+        <button type="submit" value="Submit">Submit</button>
     </div>
 </form></div>

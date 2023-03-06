@@ -380,6 +380,11 @@ app.post('/createEntity', function (req, res)
             SQL_statement = `INSERT INTO MonsterTypes (monsterTypeName) VALUES ('${createData.monsterTypeName}');`
             redirectTarget = '/MonsterTypes/new'
             break
+        case "lootItem":
+            SQL_statement = `INSERT INTO LootItems (lootName, lootDesc, lootItemTypeId, lootValue)
+            VALUES ('${createData.lootName}', '${createData.lootDesc}', '${createData.lootItemTypeId}', '${createData.lootValue}');`
+            redirectTarget = '/LootItems/new'
+            break
         case "lootItemType":
             SQL_statement = `INSERT INTO LootItemTypes (lootItemTypeName, equipable) VALUES ('${req.body.lootItemTypeName}', '${req.body.equipable}');`
             redirectTarget = '/LootItemTypes/new'
