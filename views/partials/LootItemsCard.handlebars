@@ -4,6 +4,7 @@
             {{lootName}} {{#unless view}}({{lootValue}} gold){{/unless}}
         </div>
         <div class="description jsp-quest-dark-textColor">
+            {{#if monsterId}}<div class="stats">{{dropQuantity}} Dropped | {{localizeChance dropChance}}</div>{{/if}}
             {{lootDesc}}
         </div>
     </div>
