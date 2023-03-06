@@ -117,6 +117,11 @@ handlebars.registerHelper('ifIsPassive', function (cooldown, options)
 {
     return (cooldown === 0) ? options.fn(this) : options.inverse(this);
 })
+handlebars.registerHelper('localizeChance', function (chance, options)
+{
+    let percent = Number(chance).toLocaleString(undefined,{style: 'percent', minimumFractionDigits: (chance > 0.1 ? 0 : 2)});
+    return (chance === 1) ? "Guaranteed" : `${percent} Chance`;
+})
 
 /**
  * Middleware to parse POST body
