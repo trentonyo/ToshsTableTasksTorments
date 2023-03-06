@@ -352,8 +352,6 @@ app.get('*', function (req, res)
 })
 
 ///Create entity
-
-///Create quest
 app.post('/createEntity', function (req, res)
 {
     let SQL_statement = ''
@@ -368,10 +366,14 @@ app.post('/createEntity', function (req, res)
             '${createData['suggestedLevel']}', '${createData['monsterQty']}', '${createData['monsterId']}', '${createData['rewardXp']}', '${createData['rewardGold']}');`
             redirectTarget = '/Quests/new'
             break
+        case "questGiver":
+            SQL_statement = `INSERT INTO QuestGivers (questGiverName) VALUES ('${createData['questGiverName']}')`
+            redirectTarget = '/QuestGivers/new'
+            break
         case "lootItemType":
             SQL_statement = `INSERT INTO LootItemTypes (lootItemTypeName, equipable) VALUES ('${req.body.lootItemTypeName}', '${req.body.equipable}');`
             redirectTarget = '/LootItemTypes/new'
-        break
+            break
         default:
             res.status(400) //TODO the entity not found
 
