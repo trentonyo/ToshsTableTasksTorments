@@ -1,0 +1,16 @@
+{{#unless view}}<a href="/MonstersAbilities/view/{{monsterId}}-{{abilityId}}">{{/unless}}
+    <div class="card ability jsp-ability-light-backgroundColor jsp-ability-light-thickerBorderColor {{#if view}}full static{{/if}}">
+        <div class="title animate-background-gradient jsp-global-black-textColor" data-jsp-palette="monster">
+            {{monsterName}}
+        </div>
+        <div class="description jsp-ability-dark-textColor">
+            {{abilityName}} -
+
+            {{#ifIsPassive abilityCooldown}}
+                Passive
+            {{else}}
+                {{abilityCooldown}}s Cooldown
+            {{/ifIsPassive}}
+        </div>
+    </div>
+{{#unless view}}</a>{{/unless}}

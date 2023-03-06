@@ -123,7 +123,7 @@ INSERT INTO LootItems (lootName, lootDesc, lootItemTypeId, lootValue) VALUES
 
 INSERT INTO Abilities (abilityName, abilityDesc) VALUES
     ('Acid Spit',           'The user expels a corrosive ball of acid at their target.'),
-    ('Piercing Shriek',     'The user releases a wail that shakes the target\'s defenses.'),
+    ('Piercing Shriek',     'The user releases a wail that shakes the defenses of the target.'),
     ('Flame Breath',        'The user flings a stream of fire at their target.'),
     ('Incorporeal',         'The user cannot be physically touched.'),
     ('Thick Hide',          'The user resists attacks.'),

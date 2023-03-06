@@ -13,7 +13,6 @@
 
     {{#unless monsterId}}
         {{#if lootId}}
-            <!--        Also needs to be an each-->
             {{> LootItemsCard}}
         {{/if}}
     {{/unless}}
@@ -24,23 +23,28 @@
 
     {{#unless monsterId}}
         {{#if abilityId}}
-            <!--        Need to do a for each, don't know what it will look like though -->
             {{> AbilitiesCard}}
         {{/if}}
     {{/unless}}
 
+<!--         In two columns if there is a monster       -->
     {{#if monsterId}}
-<!--         In two columns-->
     <div class="two_column">
-        {{#if abilityId}}
-            <!--        Need to do a for each, don't know what it will look like though -->
-            {{> AbilitiesCard}}
-        {{/if}}
+        <div id="abilities_column">
+            {{#if abilitiesList}}
+                {{#each abilitiesList}}
+                    {{> AbilitiesCard}}
+                {{/each}}
+            {{/if}}
+        </div>
 
-        {{#if lootId}}
-            <!--        Also needs to be an each-->
-            {{> LootItemsCard}}
-        {{/if}}
+        <div id="lootItems_column">
+            {{#if lootItemsList}}
+                {{#each lootItemsList}}
+                    {{> LootItemsCard}}
+                {{/each}}
+            {{/if}}
+        </div>
     </div>
     {{/if}}
 

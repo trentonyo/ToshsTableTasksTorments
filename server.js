@@ -13,6 +13,7 @@ PORT    = 2765                  // Set a port number at the top, so it's easy to
 
 // Database
 let db = require('./src/db-connector')
+let dml = require('./src/dml')
 
 //Tools
 let names = require('./src/name-generator')
@@ -39,31 +40,37 @@ app.set('view engine', 'handlebars');
 /**
  * DMQ to replace this
  */
-// Homepage query (available quests)
-let SQL_availableQuests = 'SELECT * FROM Quests WHERE available=TRUE;' //TODO use the DMQ hookup when time comes
-// All monsters query
-let SQL_monsters = 'SELECT * FROM Monsters;' //TODO use the DMQ hookup when time comes
-// All quest givers query
-let SQL_questGivers = 'SELECT * FROM QuestGivers;' //TODO use the DMQ hookup when time comes
 // All quests query
 function get_SQL_allEntity(entity)
 {
     if (ENTITIES.hasOwnProperty(entity))
     {
-        return 'SELECT * FROM '+entity+';' //TODO use the DMQ hookup when time comes
+        return ENTITIES[entity].query_SelectAll
     }
 
     return false
 }
 
 // Find a specific entity
-function get_SQL_thisEntity(entity, id)
+function get_SQL_thisEntity(entity, id, secondId)
 {
     id = parseInt(id)
+    secondId = parseInt(secondId)
 
     if (ENTITIES.hasOwnProperty(entity) && typeof id === "number")
     {
-        return 'SELECT * FROM '+entity+' where '+ENTITIES[entity].id+'='+id+';' //TODO use DMQ
+        if (ENTITIES[entity].hasOwnProperty('query_SelectById'))
+        {
+            return ENTITIES[entity].query_SelectById(id)
+        }
+        else if (ENTITIES[entity].hasOwnProperty('query_SelectByCompoundId') && typeof secondId === "number")
+        {
+            return ENTITIES[entity].query_SelectByCompoundId(id, secondId)
+        }
+        else
+        {
+            return false
+        }
     }
 
     return false
@@ -105,6 +112,10 @@ partialTypes.forEach(function (value, index, array)
         return context.data.root['entity']+value
     })
 })
+handlebars.registerHelper('ifIsPassive', function (cooldown, options)
+{
+    return (cooldown === 0) ? options.fn(this) : options.inverse(this);
+})
 
 /**
  * Middleware to parse POST body
@@ -123,7 +134,6 @@ let viewEntity = function(req, res, next)
 {
     let entity = req.params.entity
 
-    // SELECT *...
     let query = ""
 
     if(get_SQL_allEntity(entity))
@@ -153,7 +163,7 @@ let viewEntity = function(req, res, next)
 app.get('/', function(req, res)
 {
     // SELECT *...
-    db.pool.query(SQL_availableQuests, function(err, results, fields){
+    db.pool.query(dml.STATEMENTS.SELECT_AvailableQuests, function(err, results, fields){
 
         //Offline override
         if(useOffline) { results = db_offline['SQL_availableQuests'] }
@@ -167,16 +177,68 @@ app.get('/', function(req, res)
     })
 })
 
+// app.get('/testDML', function (req, res, next) {
+//
+//     let test = []
+//
+//     let i = 0
+//
+//     for (let query in dml.STATEMENTS)
+//     {
+//         console.log(`Testing query #${++i}:`, query)
+//         if (Object.hasOwnProperty.call(dml.STATEMENTS, query))
+//         {
+//             console.log("--Verified query:", query)
+//             let statement = dml.STATEMENTS[query]
+//
+//             if (typeof statement === 'function')
+//             {
+//                 console.log("==Is a function")
+//                 statement = statement(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)
+//             }
+//
+//             db.pool.query(statement, function (err, results, fields) {
+//                 if(err)
+//                 {
+//                     test.push([statement, " :ERRORS : ", err])
+//                 }
+//                 else
+//                 {
+//                     test.push([statement, " :RESULTS: ", results])
+//                 }
+//                 console.log("----Got DB response")
+//
+//                 if (i === Object.keys(dml.STATEMENTS).length)
+//                 {
+//                     console.log(test)
+//                 }
+//             })
+//         }
+//     }
+//
+//     res.send("Executing dirty DML test serverside")
+// })
+
+// app.get('/testQuery', function (req, res, next)
+// {
+//     let statement = dml.STATEMENTS.SELECT_LootItemsByMonstersID(3)
+//     //GROUP BY Quests.questId
+//     db.pool.query(statement, function (err, results, fields)
+//     {
+//         if (err) { results = err }
+//         res.send(results)
+//     })
+// })
+
 ///View all queries
 app.get('/:entity/view', viewEntity)
-
 
 ///Create new quest
 app.get('/Quests/new', function(req, res)
 {
     // SELECT *...
-    db.pool.query(SQL_monsters, function(err, monsters, fields){
-        db.pool.query(SQL_questGivers, function(err, questGivers, fields){
+    db.pool.query(dml.STATEMENTS.SELECT_AllMonsters, function(err, monsters, fields){
+        db.pool.query(dml.STATEMENTS.SELECT_AllQuestGivers, function(err, questGivers, fields){
 
             //Offline override
             if(useOffline) { monsters = db_offline['SQL_monsters'];  questGivers = db_offline['SQL_questGivers'] }
@@ -191,41 +253,101 @@ app.get('/Quests/new', function(req, res)
         })
     })
 })
-//View a quest details page
+
+
+/**
+ * View a Quest or Monster detail page
+ * @param req pass in a req
+ * @param res pass in a res
+ * @param next pass in a next
+ * @param entity expects "Quests" or "Monsters"
+ */
+let viewWithMonsterDetails = function (req, res, next, entity) {
+    let entityID = req.params.entityID
+
+    let query = get_SQL_thisEntity(entity, entityID)
+
+    if (query === false) {
+        next() // Called if entity is invalid or if entityID is not a number
+    } else {
+        // SELECT *...
+        db.pool.query(query, function (err, quest, fields) {
+            //Offline override
+            if (useOffline) {
+                err = "Too lazy"
+            }
+
+            if (quest === undefined || quest.length === 0) {
+                next() // Called if there was no result return
+            } else {
+                let context = quest[0]
+                context["entity"] = entity
+                context["view"] = true
+
+                db.pool.query(dml.STATEMENTS.SELECT_AbilitiesByMonstersID(context.monsterId), function (err, abilities, fields) {
+                    db.pool.query(dml.STATEMENTS.SELECT_LootItemsByMonstersID(context.monsterId), function (err, lootItems, fields) {
+                        context["abilitiesList"] = abilities
+                        context["lootItemsList"] = lootItems
+
+                        res.status(200).render("ViewDetails", context)
+                    })
+                })
+            }
+        })
+    }
+}
+
+app.get('/Quests/view/:entityID', function (req, res, next)
+{
+    viewWithMonsterDetails(req, res, next, "Quests")
+})
+app.get('/Monsters/view/:entityID', function (req, res, next)
+{
+    viewWithMonsterDetails(req, res, next, "Monsters")
+})
+
+//View any other entity's details page
 app.get('/:entity/view/:entityID', function(req, res, next)
 {
     let entityID = req.params.entityID
+    let entityID2 = ""
     let entity = req.params.entity
 
-    let query = ""
-
-    if(get_SQL_thisEntity(entity, entityID))
+    if (entity === "MonstersAbilities" || entity === "MonstersLootItems")
     {
-        query = get_SQL_thisEntity(entity, entityID)
+        let tmp = entityID
+        entityID = tmp.split("-")[0]
+        entityID2 = tmp.split("-")[1]
     }
-    else
+
+    let query = get_SQL_thisEntity(entity, entityID, entityID2)
+
+    if(query === false)
     {
         next() // Called if entity is invalid or if entityID is not a number
     }
-
-    // SELECT *...
-    db.pool.query(query, function(err, results, fields)
+    else
     {
-        //Offline override
-        if(useOffline) { results = [db_offline["SQL_this"+entity+(Math.min(entityID, 3))]] }
-
-        if(results === undefined || results.length === 0)
+        // SELECT *...
+        db.pool.query(query, function(err, results, fields)
         {
-            next() // Called if there was no result return
-        }
-        else
-        {
-            results[0]["entity"] = entity
-            results[0]["view"] = true
+            //Offline override
+            if(useOffline) { results = [db_offline["SQL_this"+entity+(Math.min(entityID, 3))]] }
 
-            res.status(200).render("ViewDetails", results[0])
-        }
-    })
+            if(results === undefined || results.length === 0)
+            {
+                next() // Called if there was no result return
+            }
+            else
+            {
+                let context = results[0]
+                context["entity"] = entity
+                context["view"] = true
+
+                res.status(200).render("ViewDetails", context)
+            }
+        })
+    }
 })
 ///Create new quest giver
 app.get('/QuestGivers/new', function(req, res)
@@ -239,18 +361,15 @@ app.get('/QuestGivers/new', function(req, res)
 ///Create new monster
 app.get('/Monsters/new', function(req, res)
 {
-    // All monster types query
-    let SQL_monsterTypes = 'SELECT * FROM MonsterTypes;' //TODO use the DMQ hookup when time comes
-
     // SELECT *...
-    db.pool.query(SQL_monsterTypes, function(err, results, fields){
+    db.pool.query(dml.STATEMENTS.SELECT_AllMonsterTypes, function(err, monsterTypes, fields){
 
         //Offline override
-        if(useOffline) { results = db_offline['SQL_monsterTypes'] }
+        if(useOffline) { monsterTypes = db_offline['SQL_monsterTypes'] }
 
         let context = {
             "entity" : "Monsters",
-            "monsterTypes" : results,
+            "monsterTypes" : monsterTypes,
             "placeholderMonsterName" : names.getMonsterName()
         }
         res.status(200).render("NewMonsters", context)
@@ -268,18 +387,15 @@ app.get('/MonsterTypes/new', function(req, res)
 ///Create new loot item
 app.get('/LootItems/new', function(req, res)
 {
-    // All loot item types query
-    let SQL_lootItemTypes = 'SELECT * FROM LootItemTypes;' //TODO use the DMQ hookup when time comes
-
     // SELECT *...
-    db.pool.query(SQL_lootItemTypes, function(err, results, fields){
+    db.pool.query(dml.STATEMENTS.SELECT_AllLootItemTypes, function(err, lootItemTypes, fields){
 
         //Offline override
-        if(useOffline) { results = db_offline['SQL_lootItemTypes'] }
+        if(useOffline) { lootItemTypes = db_offline['SQL_lootItemTypes'] }
 
         let context = {
             "entity" : "LootItems",
-            "lootItemTypes" : results,
+            "lootItemTypes" : lootItemTypes,
             "placeholderItemName" : names.getLootItemName()
         }
         res.status(200).render("NewLootItems", context)
@@ -306,13 +422,8 @@ app.get('/Abilities/new', function(req, res)
 ///Create new monster ability
 app.get('/MonstersAbilities/new', function(req, res)
 {
-    // All monster types query
-    let SQL_monsters = 'SELECT * FROM Monsters;' //TODO use the DMQ hookup when time comes
-    // All monster types query
-    let SQL_abilities = 'SELECT * FROM Abilities;' //TODO use the DMQ hookup when time comes
-
-    db.pool.query(SQL_monsters, function (err, monsters, fields) {
-        db.pool.query(SQL_abilities, function (err, abilities, fields) {
+    db.pool.query(dml.STATEMENTS.SELECT_AllMonsters, function (err, monsters, fields) {
+        db.pool.query(dml.STATEMENTS.SELECT_AllAbilities, function (err, abilities, fields) {
 
             let context = {
                 "entity" : "MonstersAbilities",
@@ -327,13 +438,8 @@ app.get('/MonstersAbilities/new', function(req, res)
 ///Create new monster loot
 app.get('/MonstersLootItems/new', function(req, res)
 {
-    // All monster types query
-    let SQL_monsters = 'SELECT * FROM Monsters;' //TODO use the DMQ hookup when time comes
-    // All monster types query
-    let SQL_lootItems = 'SELECT * FROM LootItems;' //TODO use the DMQ hookup when time comes
-
-    db.pool.query(SQL_monsters, function (err, monsters, fields) {
-        db.pool.query(SQL_lootItems, function (err, lootItems, fields) {
+    db.pool.query(dml.STATEMENTS.SELECT_AllMonsters, function (err, monsters, fields) {
+        db.pool.query(dml.STATEMENTS.SELECT_AllLootItems, function (err, lootItems, fields) {
 
             let context = {
                 "entity" : "MonstersAbilities",
@@ -345,7 +451,6 @@ app.get('/MonstersLootItems/new', function(req, res)
         })
     })
 })
-
 app.get('*', function (req, res)
 {
     res.status(404).render("PageNotFound")
@@ -419,7 +524,7 @@ app.post('/createEntity', function (req, res)
 
 
 ///Create loot item type
-app.post('/updateEntity', function (req, res)
+app.post('/updateEntity', function (req, res, next)
 {
     let updatedData = req.body
     let SQL_statement = ''
@@ -428,20 +533,29 @@ app.post('/updateEntity', function (req, res)
     switch (updatedData.entity)
     {
         case "LootItemTypes":
-            SQL_statement = `UPDATE LootItemTypes SET lootItemTypeName = '${updatedData.title}', equipable = '${updatedData.equipable}' WHERE lootItemTypeId = ${updatedData.id};`
-            redirectTarget = '/LootItemTypes/view'
+            SQL_statement = ENTITIES[updatedData.entity].query_Update(updatedData.id, updatedData.title, updatedData.equipable)
+            redirectTarget = false
             break
         default:
             res.status(400) //TODO the entity not found
     }
 
-    db.pool.query(SQL_statement, function(err, results){
-        console.log(results)
+    db.pool.query(SQL_statement, function(err, results)
+    {
         if(useOffline) { err = 'Unable to make database changes while offline' }
-    })
 
-    res.redirect(redirectTarget); // TODO Add success/failure message on reload
-    // Further TODO Perhaps we could get the ID returned and redirect to the details page of larger entities (quests, monsters, not loot item types or quest givers)
+        if(err)
+        {
+            next()
+        }
+        else
+        {
+            res.status(200)
+            // res.redirect(`/LootItemTypes/view/${results.insertId}`) // TODO use this for larger entities (quests, monsters, not loot item types or quest givers)
+            if (redirectTarget) { res.redirect(redirectTarget) }
+            else { res.send() }
+        }
+    })
 })
 
 app.post('/deleteEntity', function (req, res) {
@@ -449,20 +563,15 @@ app.post('/deleteEntity', function (req, res) {
     let SQL_statement = ''
     let redirectTarget = ''
 
-    console.log("Got a delete request")
-    console.log(dataToDelete)
-
     if (ENTITIES.hasOwnProperty(dataToDelete.entity) && typeof parseInt(dataToDelete.id) === "number")
     {
-        console.log("Validated ")
-        SQL_statement = `DELETE FROM ${dataToDelete.entity} WHERE ${ENTITIES[dataToDelete.entity].id} = ${dataToDelete.id};`
+        SQL_statement = ENTITIES[dataToDelete.entity].query_Delete(dataToDelete.id)
         redirectTarget = `/${dataToDelete.entity}/view`
     }
     else
     {
         res.status(400) //TODO the entity not found
     }
-
 
     db.pool.query(SQL_statement, function (err, results)
     {
@@ -478,22 +587,6 @@ app.post('/deleteEntity', function (req, res) {
             res.redirect(redirectTarget);
         }
     })
-})
-///Delete loot item type
-app.post('/delete/LootItemType', function (req, res)
-{
-    let SQL_deleteLootItemType = `DELETE FROM LootItemTypes WHERE lootItemTypeId = ${parseInt(req.body.lootItemTypeId)};`
-    db.pool.query(SQL_deleteLootItemType, function(err, results){
-        if(useOffline) { err = 'Unable to delete loot item types while offline' }
-        if(err) {
-            if (err.errno === 1451) {
-                res.status(400).send("Cannot delete loot item type in use")
-            }   
-        } else {
-            res.redirect('/LootItemTypes/view');
-        }
-    })
-    
 })
 
 /*

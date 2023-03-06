@@ -32,4 +32,4 @@ let generateCSSPalette = function ()
     return output
 }
 
-module.exports.generateCSSPalette = generateCSSPalette
+if (typeof require === 'function') { module.exports.generateCSSPalette = generateCSSPalette }
