@@ -389,6 +389,10 @@ app.post('/createEntity', function (req, res)
             SQL_statement = `INSERT INTO LootItemTypes (lootItemTypeName, equipable) VALUES ('${req.body.lootItemTypeName}', '${req.body.equipable}');`
             redirectTarget = '/LootItemTypes/new'
             break
+        case "ability":
+            SQL_statement = `INSERT INTO Abilities (abilityName, abilityDesc) VALUES ('${createData.abilityName}', '${createData.abilityDesc}');`
+            redirectTarget = '/Abilities/new'
+            break
         default:
             res.status(400) //TODO the entity not found
 
