@@ -358,7 +358,6 @@ app.post('/createEntity', function (req, res)
     let redirectTarget = ''
     let createData = req.body
     console.log(createData)
-    console.log(createData.monsterName)
 
     switch(createData.entity) {
         case "quest":
@@ -376,6 +375,10 @@ app.post('/createEntity', function (req, res)
             VALUES ('${createData.monsterName}', '${createData.monsterDesc}', '${createData.monsterTypeId}', '${createData.healthPool}',
             '${createData.attack}', '${createData.defense}', '${createData.speed}');`
             redirectTarget = '/Monsters/new'
+            break
+        case "monsterType":
+            SQL_statement = `INSERT INTO MonsterTypes (monsterTypeName) VALUES ('${createData.monsterTypeName}');`
+            redirectTarget = '/MonsterTypes/new'
             break
         case "lootItemType":
             SQL_statement = `INSERT INTO LootItemTypes (lootItemTypeName, equipable) VALUES ('${req.body.lootItemTypeName}', '${req.body.equipable}');`
