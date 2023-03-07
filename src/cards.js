@@ -47,6 +47,12 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
             document.getElementById(`${editToggleData.entity}-Name-${questId}`).classList.toggle("editable")
             toggleElementById(`update-Quests-${questId}`)
             break
+        case "QuestGivers":
+            let questGiverId = editToggleData.id
+            document.getElementById(`${editToggleData.entity}-Name-${questGiverId}`).toggleAttribute("contentEditable")
+            document.getElementById(`${editToggleData.entity}-Name-${questGiverId}`).classList.toggle("editable")
+            toggleElementById(`update-QuestGivers-${questGiverId}`)
+            break
         case "LootItemTypes": 
             let lootItemTypeId = editToggleData.id
             document.getElementById(`${editToggleData.entity}-Name-${lootItemTypeId}`).toggleAttribute("contentEditable")
@@ -70,6 +76,9 @@ function updateDOMEntity(updatedEntityData)
             document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
             document.getElementById(`Quests-questDesc-${updatedEntityData.id}`).value = updatedEntityData['questDesc']
             break
+        case "QuestGivers":
+            document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
+            break
         case "LootItemTypes":
             document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
             document.getElementById(`edit-equipable-${updatedEntityData.id}`).value = updatedEntityData['equipable']
@@ -87,8 +96,11 @@ function deleteDOMEntity(updatedEntityData)
         case "Quests":
             document.getElementById(`Quests-${updatedEntityData.id}`).remove()
             break
+        case "QuestGivers":
+            document.getElementById(`QuestGivers-${updatedEntityData.id}`).remove()
+            break
         case "LootItemTypes":
-            document.getElementById(`LootItemTypeId-${updatedEntityData.id}`).remove()
+            document.getElementById(`LootItemType-${updatedEntityData.id}`).remove()
             break
         default:
             console.log(`Unexpected entity type '${updatedEntityData.entity}!`, updatedEntityData)
@@ -103,6 +115,9 @@ function updateEntity(button, updatedEntityData)
             updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
             updatedEntityData['questDesc'] = document.getElementById(`${updatedEntityData.entity}-questDesc-${updatedEntityData.id}`).textContent.trim()
             // TODO Add other attributes
+            break
+        case "QuestGivers":
+            updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
             break
         case "LootItemTypes":
             updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()

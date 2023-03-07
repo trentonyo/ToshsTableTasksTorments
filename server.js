@@ -552,10 +552,13 @@ app.post('/updateEntity', function (req, res)
     switch (updatedData.entity)
     {
         case "Quests":
-
             // TODO flesh out UPDATE statement
             SQL_statement = `UPDATE Quests SET questName = '${updatedData.title}', questDesc = '${updatedData.questDesc}' WHERE questId = ${updatedData.id};`
             redirectTarget = '/Quests/view'
+            break
+        case "QuestGivers":
+            SQL_statement = `UPDATE QuestGivers SET questGiverName = '${updatedData.title}' WHERE questGiverId = ${updatedData.id};`
+            redirectTarget = '/QuestGivers/view'
             break
         case "LootItemTypes":
             SQL_statement = ENTITIES[updatedData.entity].query_Update(updatedData.id, updatedData.title, updatedData.equipable)
