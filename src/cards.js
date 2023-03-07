@@ -59,6 +59,14 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
             document.getElementById(`${editToggleData.entity}-Name-${monsterTypeId}`).classList.toggle("editable")
             toggleElementById(`update-MonsterTypes-${monsterTypeId}`)
             break
+        case "LootItems":
+            let lootId = editToggleData.id
+            // TODO allow editing of title/value
+            //document.getElementById(`${editToggleData.entity}-Name-${lootId}`).toggleAttribute("contentEditable")
+            //document.getElementById(`${editToggleData.entity}-Name-${lootId}`).classList.toggle("editable")
+            document.getElementById(`${editToggleData.entity}-lootDesc-${lootId}`).toggleAttribute("contentEditable")
+            toggleElementById(`update-LootItems-${lootId}`)
+            break
         case "LootItemTypes": 
             let lootItemTypeId = editToggleData.id
             document.getElementById(`${editToggleData.entity}-Name-${lootItemTypeId}`).toggleAttribute("contentEditable")
@@ -88,6 +96,10 @@ function updateDOMEntity(updatedEntityData)
         case "MonsterTypes":
             document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
             break
+        case "LootItems":
+            //document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
+            document.getElementById(`LootItems-lootDesc-${updatedEntityData.id}`).value = updatedEntityData['lootDesc']
+            break
         case "LootItemTypes":
             document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
             document.getElementById(`edit-equipable-${updatedEntityData.id}`).value = updatedEntityData['equipable']
@@ -111,6 +123,9 @@ function deleteDOMEntity(updatedEntityData)
         case "MonsterTypes":
             document.getElementById(`MonsterTypes-${updatedEntityData.id}`).remove()
             break
+        case "LootItems":
+            document.getElementById(`LootItems-${updatedEntityData.id}`).remove()
+            break
         case "LootItemTypes":
             document.getElementById(`LootItemType-${updatedEntityData.id}`).remove()
             break
@@ -133,6 +148,10 @@ function updateEntity(button, updatedEntityData)
             break
         case "MonsterTypes":
             updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
+            break
+        case "LootItems":
+            updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
+            updatedEntityData['lootDesc'] = document.getElementById(`${updatedEntityData.entity}-lootDesc-${updatedEntityData.id}`).textContent.trim()
             break
         case "LootItemTypes":
             updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
