@@ -1,5 +1,10 @@
 console.log("Loaded ux.js")
 
+/*https://javascript.info/task/delay-promise - Ilya Kantor*/
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 let input_fields = document.getElementsByTagName("input")
 
 let column_ability = document.getElementById("abilities_column")
@@ -13,19 +18,22 @@ let collapse_buttons = document.getElementsByClassName('collapse-container')
 let uncollapseChildren = function (event)
 {
     let collapse_targets = event.target.closest(".collapse-container").getElementsByClassName("collapse-target")
-    console.log(collapse_targets)
+
     for (let i = 0; i < collapse_targets.length; i++)
     {
         collapse_targets[i].classList.remove("hidden")
     }
 }
-let collapseChildren = function (event)
-{
+let collapseChildren = async function (event) {
     let collapse_targets = event.target.closest(".collapse-container").getElementsByClassName("collapse-target")
-    console.log(collapse_targets)
+
     for (let i = 0; i < collapse_targets.length; i++)
     {
-        collapse_targets[i].classList.add("hidden")
+        //Delays the hiding by 100ms (or longer for longer lists) to give the user a chance with a fast cursor
+        delay(Math.max(100, collapse_targets.length * 10) - (i * 10)).then(function ()
+        {
+            collapse_targets[i].classList.add("hidden")
+        })
     }
 }
 
@@ -34,33 +42,6 @@ for (let i = 0; i < collapse_buttons.length; i++)
     collapse_buttons[i].addEventListener('mouseenter', uncollapseChildren)
     collapse_buttons[i].addEventListener('mouseleave', collapseChildren)
 }
-
-// let nav_collapse_new = document.getElementById("collapse_new")
-// let nav_collapse_view = document.getElementById("collapse_view")
-//
-// let toggleNewList = function (ev) {
-//     let collapseTarget = document.querySelectorAll('.collapse-target.new')
-//     for (let i = 0; i < collapseTarget.length; i++)
-//     {
-//         collapseTarget[i].classList.toggle('hidden')
-//         nav_collapse_new.classList.toggle('uncollapsed')
-//     }
-// }
-//
-// nav_collapse_new.addEventListener('mouseenter', toggleNewList)
-// nav_collapse_new.addEventListener('mouseleave', toggleNewList)
-//
-// let toggleViewList = function (ev) {
-//     let collapseTarget = document.querySelectorAll('.collapse-target.view')
-//     for (let i = 0; i < collapseTarget.length; i++) {
-//         collapseTarget[i].classList.toggle('hidden')
-//         nav_collapse_view.classList.toggle('uncollapsed')
-//     }
-// }
-//
-// nav_collapse_view.addEventListener('mouseenter', toggleViewList)
-// nav_collapse_view.addEventListener('mouseleave', toggleViewList)
-
 
 for (let i = 0; i < input_fields.length; i++)
 {
