@@ -539,15 +539,24 @@ app.post('/createEntity', function (req, res)
 })
 
 
-///Create loot item type
-app.post('/updateEntity', function (req, res, next)
+///Update entity
+app.post('/updateEntity', function (req, res)
 {
     let updatedData = req.body
     let SQL_statement = ''
     let redirectTarget = ''
 
+    // TODO sanitize quotes in input (' -> \', " -> \"")
+
+
     switch (updatedData.entity)
     {
+        case "Quests":
+
+            // TODO flesh out UPDATE statement
+            SQL_statement = `UPDATE Quests SET questName = '${updatedData.title}', questDesc = '${updatedData.questDesc}' WHERE questId = ${updatedData.id};`
+            redirectTarget = '/Quests/view'
+            break
         case "LootItemTypes":
             SQL_statement = ENTITIES[updatedData.entity].query_Update(updatedData.id, updatedData.title, updatedData.equipable)
             redirectTarget = false
@@ -555,9 +564,9 @@ app.post('/updateEntity', function (req, res, next)
         default:
             res.status(400) //TODO the entity not found
     }
-
-    db.pool.query(SQL_statement, function(err, results)
-    {
+    console.log(SQL_statement)
+    db.pool.query(SQL_statement, function(err, results){
+        console.log(results)
         if(useOffline) { err = 'Unable to make database changes while offline' }
 
         if(err)
@@ -574,6 +583,7 @@ app.post('/updateEntity', function (req, res, next)
     })
 })
 
+///Delete entity
 app.post('/deleteEntity', function (req, res) {
     let dataToDelete = req.body
     let SQL_statement = ''

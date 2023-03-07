@@ -40,6 +40,13 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
 
     switch (editToggleData.entity)
     {
+        case "Quests":
+            let questId = editToggleData.id
+            document.getElementById(`${editToggleData.entity}-Name-${questId}`).toggleAttribute("contentEditable")
+            document.getElementById(`${editToggleData.entity}-questDesc-${questId}`).toggleAttribute("contentEditable")
+            document.getElementById(`${editToggleData.entity}-Name-${questId}`).classList.toggle("editable")
+            toggleElementById(`update-Quests-${questId}`)
+            break
         case "LootItemTypes": 
             let lootItemTypeId = editToggleData.id
             document.getElementById(`${editToggleData.entity}-Name-${lootItemTypeId}`).toggleAttribute("contentEditable")
@@ -55,10 +62,14 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
 
 function updateDOMEntity(updatedEntityData)
 {
-    toggleEditMode(document.getElementById(`toggleEdit-lootItemType-${updatedEntityData.id}`), updatedEntityData.id)
+    //toggleEditMode(document.getElementById(`toggleEdit-lootItemType-${updatedEntityData.id}`), updatedEntityData.id)
 
     switch (updatedEntityData.entity)
     {
+        case "Quests":
+            document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
+            document.getElementById(`Quests-questDesc-${updatedEntityData.id}`).value = updatedEntityData['questDesc']
+            break
         case "LootItemTypes":
             document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
             document.getElementById(`edit-equipable-${updatedEntityData.id}`).value = updatedEntityData['equipable']
@@ -73,6 +84,9 @@ function deleteDOMEntity(updatedEntityData)
 {
     switch (updatedEntityData.entity)
     {
+        case "Quests":
+            document.getElementById(`Quests-${updatedEntityData.id}`).remove()
+            break
         case "LootItemTypes":
             document.getElementById(`LootItemTypeId-${updatedEntityData.id}`).remove()
             break
@@ -85,6 +99,11 @@ function updateEntity(button, updatedEntityData)
 {
     switch (updatedEntityData.entity)
     {
+        case "Quests":
+            updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
+            updatedEntityData['questDesc'] = document.getElementById(`${updatedEntityData.entity}-questDesc-${updatedEntityData.id}`).textContent.trim()
+            // TODO Add other attributes
+            break
         case "LootItemTypes":
             updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
             updatedEntityData['equipable'] = document.getElementById(`edit-equipable-${updatedEntityData.id}`).value
@@ -98,10 +117,10 @@ function updateEntity(button, updatedEntityData)
     {
         if (this.readyState === 4)
         {
-            if (this.status === 200)
+            if (this.status === 200 || this.status === 302)
             {
                 updateDOMEntity(updatedEntityData)
-                toggleEditMode(button, updatedEntityData, false)
+                toggleEditMode(document.getElementById(`toggleEdit-${updatedEntityData.entity}-${updatedEntityData.id}`), updatedEntityData, false)
             }
             else
             {
