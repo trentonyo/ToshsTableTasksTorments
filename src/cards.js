@@ -53,6 +53,12 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
             document.getElementById(`${editToggleData.entity}-Name-${questGiverId}`).classList.toggle("editable")
             toggleElementById(`update-QuestGivers-${questGiverId}`)
             break
+        case "MonsterTypes":
+            let monsterTypeId = editToggleData.id
+            document.getElementById(`${editToggleData.entity}-Name-${monsterTypeId}`).toggleAttribute("contentEditable")
+            document.getElementById(`${editToggleData.entity}-Name-${monsterTypeId}`).classList.toggle("editable")
+            toggleElementById(`update-MonsterTypes-${monsterTypeId}`)
+            break
         case "LootItemTypes": 
             let lootItemTypeId = editToggleData.id
             document.getElementById(`${editToggleData.entity}-Name-${lootItemTypeId}`).toggleAttribute("contentEditable")
@@ -79,6 +85,9 @@ function updateDOMEntity(updatedEntityData)
         case "QuestGivers":
             document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
             break
+        case "MonsterTypes":
+            document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
+            break
         case "LootItemTypes":
             document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
             document.getElementById(`edit-equipable-${updatedEntityData.id}`).value = updatedEntityData['equipable']
@@ -99,6 +108,9 @@ function deleteDOMEntity(updatedEntityData)
         case "QuestGivers":
             document.getElementById(`QuestGivers-${updatedEntityData.id}`).remove()
             break
+        case "MonsterTypes":
+            document.getElementById(`MonsterTypes-${updatedEntityData.id}`).remove()
+            break
         case "LootItemTypes":
             document.getElementById(`LootItemType-${updatedEntityData.id}`).remove()
             break
@@ -117,6 +129,9 @@ function updateEntity(button, updatedEntityData)
             // TODO Add other attributes
             break
         case "QuestGivers":
+            updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
+            break
+        case "MonsterTypes":
             updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
             break
         case "LootItemTypes":

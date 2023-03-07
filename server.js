@@ -560,6 +560,10 @@ app.post('/updateEntity', function (req, res)
             SQL_statement = `UPDATE QuestGivers SET questGiverName = '${updatedData.title}' WHERE questGiverId = ${updatedData.id};`
             redirectTarget = '/QuestGivers/view'
             break
+        case "MonsterTypes":
+            SQL_statement = `UPDATE MonsterTypes SET monsterTypename = '${updatedData.title}' WHERE monsterTypeId = ${updatedData.id};`
+            redirectTarget = '/MonsterTypes/view'
+            break
         case "LootItemTypes":
             SQL_statement = ENTITIES[updatedData.entity].query_Update(updatedData.id, updatedData.title, updatedData.equipable)
             redirectTarget = false
