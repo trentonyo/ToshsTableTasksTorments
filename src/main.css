@@ -86,11 +86,30 @@ div.collapse-target {
     justify-content: space-around;
 }
 
+.collapse-container {
+    position: absolute;
+    top: 60px;
+    min-width: 20%;
+    max-width: 20%;
+}
+.collapse-container.quest {
+    left: 0;
+}
+.collapse-container.monster {
+    left: 20%;
+}
+.collapse-container.loot {
+    left: 40%;
+}
+.collapse-container.ability {
+    left: 60%;
+}
+
 #page_title {
     display: flex;
     align-items: center;
 
-    padding: 12px 24px;
+    padding: 30px 24px 12px 24px;
 
     font-family: Helvetica;
     font-size: 36px;
