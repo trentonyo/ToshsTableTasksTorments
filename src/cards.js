@@ -75,6 +75,13 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
             toggleElementById(`edit-equipable-${lootItemTypeId}`)
             toggleElementById(`equipable-${lootItemTypeId}`)
             break
+        case "Abilities":
+            let abilityId = editToggleData.id
+            document.getElementById(`${editToggleData.entity}-Name-${abilityId}`).toggleAttribute("contentEditable")
+            document.getElementById(`${editToggleData.entity}-abilityDesc-${abilityId}`).toggleAttribute("contentEditable")
+            document.getElementById(`${editToggleData.entity}-Name-${abilityId}`).classList.toggle("editable")
+            toggleElementById(`update-Abilities-${abilityId}`)
+            break
         default:
             console.log(`Unexpected entity type '${editToggleData.entity}!`, editToggleData.entity)
     }
@@ -105,6 +112,10 @@ function updateDOMEntity(updatedEntityData)
             document.getElementById(`edit-equipable-${updatedEntityData.id}`).value = updatedEntityData['equipable']
             document.getElementById(`equipable-${updatedEntityData.id}`).innerText = (updatedEntityData['equipable'] === "1" ? "Equipable" : "Not Equipable")
             break
+        case "Abilities":
+            document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
+            document.getElementById(`Abilities-abilityDesc-${updatedEntityData.id}`).value = updatedEntityData['questDesc']
+            break
         default:
             console.log(`Unexpected entity type '${updatedEntityData.entity}!`, updatedEntityData)
     }
@@ -128,6 +139,9 @@ function deleteDOMEntity(updatedEntityData)
             break
         case "LootItemTypes":
             document.getElementById(`LootItemType-${updatedEntityData.id}`).remove()
+            break
+        case "Abilities":
+            document.getElementById(`Abilities-${updatedEntityData.id}`).remove()
             break
         default:
             console.log(`Unexpected entity type '${updatedEntityData.entity}!`, updatedEntityData)
@@ -156,6 +170,10 @@ function updateEntity(button, updatedEntityData)
         case "LootItemTypes":
             updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
             updatedEntityData['equipable'] = document.getElementById(`edit-equipable-${updatedEntityData.id}`).value
+            break
+        case "Abilities":
+            updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
+            updatedEntityData['abilityDesc'] = document.getElementById(`${updatedEntityData.entity}-abilityDesc-${updatedEntityData.id}`).textContent.trim()
             break
         default:
             console.log(`Unexpected entity type '${updatedEntityData.entity}!`, updatedEntityData)

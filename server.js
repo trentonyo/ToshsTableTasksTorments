@@ -572,6 +572,10 @@ app.post('/updateEntity', function (req, res)
             SQL_statement = ENTITIES[updatedData.entity].query_Update(updatedData.id, updatedData.title, updatedData.equipable)
             redirectTarget = false
             break
+        case "Abilities":
+            SQL_statement = `UPDATE Abilities SET abilityName = '${updatedData.title}', abilityDesc = '${updatedData.abilityDesc}' WHERE abilityId = ${updatedData.id};`
+            redirectTarget = '/Abilities/view'
+            break
         default:
             res.status(400) //TODO the entity not found
     }

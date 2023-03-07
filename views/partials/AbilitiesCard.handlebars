@@ -1,9 +1,9 @@
-{{#unless view}}<a href="/Abilities/view/{{abilityId}}">{{/unless}}
-    <div class="card ability jsp-ability-light-backgroundColor jsp-ability-light-thickerBorderColor {{#if view}}full static{{/if}}">
-        <div class="title animate-background-gradient jsp-global-black-textColor" data-jsp-palette="ability">
+<!-- {{#unless view}}<a href="/Abilities/view/{{abilityId}}">{{/unless}} -->
+    <div class="card ability jsp-ability-light-backgroundColor jsp-ability-light-thickerBorderColor {{#if view}}full static{{/if}}" id="Abilities-{{abilityId}}">
+        <div class="title animate-background-gradient jsp-global-black-textColor" data-jsp-palette="ability" id="Abilities-Name-{{abilityId}}">
             {{abilityName}}
         </div>
-        <div class="description jsp-ability-dark-textColor">
+        <div class="description jsp-ability-dark-textColor" id="Abilities-abilityDesc-{{abilityId}}">
             {{#if monsterId}}<div class="stats">{{#ifIsPassive abilityCooldown}}
                 Passive
             {{else}}
@@ -12,5 +12,10 @@
 
             {{abilityDesc}}
         </div>
+        <div class="button_container">
+            <button onClick="toggleEditMode(this, {'entity': 'Abilities', 'id': '{{abilityId}}'}, true)" id="toggleEdit-Abilities-{{abilityId}}">Edit</button>
+            <button onClick="updateEntity(this, {'entity': 'Abilities', 'id': '{{abilityId}}'} )" id="update-Abilities-{{abilityId}}" class="hidden">Submit</button>
+            <button onClick="deleteEntity(this, {'entity': 'Abilities', 'id': '{{abilityId}}'} )">Delete</button>
+        </div>
     </div>
-{{#unless view}}</a>{{/unless}}
+<!-- {{#unless view}}</a>{{/unless}} -->
