@@ -397,6 +397,9 @@ a {
     font-weight: normal;
     border-bottom: #0a0909 1px dashed;
 }
+.card.new:hover {
+    scale: 105%;
+}
 .card .editable::before {
     font-size: medium;
     content: '✎';

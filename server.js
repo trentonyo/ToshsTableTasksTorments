@@ -156,8 +156,14 @@ let viewEntity = function(req, res, next)
         //Offline override
         if(useOffline) { results = db_offline['SQL_all'+entity] }
 
+        let newEntityContext = {
+            "href" : ENTITIES[entity].href,
+            "entityName" : ENTITIES[entity].en_singular,
+        }
+
         let context = {
             "entity" : entity,
+            "newEntityContext" : newEntityContext,
             "queryName" : "All "+ENTITIES[entity].en_plural,
             "results" : results
         }

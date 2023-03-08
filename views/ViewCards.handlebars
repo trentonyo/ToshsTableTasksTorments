@@ -3,6 +3,7 @@
 <div id="page_title" class="fadeout-gradient jsp-global-light-textColor">{{queryName}}</div>
 
 <div id="card_container">
+    {{> NewEntityCard newEntityContext}}
     {{#each results}}
         {{> (whichPartialCard) }}
     {{/each}}
