@@ -162,31 +162,36 @@ function deleteDOMEntity(updatedEntityData)
 
 function updateEntity(button, updatedEntityData)
 {
+    updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
     switch (updatedEntityData.entity)
     {
         case "Quests":
-            updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
             updatedEntityData['questDesc'] = document.getElementById(`${updatedEntityData.entity}-questDesc-${updatedEntityData.id}`).textContent.trim()
             updatedEntityData['available'] = document.getElementById("editAvailableCheckbox").checked
             updatedEntityData['questGiverId'] = document.getElementById("questGivers-list").value
-            // TODO Add other attributes
+            updatedEntityData['suggestedLevel'] = ""
+            updatedEntityData['monsterQty'] = ""
+            updatedEntityData['rewardXp'] = ""
+            updatedEntityData['rewardGold'] = ""
+            updatedEntityData['monsterId'] = ""
+            // TODO Fill out placeholders
             break
         case "QuestGivers":
-            updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
+
             break
         case "MonsterTypes":
-            updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
+
             break
         case "LootItems":
-            updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
+
             updatedEntityData['lootDesc'] = document.getElementById(`${updatedEntityData.entity}-lootDesc-${updatedEntityData.id}`).textContent.trim()
             break
         case "LootItemTypes":
-            updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
+
             updatedEntityData['equipable'] = document.getElementById(`edit-equipable-${updatedEntityData.id}`).value
             break
         case "Abilities":
-            updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
+
             updatedEntityData['abilityDesc'] = document.getElementById(`${updatedEntityData.entity}-abilityDesc-${updatedEntityData.id}`).textContent.trim()
             break
         default:

@@ -592,7 +592,9 @@ app.post('/updateEntity', function (req, res, next)
         case "Quests":
             // TODO flesh out UPDATE statement
             // SQL_statement = `UPDATE Quests SET questName = '${updatedData.title}', questDesc = '${updatedData.questDesc}' WHERE questId = ${updatedData.id};`
-            SQL_statement = ENTITIES["Quests"].query_Update(updatedData["id"], updatedData["title"], updatedData["questDesc"], updatedData["available"], updatedData["questGiverId"])
+            SQL_statement = ENTITIES["Quests"].query_Update(updatedData["id"], updatedData["title"], updatedData["questDesc"],
+                updatedData["available"], updatedData["questGiverId"], updatedData["suggestedLevel"], updatedData["monsterQty"],
+                updatedData["rewardXp"], updatedData["rewardGold"], updatedData["monsterId"])
             redirectTarget = '/Quests/view'
             break
         case "QuestGivers":
