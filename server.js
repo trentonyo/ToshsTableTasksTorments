@@ -492,60 +492,71 @@ app.post('/createEntity', function (req, res)
     let SQL_statement = ''
     let redirectTarget = ''
     let createData = req.body
-    console.log(createData)
 
     switch(createData.entity) {
         case "quest":
-            SQL_statement = dml.STATEMENTS.INSERT_Quests(createData['questName'], createData['questDesc'],
+            SQL_statement = ENTITIES["Quests"].query_Insert(createData['questName'], createData['questDesc'],
                 createData['available'], createData['questGiverId'], createData['suggestedLevel'],
                 createData['monsterQty'], createData['monsterId'], createData['rewardXp'], createData['rewardGold'])
-            redirectTarget = '/Quests/new'
+            redirectTarget = ENTITIES["Quests"].href_view
             break
         case "questGiver":
-            SQL_statement = dml.STATEMENTS.INSERT_QuestGivers(createData['questGiverName'])
-            redirectTarget = '/QuestGivers/new'
+            SQL_statement = ENTITIES["QuestGivers"].query_Insert(createData['questGiverName'])
+            redirectTarget = ENTITIES["QuestGivers"].href_view
             break
         case "monster":
-            SQL_statement = dml.STATEMENTS.INSERT_Monsters(createData['monsterName'], createData['monsterDesc'],
+            SQL_statement = ENTITIES["Monsters"].query_Insert(createData['monsterName'], createData['monsterDesc'],
                 createData['monsterTypeId'], createData['healthPool'], createData['attack'], createData['defense'], createData['speed'])
-            redirectTarget = '/Monsters/new'
+            redirectTarget = ENTITIES["Monsters"].href_view
             break
         case "monsterType":
-            SQL_statement = dml.STATEMENTS.INSERT_MonsterTypes(createData['monsterTypeName'])
-            redirectTarget = '/MonsterTypes/new'
+            SQL_statement = ENTITIES["MonsterTypes"].query_Insert(createData['monsterTypeName'])
+            redirectTarget = ENTITIES["MonsterTypes"].href_view
             break
         case "lootItem":
-            SQL_statement = dml.STATEMENTS.INSERT_LootItems(createData['lootName'], createData['lootDesc'],
+            SQL_statement = ENTITIES["LootItems"].query_Insert(createData['lootName'], createData['lootDesc'],
                 createData['lootItemTypeId'], createData['lootValue'])
-            redirectTarget = '/LootItems/new'
+            redirectTarget = ENTITIES["LootItems"].href_view
             break
         case "lootItemType":
-            SQL_statement = dml.STATEMENTS.INSERT_LootItemTypes(createData['lootItemTypeName'], createData['equipable'])
-            redirectTarget = '/LootItemTypes/new'
+            SQL_statement = ENTITIES["LootItemTypes"].query_Insert(createData['lootItemTypeName'], createData['equipable'])
+            redirectTarget = ENTITIES["LootItemTypes"].href_view
             break
         case "ability":
-            SQL_statement = dml.STATEMENTS.INSERT_Abilities(createData['abilityName'], createData['abilityDesc'])
-            redirectTarget = '/Abilities/new'
+            SQL_statement = ENTITIES["Abilities"].query_Insert(createData['abilityName'], createData['abilityDesc'])
+            redirectTarget = ENTITIES["Abilities"].href_view
             break
         case "monsterAbility":
-            SQL_statement = dml.STATEMENTS.INSERT_Monsters_Abilities(createData['monsterId'], createData['abilityId'], createData['abilityCooldown'])
-            redirectTarget = '/MonstersAbilities/new'
+            SQL_statement = ENTITIES["MonstersAbilities"].query_Insert(createData['monsterId'], createData['abilityId'], createData['abilityCooldown'])
+            redirectTarget = ENTITIES["MonstersAbilities"].href_view
             break
         case "monsterLootItem":
-            SQL_statement = dml.STATEMENTS.INSERT_Monsters_LootItems(createData['monsterId'], createData['lootId'], createData['dropQuantity'], createData['dropChance'])
-            redirectTarget = '/MonstersLootItems/new'
+            SQL_statement = ENTITIES["MonstersLootItems"].query_Insert(createData['monsterId'], createData['lootId'], createData['dropQuantity'], createData['dropChance'])
+            redirectTarget = ENTITIES["MonstersLootItems"].href_view
             break
         default:
             res.status(400) //TODO the entity not found
 
     }
-    console.log(SQL_statement)
+    // console.log(SQL_statement)
     db.pool.query(SQL_statement, function(err, results){
         if(useOffline) { err = 'Unable to add entities while offline' }
         // Error code 1062: duplicate primary key
-        console.log("Results: " + results)
+
+        let processedErr = ""
+
+        if (err)
+        {
+            processedErr = err.code
+
+            if (processedErr.length > 0)
+            {
+                processedErr = "/?err=" + processedErr
+            }
+        }
+
+        res.redirect(redirectTarget + processedErr)
     })
-    res.redirect(redirectTarget)
     // Further TODO Perhaps we could get the ID returned and redirect to the details page of larger entities (quests, monsters, not loot item types or quest givers)
 })
 
