@@ -223,6 +223,21 @@ button:hover {
 
     margin-bottom: 10px;
 }
+
+.stats input {
+    width: 16px;
+}
+/* Chrome, Safari, Edge, Opera */
+.stats input::-webkit-outer-spin-button,
+.stats input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+.stats input[type=number] {
+    -moz-appearance: textfield;
+}
 .card .description {
     font-family: sans-serif;
 

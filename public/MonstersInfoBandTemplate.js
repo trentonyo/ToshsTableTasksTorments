@@ -13,6 +13,8 @@ templates['MonstersInfoBand'] = template({"compiler":[8,">= 4.3.0"],"main":funct
     + alias4(((helper = (helper = lookupProperty(helpers,"defense") || (depth0 != null ? lookupProperty(depth0,"defense") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"defense","hash":{},"data":data,"loc":{"start":{"line":1,"column":17},"end":{"line":1,"column":28}}}) : helper)))
     + " DEF | "
     + alias4(((helper = (helper = lookupProperty(helpers,"speed") || (depth0 != null ? lookupProperty(depth0,"speed") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"speed","hash":{},"data":data,"loc":{"start":{"line":1,"column":35},"end":{"line":1,"column":44}}}) : helper)))
-    + " SPD";
+    + " SPD | "
+    + alias4(((helper = (helper = lookupProperty(helpers,"healthPool") || (depth0 != null ? lookupProperty(depth0,"healthPool") : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"healthPool","hash":{},"data":data,"loc":{"start":{"line":1,"column":51},"end":{"line":1,"column":65}}}) : helper)))
+    + " HP";
 },"useData":true});
 })();

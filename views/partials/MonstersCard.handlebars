@@ -17,9 +17,21 @@
             {{> MonstersInfoBand}}
         {{/if}}
     </div>
+    <div class="hidden description stats jsp-quest-dark-textColor" id="Monsters-EditStats-{{monsterId}}">
+        {{> MonstersEditInfoBand}}
+    </div>
+
     <div class="description jsp-quest-dark-textColor" id="Monsters-Type-{{monsterId}}">
         <div class="subtitle stats">{{monsterTypeName}}</div>
     </div>
+    <div class="hidden description jsp-quest-dark-textColor" id="Monsters-EditType-{{monsterId}}">
+        <select id="monster-types-list-{{monsterId}}" name="monsterTypeId" data-current="{{monsterTypeId}}">
+            {{#each monsterTypesList}}
+                <option value="{{monsterTypeId}}">{{monsterTypeName}}</option>
+            {{/each}}
+        </select>
+    </div>
+
     <div class="description jsp-quest-dark-textColor" id="Monsters-Desc-{{monsterId}}">
         {{monsterDesc}}
     </div>

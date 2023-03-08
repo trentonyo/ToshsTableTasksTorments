@@ -117,6 +117,15 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
             document.getElementById(`${editToggleData.entity}-Desc-${monsterId}`).toggleAttribute("contentEditable")
             document.getElementById(`${editToggleData.entity}-Desc-${monsterId}`).classList.toggle("editable")
 
+            document.getElementById(`${editToggleData.entity}-Stats-${monsterId}`).classList.toggle("hidden")
+            document.getElementById(`${editToggleData.entity}-EditStats-${monsterId}`).classList.toggle("hidden")
+
+            document.getElementById(`${editToggleData.entity}-Type-${monsterId}`).classList.toggle("hidden")
+            document.getElementById(`${editToggleData.entity}-EditType-${monsterId}`).classList.toggle("hidden")
+
+            let currentMonsterTypeId = document.getElementById(`monster-types-list-${monsterId}`).dataset["current"]
+            document.getElementById(`monster-types-list-${monsterId}`).value = currentMonsterTypeId
+
             toggleElementById(`update-Monsters-${monsterId}`)
             break
         case "LootItemTypes":
