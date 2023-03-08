@@ -192,8 +192,14 @@ app.get('/', function(req, res)
         //Offline override
         if(useOffline) { results = db_offline['SQL_availableQuests'] }
 
+        let newEntityContext = {
+            "href" : ENTITIES["Quests"].href,
+            "entityName" : ENTITIES["Quests"].en_singular,
+        }
+
         let context = {
             "entity" : "Quests",
+            "newEntityContext" : newEntityContext,
             "queryName" : "Available Quests" + (useOffline ? " (OFFLINE MODE)" : ""),
             "results" : results
         }
