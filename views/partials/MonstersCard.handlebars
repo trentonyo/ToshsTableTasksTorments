@@ -2,22 +2,23 @@
     <div class="title animate-background-gradient jsp-global-black-textColor" data-jsp-palette="monster">
         {{monsterName}}
         {{#if monsterQty}}
-            <span class="subtitle">(Defeat {{monsterQty}})</span>
+            <span class="subtitle nowrap">(Defeat {{monsterQty}})</span>
         {{else}}
-            <span class="subtitle nowrap">- {{monsterTypeName}}</span>
         {{/if}}
     </div>
     <div class="description jsp-quest-dark-textColor">
         {{#if questId}}
             <div class="stats">
-                {{attack}} ATK | {{defense}} DEF | {{speed}} SPD{{#if monsterQty}} | {{healthPool}} HP{{/if}}
+                {{attack}} ATK | {{defense}} DEF | {{speed}} SPD | {{healthPool}} HP
             </div>
         {{else if view}}
         {{else}}
             <div class="stats">
-                {{attack}} ATK | {{defense}} DEF | {{speed}} SPD{{#if monsterQty}} | {{healthPool}} HP{{/if}}
+                {{attack}} ATK | {{defense}} DEF | {{speed}} SPD | {{healthPool}} HP
             </div>
         {{/if}}
+
+        <div class="subtitle stats">{{monsterTypeName}}</div>
 
         {{monsterDesc}}
     </div>

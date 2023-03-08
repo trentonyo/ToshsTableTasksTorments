@@ -345,6 +345,7 @@ let viewWithCopiousDetails = function (req, res, next, entity) {
                                     context["monstersList"][i]["suppressDetailsButton"] = true
                                 }
 
+                                console.log(context)
                                 res.status(200).render("ViewDetails", context)
                             })
                         })

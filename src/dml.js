@@ -84,7 +84,7 @@ let STATEMENTS = {
 
     SELECT_QuestsByID :             function (questId) { return `SELECT * FROM Quests WHERE questId=${sanitize(questId)};` },
     SELECT_QuestGiversByID :        function (questGiverId) { return `SELECT * FROM QuestGivers WHERE questGiverId=${sanitize(questGiverId)};` },
-    SELECT_MonstersByID :           function (monsterId) { return `SELECT * FROM Monsters WHERE monsterId=${sanitize(monsterId)};` },
+    SELECT_MonstersByID :           function (monsterId) { return `SELECT * FROM Monsters INNER JOIN MonsterTypes on Monsters.monsterTypeId = MonsterTypes.monsterTypeId WHERE monsterId=${sanitize(monsterId)};` },
     SELECT_MonsterTypesByID :       function (monsterTypeId) { return `SELECT * FROM MonsterTypes WHERE monsterTypeId=${sanitize(monsterTypeId)};` },
     SELECT_LootItemsByID :          function (lootId) { return `SELECT * FROM LootItems WHERE lootId=${sanitize(lootId)};` },
     SELECT_LootItemTypesByID :      function (lootItemTypeId) { return `SELECT * FROM LootItemTypes WHERE lootItemTypeId=${sanitize(lootItemTypeId)};` },
@@ -93,8 +93,9 @@ let STATEMENTS = {
     SELECT_Monsters_LootItemsByID : function (monsterId, lootId) { return `SELECT * FROM Monsters_LootItems WHERE (monsterId=${sanitize(monsterId)} AND lootId=${sanitize(lootId)});` },
 
     SELECT_QuestWithDetailsByID :   function (questId) { return `SELECT * FROM Quests 
-                                                                    LEFT JOIN QuestGivers ON Quests.questGiverId = QuestGivers.questGiverId 
-                                                                    INNER JOIN Monsters ON Quests.monsterId = Monsters.monsterId 
+                                                                    LEFT JOIN QuestGivers ON Quests.questGiverId = QuestGivers.questGiverId
+                                                                    INNER JOIN Monsters ON Quests.monsterId = Monsters.monsterId
+                                                                    INNER JOIN MonsterTypes on Monsters.monsterTypeId = MonsterTypes.monsterTypeId
                                                                  WHERE Quests.questId=${sanitize(questId)} ;` },
     SELECT_AbilitiesByMonstersID:   function (monsterId) { return   `SELECT * FROM Abilities 
                                                                         JOIN Monsters_Abilities ON Monsters_Abilities.abilityId = Abilities.abilityId 
