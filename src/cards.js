@@ -206,6 +206,9 @@ function deleteDOMEntity(updatedEntityData)
         case "Quests":
             document.getElementById(`Quests-${updatedEntityData.id}`).remove()
             break
+        case "Monsters":
+            document.getElementById(`Monsters-${updatedEntityData.id}`).remove()
+            break
         case "QuestGivers":
             document.getElementById(`QuestGivers-${updatedEntityData.id}`).remove()
             break

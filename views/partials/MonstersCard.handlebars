@@ -1,4 +1,4 @@
-<div class="card monster jsp-monster-light-backgroundColor jsp-monster-light-thickerBorderColor {{# if view}}full static{{/if}}">
+<div class="card monster jsp-monster-light-backgroundColor jsp-monster-light-thickerBorderColor {{# if view}}full static{{/if}}" id="Monsters-{{monsterId}}">
     <div class="title animate-background-gradient jsp-global-black-textColor" data-jsp-palette="monster">
         <div id="Monsters-Name-{{monsterId}}">
             {{monsterName}}
@@ -35,6 +35,8 @@
     <div class="description jsp-quest-dark-textColor" id="Monsters-Desc-{{monsterId}}">
         {{monsterDesc}}
     </div>
+    <br>
+    <br>
 
 
     {{#if suppressDetailsButton}}
