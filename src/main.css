@@ -84,6 +84,9 @@ div.collapse-target {
 .button_container {
     display: flex;
     justify-content: space-around;
+    bottom: 4px;
+    left: 4px;
+    position: absolute;
 }
 
 .collapse-container {
@@ -177,8 +180,9 @@ div.collapse-target {
     font-style: italic;
 }
 .full {
-    min-width: 40%;
-    max-width: 40%;
+    min-width: 300px;
+    max-width: 624px;
+    /*max-width: 40%;*/
 }
 button {
     margin: 4px;
@@ -186,8 +190,8 @@ button {
     border: none;
     border-radius: 8px;
 
-    min-width: 20%;
-    max-width: 30%;
+    /*min-width: 20%;*/
+    /*max-width: 30%;*/
 
     height: 30px;
 }
@@ -276,6 +280,13 @@ button:hover {
 
     border: #fff solid 1px;
     border-radius: 40px;
+}
+.form_card select {
+    margin-left: 10px;
+    border-radius: 8px;
+
+    min-width: 150px;
+    max-width: 300px;
 }
 /*.form_column.two_column {*/
 .two_column {
