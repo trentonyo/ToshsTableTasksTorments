@@ -398,6 +398,7 @@ a {
     border-bottom: #0a0909 1px dashed;
 }
 .card .editable::before {
+    font-size: medium;
     content: '✎';
 }
 .card button.viewDetails::before {
