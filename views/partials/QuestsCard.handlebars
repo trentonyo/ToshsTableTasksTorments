@@ -13,6 +13,7 @@
     {{#if view}}
         <div class="hidden giver jsp-quest-dark-textColor" id="editQuestGiverId">
             <select id="questGivers-list" name="questGiverId" data-current="{{questGiverId}}">
+                <option value="NULL"> -- </option>
                 {{#each questGiversList}}
                     <option value="{{questGiverId}}">{{questGiverName}}</option>
                 {{/each}}
