@@ -152,7 +152,7 @@ let viewEntity = function(req, res, next)
     }
 
     db.pool.query(query, function(err, results, fields){
-        db.pool.query(ENTITIES["LootItemTypes"], function(err_lootTypes, results_lootTypes, fields){
+        db.pool.query(ENTITIES["LootItemTypes"].query_SelectAll, function(err_lootTypes, results_lootTypes, fields){
 
             //Offline override
             if(useOffline) { results = db_offline['SQL_all'+entity] }
@@ -183,6 +183,7 @@ let viewEntity = function(req, res, next)
             for (let i = 0; i < context["results"].length; i++) {
                 context["results"][i]["lootTypesList"] = results_lootTypes
             }
+            console.log(results_lootTypes)
 
             res.status(200).render("ViewCards", context)
         })

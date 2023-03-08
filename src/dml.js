@@ -76,7 +76,7 @@ let STATEMENTS = {
     SELECT_AllMonsterTypes :  `SELECT * FROM MonsterTypes;`,
     SELECT_AllAbilities :  `SELECT * FROM Abilities;`,
     SELECT_AllLootItemTypes :  `SELECT * FROM LootItemTypes;`,
-    SELECT_AllLootItems :  `SELECT * FROM LootItems;`,
+    SELECT_AllLootItems :  `SELECT * FROM LootItems INNER JOIN LootItemTypes on LootItems.lootItemTypeId = LootItemTypes.lootItemTypeId;`,
     SELECT_AllMonsters_Abilities :  `SELECT * FROM Monsters_Abilities INNER JOIN Monsters ON Monsters_Abilities.monsterId = Monsters.monsterId INNER JOIN Abilities On Monsters_Abilities.abilityId = Abilities.abilityId;`,
     SELECT_AllMonsters_LootItems :  `SELECT * FROM Monsters_LootItems INNER JOIN Monsters ON Monsters_LootItems.monsterId = Monsters.monsterId INNER JOIN LootItems On Monsters_LootItems.lootId = LootItems.lootId;`,
 

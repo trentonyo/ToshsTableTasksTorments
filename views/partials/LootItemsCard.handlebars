@@ -13,6 +13,10 @@
             <input name="editValue" id="editValue-{{lootId}}" type="number" min="0" value="{{lootValue}}">
         </div>
         <div class="description jsp-quest-dark-textColor" id="LootItems-lootDesc-{{lootId}}">
+
+            <div class="stats">
+                {{lootItemTypeName}}
+            </div>
             {{#if monsterId}}<div class="stats">{{dropQuantity}} Dropped | {{localizeChance dropChance}}</div>{{/if}}
             {{lootDesc}}{{lootItemTypeId}}
             <br>
@@ -21,7 +25,7 @@
         <div class="description jsp-quest-dark-textColor" id="LootItems-lootDesc-{{lootId}}">
             <select id="lootTypes-list" name="lootItemTypeId" data-current="{{lootItemTypeId}}">
                 {{#each lootTypesList}}
-                    <option value="{{lootItemTypeId}}">{{lootTypeName}}</option>
+                    <option value="{{lootItemTypeId}}">{{lootItemTypeName}}</option>
                 {{/each}}
             </select>
         </div>
