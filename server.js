@@ -158,7 +158,7 @@ let viewEntity = function(req, res, next)
 
         let context = {
             "entity" : entity,
-            "queryName" : "All "+entity,
+            "queryName" : "All "+ENTITIES[entity].en_plural,
             "results" : results
         }
 
