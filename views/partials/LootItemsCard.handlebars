@@ -14,9 +14,16 @@
         </div>
         <div class="description jsp-quest-dark-textColor" id="LootItems-lootDesc-{{lootId}}">
             {{#if monsterId}}<div class="stats">{{dropQuantity}} Dropped | {{localizeChance dropChance}}</div>{{/if}}
-            {{lootDesc}}
+            {{lootDesc}}{{lootItemTypeId}}
             <br>
             <br>
+        </div>
+        <div class="description jsp-quest-dark-textColor" id="LootItems-lootDesc-{{lootId}}">
+            <select id="lootTypes-list" name="lootItemTypeId" data-current="{{lootItemTypeId}}">
+                {{#each lootTypesList}}
+                    <option value="{{lootItemTypeId}}">{{lootTypeName}}</option>
+                {{/each}}
+            </select>
         </div>
 
         {{#if suppressDetailsButton}}

@@ -152,34 +152,40 @@ let viewEntity = function(req, res, next)
     }
 
     db.pool.query(query, function(err, results, fields){
+        db.pool.query(ENTITIES["LootItemTypes"], function(err_lootTypes, results_lootTypes, fields){
 
-        //Offline override
-        if(useOffline) { results = db_offline['SQL_all'+entity] }
+            //Offline override
+            if(useOffline) { results = db_offline['SQL_all'+entity] }
 
-        let newEntityContext = {
-            "href_new" : ENTITIES[entity].href_new,
-            "entityName" : ENTITIES[entity].en_singular,
-        }
+            let newEntityContext = {
+                "href_new" : ENTITIES[entity].href_new,
+                "entityName" : ENTITIES[entity].en_singular,
+            }
 
-        let context = {
-            "entity" : entity,
-            "newEntityContext" : newEntityContext,
-            "queryName" : "All "+ENTITIES[entity].en_plural,
-            "results" : results
-        }
+            let context = {
+                "entity" : entity,
+                "newEntityContext" : newEntityContext,
+                "queryName" : "All "+ENTITIES[entity].en_plural,
+                "results" : results
+            }
 
-        //These entities will not have a button linked to their detail page
-        switch (entity)
-        {
-            case "MonsterTypes":
-            case "LootItemTypes":
-                for (const resultsKey in results) {
-                    results[resultsKey]["suppressDetailsButton"] = true
-                }
-                break
-        }
+            //These entities will not have a button linked to their detail page
+            switch (entity)
+            {
+                case "MonsterTypes":
+                case "LootItemTypes":
+                    for (const resultsKey in results) {
+                        results[resultsKey]["suppressDetailsButton"] = true
+                    }
+                    break
+            }
 
-        res.status(200).render("ViewCards", context)
+            for (let i = 0; i < context["results"].length; i++) {
+                context["results"][i]["lootTypesList"] = results_lootTypes
+            }
+
+            res.status(200).render("ViewCards", context)
+        })
     })
 }
 
