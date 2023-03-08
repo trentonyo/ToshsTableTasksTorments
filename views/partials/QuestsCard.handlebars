@@ -9,10 +9,28 @@
     <div class="giver jsp-quest-dark-textColor" id="Quests-questGiverId-{{questId}}">
         {{#if questGiverId}}- {{questGiverName}}{{else}}- Unknown{{/if}}
     </div>
-<!-- {{#unless view}}</a>{{/unless}} -->
-    <div class="button_container">
+
+    {{#if view}}
+        <div class="hidden giver jsp-quest-dark-textColor" id="editQuestGiverId">
+            <select id="questGivers-list" name="questGiverId">
+                {{#each questGiversList}}
+                    <option value="{{questGiverId}}">{{questGiverName}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div class="hidden giver jsp-quest-dark-textColor" id="editAvailable">
+            <label for="editAvailableCheckbox">Available?</label>
+            <input type="checkbox" id="editAvailableCheckbox" name="available" {{#if available}}checked{{/if}}>
+        </div>
+    {{/if}}
+
+    {{#if view}}
         <button onClick="toggleEditMode(this, {'entity': 'Quests', 'id': '{{questId}}'}, true)" id="toggleEdit-Quests-{{questId}}">Edit</button>
         <button onClick="updateEntity(this, {'entity': 'Quests', 'id': '{{questId}}'} )" id="update-Quests-{{questId}}" class="hidden">Submit</button>
-        <button onClick="deleteEntity(this, {'entity': 'Quests', 'id': '{{questId}}'} )">Delete</button>
-    </div>
+    {{else}}
+        <div class="button_container">
+            <a href="/Quests/view/{{questId}}/?edit=1"><button id="toggleEdit-Quests-{{questId}}">Edit</button></a>
+            <button onClick="deleteEntity(this, {'entity': 'Quests', 'id': '{{questId}}'} )">Delete</button>
+        </div>
+    {{/if}}
 </div>

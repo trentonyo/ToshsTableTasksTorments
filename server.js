@@ -292,7 +292,7 @@ app.get('/Quests/new', function(req, res)
  * @param next pass in a next
  * @param entity expects "Quests" or "Monsters"
  */
-let viewWithMonsterDetails = function (req, res, next, entity) {
+let viewWithCopiousDetails = function (req, res, next, entity) {
     let entityID = req.params.entityID
 
     let query = get_SQL_thisEntity(entity, entityID)
@@ -314,12 +314,16 @@ let viewWithMonsterDetails = function (req, res, next, entity) {
                 context["entity"] = entity
                 context["view"] = true
 
-                db.pool.query(dml.STATEMENTS.SELECT_AbilitiesByMonstersID(context.monsterId), function (err, abilities, fields) {
-                    db.pool.query(dml.STATEMENTS.SELECT_LootItemsByMonstersID(context.monsterId), function (err, lootItems, fields) {
-                        context["abilitiesList"] = abilities
-                        context["lootItemsList"] = lootItems
+                db.pool.query(dml.STATEMENTS.SELECT_AbilitiesByMonstersID(context.monsterId), function (err_abilities, abilities, fields) {
+                    db.pool.query(dml.STATEMENTS.SELECT_LootItemsByMonstersID(context.monsterId), function (err_loots, lootItems, fields) {
+                        db.pool.query(dml.STATEMENTS.SELECT_AllQuestGivers, function(err_questGivers, questGivers, fields) {
 
-                        res.status(200).render("ViewDetails", context)
+                            context["abilitiesList"] = abilities
+                            context["lootItemsList"] = lootItems
+                            context["questGiversList"] = questGivers
+
+                            res.status(200).render("ViewDetails", context)
+                        })
                     })
                 })
             }
@@ -329,11 +333,11 @@ let viewWithMonsterDetails = function (req, res, next, entity) {
 
 app.get('/Quests/view/:entityID', function (req, res, next)
 {
-    viewWithMonsterDetails(req, res, next, "Quests")
+    viewWithCopiousDetails(req, res, next, "Quests")
 })
 app.get('/Monsters/view/:entityID', function (req, res, next)
 {
-    viewWithMonsterDetails(req, res, next, "Monsters")
+    viewWithCopiousDetails(req, res, next, "Monsters")
 })
 
 //View any other entity's details page
@@ -574,20 +578,21 @@ app.post('/createEntity', function (req, res)
 
 
 ///Update entity
-app.post('/updateEntity', function (req, res)
+app.post('/updateEntity', function (req, res, next)
 {
     let updatedData = req.body
     let SQL_statement = ''
     let redirectTarget = ''
 
     // TODO sanitize quotes in input (' -> \', " -> \"")
-
+    console.log(updatedData)
 
     switch (updatedData.entity)
     {
         case "Quests":
             // TODO flesh out UPDATE statement
-            SQL_statement = `UPDATE Quests SET questName = '${updatedData.title}', questDesc = '${updatedData.questDesc}' WHERE questId = ${updatedData.id};`
+            // SQL_statement = `UPDATE Quests SET questName = '${updatedData.title}', questDesc = '${updatedData.questDesc}' WHERE questId = ${updatedData.id};`
+            SQL_statement = ENTITIES["Quests"].query_Update(updatedData["id"], updatedData["title"], updatedData["questDesc"], updatedData["available"], updatedData["questGiverId"])
             redirectTarget = '/Quests/view'
             break
         case "QuestGivers":

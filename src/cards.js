@@ -43,9 +43,15 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
         case "Quests":
             let questId = editToggleData.id
             document.getElementById(`${editToggleData.entity}-Name-${questId}`).toggleAttribute("contentEditable")
-            document.getElementById(`${editToggleData.entity}-questDesc-${questId}`).toggleAttribute("contentEditable")
             document.getElementById(`${editToggleData.entity}-Name-${questId}`).classList.toggle("editable")
-            document.getElementById(`${editToggleData.entity}-Name-${questId}`).focus()
+            document.getElementById(`${editToggleData.entity}-questDesc-${questId}`).toggleAttribute("contentEditable")
+            document.getElementById(`${editToggleData.entity}-questDesc-${questId}`).classList.toggle("editable")
+
+            document.getElementById(`editQuestGiverId`).classList.toggle("hidden")
+            document.getElementById(`Quests-questGiverId-${questId}`).classList.toggle("hidden")
+
+            document.getElementById(`editAvailable`).classList.toggle("hidden")
+
             toggleElementById(`update-Quests-${questId}`)
             break
         case "QuestGivers":
@@ -161,6 +167,8 @@ function updateEntity(button, updatedEntityData)
         case "Quests":
             updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
             updatedEntityData['questDesc'] = document.getElementById(`${updatedEntityData.entity}-questDesc-${updatedEntityData.id}`).textContent.trim()
+            updatedEntityData['available'] = document.getElementById("editAvailableCheckbox").checked
+            updatedEntityData['questGiverId'] = document.getElementById("questGivers-list").value
             // TODO Add other attributes
             break
         case "QuestGivers":
