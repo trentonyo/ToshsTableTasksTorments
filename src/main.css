@@ -87,6 +87,7 @@ div.collapse-target {
     bottom: 4px;
     left: 4px;
     position: absolute;
+    user-select: none;
 }
 
 .collapse-container {
@@ -380,6 +381,9 @@ a {
 .hidden {
     display: none;
     scale: 0;
+}
+.suppressed {
+    opacity: 30%;
 }
 .blockPointerEvents {
     pointer-events: none;

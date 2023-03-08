@@ -52,6 +52,18 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
 
             document.getElementById(`editAvailable`).classList.toggle("hidden")
 
+            document.getElementById(`editQuestsMonster`).classList.toggle("hidden")
+            document.getElementById('questGivers-list').value = document.getElementById('questGivers-list').dataset["current"]
+            document.getElementById('monsters-list').value = document.getElementById('monsters-list').dataset["current"]
+
+            document.getElementById('staticInfoband').classList.toggle("hidden")
+            document.getElementById('editInfoband').classList.toggle("hidden")
+
+            let otherCards = document.querySelectorAll(".card:not(.quest)")
+            for (let i = 0; i < otherCards.length; i++) {
+                otherCards[i].classList.toggle("suppressed")
+            }
+
             toggleElementById(`update-Quests-${questId}`)
             break
         case "QuestGivers":
@@ -106,8 +118,7 @@ function updateDOMEntity(updatedEntityData)
     switch (updatedEntityData.entity)
     {
         case "Quests":
-            document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
-            document.getElementById(`Quests-questDesc-${updatedEntityData.id}`).value = updatedEntityData['questDesc']
+            window.location.replace(`/Quests/view/${updatedEntityData.id}`)
             break
         case "QuestGivers":
             document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
@@ -169,12 +180,11 @@ function updateEntity(button, updatedEntityData)
             updatedEntityData['questDesc'] = document.getElementById(`${updatedEntityData.entity}-questDesc-${updatedEntityData.id}`).textContent.trim()
             updatedEntityData['available'] = document.getElementById("editAvailableCheckbox").checked
             updatedEntityData['questGiverId'] = document.getElementById("questGivers-list").value
-            updatedEntityData['suggestedLevel'] = ""
-            updatedEntityData['monsterQty'] = ""
-            updatedEntityData['rewardXp'] = ""
-            updatedEntityData['rewardGold'] = ""
-            updatedEntityData['monsterId'] = ""
-            // TODO Fill out placeholders
+            updatedEntityData['suggestedLevel'] = document.getElementById("suggestedLevel").value
+            updatedEntityData['monsterQty'] = document.getElementById("editMonsterQty").value
+            updatedEntityData['rewardXp'] = document.getElementById("rewardXp").value
+            updatedEntityData['rewardGold'] = document.getElementById("rewardGold").value
+            updatedEntityData['monsterId'] = document.getElementById("monsters-list").value
             break
         case "QuestGivers":
 

@@ -12,7 +12,7 @@
 
     {{#if view}}
         <div class="hidden giver jsp-quest-dark-textColor" id="editQuestGiverId">
-            <select id="questGivers-list" name="questGiverId">
+            <select id="questGivers-list" name="questGiverId" data-current="{{questGiverId}}">
                 {{#each questGiversList}}
                     <option value="{{questGiverId}}">{{questGiverName}}</option>
                 {{/each}}
@@ -33,4 +33,19 @@
             <button onClick="deleteEntity(this, {'entity': 'Quests', 'id': '{{questId}}'} )">Delete</button>
         </div>
     {{/if}}
+</div>
+<div class="hidden card quest jsp-monster-light-backgroundColor" id="editQuestsMonster">
+    <div class="title animate-background-gradient jsp-global-black-textColor" data-jsp-palette="quest">
+        Change Monster
+    </div>
+    <div class="description jsp-quest-dark-textColor">
+        <select id="monsters-list" name="monsterId" data-current="{{monsterId}}">
+            {{#each monstersList}}
+                <option value="{{monsterId}}">{{monsterName}}</option>
+            {{/each}}
+        </select>
+        <br>
+        <label for="editMonsterQty">Quantity: </label>
+        <input type="number" min="0" value="{{monsterQty}}" id="editMonsterQty">
+    </div>
 </div>

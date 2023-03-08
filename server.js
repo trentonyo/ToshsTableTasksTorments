@@ -317,12 +317,30 @@ let viewWithCopiousDetails = function (req, res, next, entity) {
                 db.pool.query(dml.STATEMENTS.SELECT_AbilitiesByMonstersID(context.monsterId), function (err_abilities, abilities, fields) {
                     db.pool.query(dml.STATEMENTS.SELECT_LootItemsByMonstersID(context.monsterId), function (err_loots, lootItems, fields) {
                         db.pool.query(dml.STATEMENTS.SELECT_AllQuestGivers, function(err_questGivers, questGivers, fields) {
+                            db.pool.query(dml.STATEMENTS.SELECT_AllMonsters, function(err_monsters, monsters, fields) {
 
-                            context["abilitiesList"] = abilities
-                            context["lootItemsList"] = lootItems
-                            context["questGiversList"] = questGivers
+                                context["abilitiesList"] = abilities
+                                for (let i = 0; i < context["abilitiesList"].length; i++) {
+                                    context["abilitiesList"][i]["suppressDetailsButton"] = true
+                                }
 
-                            res.status(200).render("ViewDetails", context)
+                                context["lootItemsList"] = lootItems
+                                for (let i = 0; i < context["lootItemsList"].length; i++) {
+                                    context["lootItemsList"][i]["suppressDetailsButton"] = true
+                                }
+
+                                context["questGiversList"] = questGivers
+                                for (let i = 0; i < context["questGiversList"].length; i++) {
+                                    context["questGiversList"][i]["suppressDetailsButton"] = true
+                                }
+
+                                context["monstersList"] = monsters
+                                for (let i = 0; i < context["monstersList"].length; i++) {
+                                    context["monstersList"][i]["suppressDetailsButton"] = true
+                                }
+
+                                res.status(200).render("ViewDetails", context)
+                            })
                         })
                     })
                 })
@@ -594,7 +612,7 @@ app.post('/updateEntity', function (req, res, next)
             // SQL_statement = `UPDATE Quests SET questName = '${updatedData.title}', questDesc = '${updatedData.questDesc}' WHERE questId = ${updatedData.id};`
             SQL_statement = ENTITIES["Quests"].query_Update(updatedData["id"], updatedData["title"], updatedData["questDesc"],
                 updatedData["available"], updatedData["questGiverId"], updatedData["suggestedLevel"], updatedData["monsterQty"],
-                updatedData["rewardXp"], updatedData["rewardGold"], updatedData["monsterId"])
+                updatedData["monsterId"], updatedData["rewardXp"], updatedData["rewardGold"])
             redirectTarget = '/Quests/view'
             break
         case "QuestGivers":
@@ -623,6 +641,7 @@ app.post('/updateEntity', function (req, res, next)
     console.log(SQL_statement)
     db.pool.query(SQL_statement, function(err, results){
         console.log(results)
+        console.log(err)
         if(useOffline) { err = 'Unable to make database changes while offline' }
 
         if(err)
