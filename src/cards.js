@@ -53,7 +53,14 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
             document.getElementById(`editAvailable`).classList.toggle("hidden")
 
             document.getElementById(`editQuestsMonster`).classList.toggle("hidden")
-            document.getElementById('questGivers-list').value = document.getElementById('questGivers-list').dataset["current"]
+            let currentQuestGiverId = document.getElementById('questGivers-list').dataset["current"]
+
+            if (currentQuestGiverId.length === 0)
+            {
+                currentQuestGiverId = "NULL"
+            }
+
+            document.getElementById('questGivers-list').value = currentQuestGiverId
             document.getElementById('monsters-list').value = document.getElementById('monsters-list').dataset["current"]
 
             document.getElementById('staticInfoband').classList.toggle("hidden")

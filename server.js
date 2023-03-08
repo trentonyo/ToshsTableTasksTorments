@@ -297,6 +297,8 @@ let viewWithCopiousDetails = function (req, res, next, entity) {
 
     let query = get_SQL_thisEntity(entity, entityID)
 
+    console.log(query) //TODO DEBUG
+
     if (query === false) {
         next() // Called if entity is invalid or if entityID is not a number
     } else {
@@ -338,6 +340,8 @@ let viewWithCopiousDetails = function (req, res, next, entity) {
                                 for (let i = 0; i < context["monstersList"].length; i++) {
                                     context["monstersList"][i]["suppressDetailsButton"] = true
                                 }
+
+                                console.log(context) //TODO DEBUG
 
                                 res.status(200).render("ViewDetails", context)
                             })
@@ -602,21 +606,19 @@ app.post('/updateEntity', function (req, res, next)
     let SQL_statement = ''
     let redirectTarget = ''
 
-    // TODO sanitize quotes in input (' -> \', " -> \"")
     console.log(updatedData)
 
     switch (updatedData.entity)
     {
         case "Quests":
-            // TODO flesh out UPDATE statement
-            // SQL_statement = `UPDATE Quests SET questName = '${updatedData.title}', questDesc = '${updatedData.questDesc}' WHERE questId = ${updatedData.id};`
             SQL_statement = ENTITIES["Quests"].query_Update(updatedData["id"], updatedData["title"], updatedData["questDesc"],
                 updatedData["available"], updatedData["questGiverId"], updatedData["suggestedLevel"], updatedData["monsterQty"],
                 updatedData["monsterId"], updatedData["rewardXp"], updatedData["rewardGold"])
             redirectTarget = '/Quests/view'
             break
         case "QuestGivers":
-            SQL_statement = `UPDATE QuestGivers SET questGiverName = '${updatedData.title}' WHERE questGiverId = ${updatedData.id};`
+            // SQL_statement = `# UPDATE QuestGivers SET questGiverName = '${updatedData.title}' WHERE questGiverId = ${updatedData.id};`
+            SQL_statement = ENTITIES["QuestGivers"].query_Update(updatedData["id"], updatedData["title"])
             redirectTarget = '/QuestGivers/view'
             break
         case "MonsterTypes":
