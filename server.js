@@ -544,6 +544,8 @@ app.post('/createEntity', function (req, res)
         // Error code 1062: duplicate primary key
 
         let processedErr = ""
+        let returnId = ""
+        console.log(results)
 
         if (err)
         {
@@ -554,10 +556,20 @@ app.post('/createEntity', function (req, res)
                 processedErr = "/?err=" + processedErr
             }
         }
+        else
+        {
+            switch (createData.entity) {
+                case "quest":
+                case "monster":
+                case "lootItem":
+                case "ability":
+                    returnId = "/"+results.insertId
+                    break
+            }
+        }
 
-        res.redirect(redirectTarget + processedErr)
+        res.redirect(redirectTarget + returnId + processedErr)
     })
-    // Further TODO Perhaps we could get the ID returned and redirect to the details page of larger entities (quests, monsters, not loot item types or quest givers)
 })
 
 
