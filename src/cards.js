@@ -71,7 +71,7 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
             let lootItemTypeId = editToggleData.id
             document.getElementById(`${editToggleData.entity}-Name-${lootItemTypeId}`).toggleAttribute("contentEditable")
             document.getElementById(`${editToggleData.entity}-Name-${lootItemTypeId}`).classList.toggle("editable")
-            toggleElementById(`update-lootItemType-${lootItemTypeId}` )
+            toggleElementById(`update-LootItemTypes-${lootItemTypeId}` )
             toggleElementById(`edit-equipable-${lootItemTypeId}`)
             toggleElementById(`equipable-${lootItemTypeId}`)
             break
@@ -138,7 +138,7 @@ function deleteDOMEntity(updatedEntityData)
             document.getElementById(`LootItems-${updatedEntityData.id}`).remove()
             break
         case "LootItemTypes":
-            document.getElementById(`LootItemType-${updatedEntityData.id}`).remove()
+            document.getElementById(`LootItemTypes-${updatedEntityData.id}`).remove()
             break
         case "Abilities":
             document.getElementById(`Abilities-${updatedEntityData.id}`).remove()

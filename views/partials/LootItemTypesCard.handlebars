@@ -1,4 +1,4 @@
-<div class="card loot jsp-loot-medium-backgroundColor jsp-loot-light-backgroundColor jsp-loot-light-thickerBorderColor {{#if view}}full static{{/if}}" id="LootItemType-{{lootItemTypeId}}">
+<div class="card loot jsp-loot-medium-backgroundColor jsp-loot-light-backgroundColor jsp-loot-light-thickerBorderColor {{#if view}}full static{{/if}}" id="LootItemTypes-{{lootItemTypeId}}">
 
     <div class="title animate-background-gradient jsp-global-black-textColor" data-jsp-palette="loot" id="LootItemTypes-Name-{{lootItemTypeId}}">
         {{lootItemTypeName}}
@@ -9,7 +9,6 @@
             {{#if equipable}} Equipable
             {{else}} Not Equipable
             {{/if}}
-            {{suppressDetailsButton}}
         </div>
 <!--        <select class="description" hidden id="edit-equipable-{{lootItemTypeId}}">-->
         <select class="description hidden"  id="edit-equipable-{{lootItemTypeId}}">
@@ -24,8 +23,8 @@
     </div>
 
     <div class="button_container">
-        <button onClick="toggleEditMode(this, {'entity': 'LootItemTypes', 'id': '{{lootItemTypeId}}'}, true)" id="toggleEdit-lootItemType-{{lootItemTypeId}}">Edit</button>
-        <button onClick="updateEntity(this, {'entity': 'LootItemTypes', 'id': '{{lootItemTypeId}}'} )" id="update-lootItemType-{{lootItemTypeId}}" class="hidden">Submit</button>
+        <button onClick="toggleEditMode(this, {'entity': 'LootItemTypes', 'id': '{{lootItemTypeId}}'}, true)" id="toggleEdit-LootItemTypes-{{lootItemTypeId}}">Edit</button>
+        <button onClick="updateEntity(this, {'entity': 'LootItemTypes', 'id': '{{lootItemTypeId}}'} )" id="update-LootItemTypes-{{lootItemTypeId}}" class="hidden">Submit</button>
         <button onClick="deleteEntity(this, {'entity': 'LootItemTypes', 'id': '{{lootItemTypeId}}'} )">Delete</button>
     </div>
 
