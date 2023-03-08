@@ -99,6 +99,12 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
 
             document.getElementById(`${editToggleData.entity}-Subtitle-${lootId}`).classList.toggle("hidden")
             document.getElementById(`${editToggleData.entity}-Edit-Value-${lootId}`).classList.toggle("hidden")
+            document.getElementById(`${editToggleData.entity}-lootItemType-${lootId}`).classList.toggle("hidden")
+            document.getElementById(`${editToggleData.entity}-ItemType-${lootId}`).classList.toggle("hidden")
+
+            let currentLootItemTypeId = document.getElementById(`lootTypes-list-${lootId}`).dataset["current"]
+            document.getElementById(`lootTypes-list-${lootId}`).value = currentLootItemTypeId
+
             toggleElementById(`update-LootItems-${lootId}`)
             break
         case "LootItemTypes": 
@@ -142,6 +148,8 @@ function updateDOMEntity(updatedEntityData)
         case "LootItems":
             document.getElementById(`LootItems-lootDesc-${updatedEntityData.id}`).value = updatedEntityData['lootDesc']
             document.getElementById(`LootItems-Subtitle-${updatedEntityData.id}`).innerText = `(${updatedEntityData['lootValue']} gold)`
+            document.getElementById(`LootItems-ItemType-${updatedEntityData.id}`).innerText = updatedEntityData['lootItemTypeName']
+            document.getElementById(`lootTypes-list-${updatedEntityData.id}`).dataset.current = updatedEntityData['lootItemTypeId']
             break
         case "LootItemTypes":
             document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
@@ -209,7 +217,10 @@ function updateEntity(button, updatedEntityData)
 
             updatedEntityData['lootDesc'] = document.getElementById(`${updatedEntityData.entity}-lootDesc-${updatedEntityData.id}`).textContent.trim()
 
-            updatedEntityData['lootItemTypeId'] = 1
+            let lootTypeSelect = document.getElementById(`lootTypes-list-${updatedEntityData.id}`)
+            updatedEntityData['lootItemTypeId'] = lootTypeSelect.value
+            updatedEntityData['lootItemTypeName'] = lootTypeSelect.options[lootTypeSelect.selectedIndex].innerText
+
             updatedEntityData['lootValue'] = document.getElementById(`editValue-${updatedEntityData.id}`).value
 
             break

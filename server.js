@@ -183,7 +183,6 @@ let viewEntity = function(req, res, next)
             for (let i = 0; i < context["results"].length; i++) {
                 context["results"][i]["lootTypesList"] = results_lootTypes
             }
-            console.log(results_lootTypes)
 
             res.status(200).render("ViewCards", context)
         })
@@ -304,8 +303,6 @@ let viewWithCopiousDetails = function (req, res, next, entity) {
 
     let query = get_SQL_thisEntity(entity, entityID)
 
-    console.log(query) //TODO DEBUG
-
     if (query === false) {
         next() // Called if entity is invalid or if entityID is not a number
     } else {
@@ -347,8 +344,6 @@ let viewWithCopiousDetails = function (req, res, next, entity) {
                                 for (let i = 0; i < context["monstersList"].length; i++) {
                                     context["monstersList"][i]["suppressDetailsButton"] = true
                                 }
-
-                                console.log(context) //TODO DEBUG
 
                                 res.status(200).render("ViewDetails", context)
                             })
@@ -578,7 +573,7 @@ app.post('/createEntity', function (req, res)
 
         let processedErr = ""
         let returnId = ""
-        console.log(results)
+        // console.log(results)
 
         if (err)
         {
@@ -648,10 +643,10 @@ app.post('/updateEntity', function (req, res, next)
         default:
             res.status(400) //TODO the entity not found
     }
-    console.log(SQL_statement)
+    console.log("UPDATE Statement:", SQL_statement) //TODO debug
     db.pool.query(SQL_statement, function(err, results){
-        console.log(results)
-        console.log(err)
+        console.log("Results:", results) //TODO debug
+        console.log("Results:", err) //TODO debug
         if(useOffline) { err = 'Unable to make database changes while offline' }
 
         if(err)
@@ -661,7 +656,6 @@ app.post('/updateEntity', function (req, res, next)
         else
         {
             res.status(200)
-            // res.redirect(`/LootItemTypes/view/${results.insertId}`) // TODO use this for larger entities (quests, monsters, not loot item types or quest givers)
             if (redirectTarget) { res.redirect(redirectTarget) }
             else { res.send() }
         }

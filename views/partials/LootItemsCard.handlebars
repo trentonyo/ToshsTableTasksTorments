@@ -12,22 +12,21 @@
             <label for="editValue">New Value: </label>
             <input name="editValue" id="editValue-{{lootId}}" type="number" min="0" value="{{lootValue}}">
         </div>
-        <div class="description jsp-quest-dark-textColor" id="LootItems-lootDesc-{{lootId}}">
-
-            <div class="stats">
-                {{lootItemTypeName}}
-            </div>
-            {{#if monsterId}}<div class="stats">{{dropQuantity}} Dropped | {{localizeChance dropChance}}</div>{{/if}}
-            {{lootDesc}}{{lootItemTypeId}}
-            <br>
-            <br>
+        <div class="stats description" id="LootItems-ItemType-{{lootId}}">
+            {{lootItemTypeName}}
         </div>
-        <div class="description jsp-quest-dark-textColor" id="LootItems-lootDesc-{{lootId}}">
-            <select id="lootTypes-list" name="lootItemTypeId" data-current="{{lootItemTypeId}}">
+        <div class="hidden description jsp-quest-dark-textColor" id="LootItems-lootItemType-{{lootId}}">
+            <select id="lootTypes-list-{{lootId}}" name="lootItemTypeId" data-current="{{lootItemTypeId}}">
                 {{#each lootTypesList}}
                     <option value="{{lootItemTypeId}}">{{lootItemTypeName}}</option>
                 {{/each}}
             </select>
+        </div>
+        <div class="description jsp-quest-dark-textColor" id="LootItems-lootDesc-{{lootId}}">
+            {{#if monsterId}}<div class="stats">{{dropQuantity}} Dropped | {{localizeChance dropChance}}</div>{{/if}}
+            {{lootDesc}}
+            <br>
+            <br>
         </div>
 
         {{#if suppressDetailsButton}}

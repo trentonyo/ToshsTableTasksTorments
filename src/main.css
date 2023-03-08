@@ -217,7 +217,7 @@ button:hover {
     font-style: italic;
 }
 
-.description>.stats {
+.description .stats, div.description.stats {
     font-family: serif;
     text-align: center;
 
