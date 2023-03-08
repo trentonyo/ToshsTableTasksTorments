@@ -626,7 +626,6 @@ app.post('/updateEntity', function (req, res, next)
             redirectTarget = '/Quests/view'
             break
         case "QuestGivers":
-            // SQL_statement = `# UPDATE QuestGivers SET questGiverName = '${updatedData.title}' WHERE questGiverId = ${updatedData.id};`
             SQL_statement = ENTITIES["QuestGivers"].query_Update(updatedData["id"], updatedData["title"])
             redirectTarget = '/QuestGivers/view'
             break
@@ -635,7 +634,9 @@ app.post('/updateEntity', function (req, res, next)
             redirectTarget = '/MonsterTypes/view'
             break
         case "Monsters":
-            SQL_statement = ENTITIES["Monsters"].query_Update(dfdfdfdfdf)
+            SQL_statement = ENTITIES["Monsters"].query_Update(updatedData["id"], updatedData["title"],
+                updatedData["monsterDesc"], updatedData["monsterTypeId"], updatedData["healthPool"],
+                updatedData["attack"], updatedData["defense"], updatedData["speed"])
             redirectTarget = '/Monsters/view'
             break
         case "LootItems":

@@ -228,6 +228,14 @@ function updateEntity(button, updatedEntityData)
             updatedEntityData['rewardGold'] = document.getElementById("rewardGold").value
             updatedEntityData['monsterId'] = document.getElementById("monsters-list").value
             break
+        case "Monsters":
+            updatedEntityData['monsterDesc'] = document.getElementById(`Monsters-Desc-${updatedEntityData.id}`).textContent.trim()
+            updatedEntityData['monsterTypeId'] = document.getElementById(`monster-types-list-${updatedEntityData.id}`).value
+            updatedEntityData['healthPool'] = document.getElementById(`editHealthPool-${updatedEntityData.id}`).value
+            updatedEntityData['attack'] =  document.getElementById(`editAttack-${updatedEntityData.id}`).value
+            updatedEntityData['defense'] =  document.getElementById(`editDefense-${updatedEntityData.id}`).value
+            updatedEntityData['speed'] =  document.getElementById(`editSpeed-${updatedEntityData.id}`).value
+            break
         case "QuestGivers":
 
             break
