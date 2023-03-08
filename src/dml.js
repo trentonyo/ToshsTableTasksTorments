@@ -18,7 +18,7 @@ let STATEMENTS = {
     INSERT_Monsters_LootItems:  function (monsterId, lootId, dropQuantity, dropChance) {
                                     return `INSERT INTO Monsters_LootItems (monsterId, lootId, dropQuantity, dropChance) VALUES (${monsterId}, ${lootId}, ${dropQuantity}, ${dropChance});` },
 
-    SELECT_AllQuests :  `SELECT * FROM Quests INNER JOIN QuestGivers ON Quests.questGiverId = QuestGivers.questGiverId;`,
+    SELECT_AllQuests :  `SELECT * FROM Quests LEFT JOIN QuestGivers ON Quests.questGiverId = QuestGivers.questGiverId;`,
     SELECT_AllQuestGivers :  `SELECT * FROM QuestGivers;`,
     SELECT_AllMonsters :  `SELECT * FROM Monsters;`,
     SELECT_AllMonsterTypes :  `SELECT * FROM MonsterTypes;`,
@@ -28,7 +28,7 @@ let STATEMENTS = {
     SELECT_AllMonsters_Abilities :  `SELECT * FROM Monsters_Abilities INNER JOIN Monsters ON Monsters_Abilities.monsterId = Monsters.monsterId INNER JOIN Abilities On Monsters_Abilities.abilityId = Abilities.abilityId;`,
     SELECT_AllMonsters_LootItems :  `SELECT * FROM Monsters_LootItems INNER JOIN Monsters ON Monsters_LootItems.monsterId = Monsters.monsterId INNER JOIN LootItems On Monsters_LootItems.lootId = LootItems.lootId;`,
 
-    SELECT_AvailableQuests: `SELECT * FROM Quests WHERE available=true;`,
+    SELECT_AvailableQuests: `SELECT * FROM Quests LEFT JOIN QuestGivers ON Quests.questGiverId = QuestGivers.questGiverId WHERE available=true;`,
 
     SELECT_QuestsByID :             function (questId) { return `SELECT * FROM Quests WHERE questId=${questId};` },
     SELECT_QuestGiversByID :        function (questGiverId) { return `SELECT * FROM QuestGivers WHERE questGiverId=${questGiverId};` },
@@ -41,7 +41,7 @@ let STATEMENTS = {
     SELECT_Monsters_LootItemsByID : function (monsterId, lootId) { return `SELECT * FROM Monsters_LootItems WHERE (monsterId=${monsterId} AND lootId=${lootId});` },
 
     SELECT_QuestWithDetailsByID :   function (questId) { return `SELECT * FROM Quests 
-                                                                    INNER JOIN QuestGivers ON Quests.questGiverId = QuestGivers.questGiverId 
+                                                                    LEFT JOIN QuestGivers ON Quests.questGiverId = QuestGivers.questGiverId 
                                                                     INNER JOIN Monsters ON Quests.monsterId = Monsters.monsterId 
                                                                  WHERE Quests.questId=${questId} ;` },
     SELECT_AbilitiesByMonstersID:   function (monsterId) { return   `SELECT * FROM Abilities 
