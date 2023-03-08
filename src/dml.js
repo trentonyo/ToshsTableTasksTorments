@@ -72,7 +72,7 @@ let STATEMENTS = {
 
     SELECT_AllQuests :  `SELECT * FROM Quests LEFT JOIN QuestGivers ON Quests.questGiverId = QuestGivers.questGiverId;`,
     SELECT_AllQuestGivers :  `SELECT * FROM QuestGivers;`,
-    SELECT_AllMonsters :  `SELECT * FROM Monsters;`,
+    SELECT_AllMonsters :  `SELECT * FROM Monsters INNER JOIN MonsterTypes on Monsters.monsterTypeId = MonsterTypes.monsterTypeId;`,
     SELECT_AllMonsterTypes :  `SELECT * FROM MonsterTypes;`,
     SELECT_AllAbilities :  `SELECT * FROM Abilities;`,
     SELECT_AllLootItemTypes :  `SELECT * FROM LootItemTypes;`,

@@ -4,7 +4,7 @@
         {{#if monsterQty}}
             <span class="subtitle">(Defeat {{monsterQty}})</span>
         {{else}}
-            <span class="subtitle nowrap">({{healthPool}} hp)</span>
+            <span class="subtitle nowrap">- {{monsterTypeName}}</span>
         {{/if}}
     </div>
     <div class="description jsp-quest-dark-textColor">
@@ -22,12 +22,19 @@
         {{monsterDesc}}
     </div>
 
+
     {{#if suppressDetailsButton}}
     {{else if view}}
     {{else}}
         <a href="/Monsters/view/{{monsterId}}">
             <button class="viewDetails"></button>
         </a>
+        <div class="button_container">
+            <button onClick="toggleEditMode(this, {'entity': 'Monsters', 'id': '{{monsterId}}'}, true)" id="toggleEdit-Monsters-{{monsterId}}">Edit</button>
+            <button onClick="updateEntity(this, {'entity': 'Monsters', 'id': '{{monsterId}}'} )" id="update-Monsters-{{monsterId}}" class="hidden">Submit</button>
+            <button onClick="deleteEntity(this, {'entity': 'Monsters', 'id': '{{monsterId}}'} )">Delete</button>
+        </div>
     {{/if}}
+
 
 </div>
