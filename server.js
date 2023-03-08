@@ -157,7 +157,7 @@ let viewEntity = function(req, res, next)
         if(useOffline) { results = db_offline['SQL_all'+entity] }
 
         let newEntityContext = {
-            "href" : ENTITIES[entity].href,
+            "href_new" : ENTITIES[entity].href_new,
             "entityName" : ENTITIES[entity].en_singular,
         }
 
@@ -193,7 +193,7 @@ app.get('/', function(req, res)
         if(useOffline) { results = db_offline['SQL_availableQuests'] }
 
         let newEntityContext = {
-            "href" : ENTITIES["Quests"].href,
+            "href_new" : ENTITIES["Quests"].href_new,
             "entityName" : ENTITIES["Quests"].en_singular,
         }
 
@@ -524,7 +524,6 @@ app.post('/createEntity', function (req, res)
             redirectTarget = '/LootItemTypes/new'
             break
         case "ability":
-            // SQL_statement = `INSERT INTO Abilities (abilityName, abilityDesc) VALUES ('${createData.abilityName}', '${createData.abilityDesc}');`
             SQL_statement = dml.STATEMENTS.INSERT_Abilities(createData['abilityName'], createData['abilityDesc'])
             redirectTarget = '/Abilities/new'
             break

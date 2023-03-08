@@ -51,12 +51,20 @@ let STATEMENTS = {
                                                                         JOIN Monsters_LootItems ON Monsters_LootItems.lootId = LootItems.lootId 
                                                                     WHERE Monsters_LootItems.monsterId=${monsterId} ;`},
 
-    UPDATE_Quests :     function (questId, questName, questDesc, available, questGiverId, suggestedLevel, monsterQty, monsterId, rewardXp, rewardGold) {
-                            return `UPDATE Quests SET questName='${questName}', questDesc='${questDesc}', available=${available}, questGiverId=${questGiverId}, suggestedLevel=${suggestedLevel}, monsterQty=${monsterQty}, rewardXp=${rewardXp}, rewardGold=${rewardGold}, monsterId=${monsterId} WHERE questId=${questId};` },
-    UPDATE_Monsters :   function (monsterId, monsterName, monsterDesc, monsterTypeId, healthPool, attack, defense, speed) {
-                            return `UPDATE Monsters SET monsterName='${monsterName}', monsterDesc='${monsterDesc}', monsterTypeId=${monsterTypeId}, healthPool=${healthPool}, attack=${attack}, defense=${defense}, speed=${speed} WHERE monsterId=${monsterId};` },
-    UPDATE_LootItemsTypes :     function (lootItemTypeId, lootItemTypeName, equipable) {
-                                    return `UPDATE LootItemTypes SET lootItemTypeId=${lootItemTypeId}, lootItemTypeName='${lootItemTypeName}', equipable=${equipable} WHERE lootItemTypeId=${lootItemTypeId};` },
+    UPDATE_Quests :             function (questId, questName, questDesc, available, questGiverId, suggestedLevel, monsterQty, monsterId, rewardXp, rewardGold) {
+                                    return `UPDATE Quests SET questName='${questName}', questDesc='${questDesc}', available=${available}, questGiverId=${questGiverId}, suggestedLevel=${suggestedLevel}, monsterQty=${monsterQty}, rewardXp=${rewardXp}, rewardGold=${rewardGold}, monsterId=${monsterId} WHERE questId=${questId};` },
+    UPDATE_Monsters :           function (monsterId, monsterName, monsterDesc, monsterTypeId, healthPool, attack, defense, speed) {
+                                    return `UPDATE Monsters SET monsterName='${monsterName}', monsterDesc='${monsterDesc}', monsterTypeId=${monsterTypeId}, healthPool=${healthPool}, attack=${attack}, defense=${defense}, speed=${speed} WHERE monsterId=${monsterId};` },
+    UPDATE_LootItemTypes :     function (lootItemTypeId, lootItemTypeName, equipable) {
+                                    return `UPDATE LootItemTypes SET lootItemTypeName='${lootItemTypeName}', equipable=${equipable} WHERE lootItemTypeId=${lootItemTypeId};` },
+    UPDATE_Abilities :          function (abilityId, abilityName, abilityDesc) {
+                                    return `UPDATE Abilities SET abilityName=${abilityName}, abilityDesc='${abilityDesc}' WHERE abilityId=${abilityId};` },
+    UPDATE_LootItems :          function (lootId, lootName, lootDesc, lootItemTypeId, lootValue) {
+                                    return `UPDATE LootItems SET lootName=${lootName}, lootDesc='${lootDesc}', lootItemTypeId='${lootItemTypeId}', lootValue='${lootValue}' WHERE lootId=${lootId};` },
+    UPDATE_MonsterTypes :       function (monsterTypeId, monsterTypeName) {
+                                    return `UPDATE MonsterTypes SET monsterTypeName='${monsterTypeName}' WHERE monsterTypeId=${monsterTypeId};` },
+    UPDATE_QuestGivers :       function (questGiverId, questGiverName) {
+                                    return `UPDATE QuestGivers SET questGiverName='${questGiverName}' WHERE questGiverId=${questGiverId};` },
 
     UPDATE_Monsters_Abilities_Cooldown :    function (monsterId, abilityId, abilityCooldown) {
                                                 return `UPDATE Monsters_Abilities SET abilityCooldown=${abilityCooldown} WHERE (monsterId=${monsterId} and abilityId=${abilityId});` },
