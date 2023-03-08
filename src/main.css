@@ -400,6 +400,7 @@ a {
 .card .editable {
     font-weight: normal;
     border-bottom: #0a0909 1px dashed;
+    margin-bottom: -5px;
 }
 .card.new:hover {
     scale: 105%;

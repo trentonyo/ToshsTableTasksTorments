@@ -94,7 +94,8 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
             document.getElementById(`${editToggleData.entity}-Name-${lootId}`).toggleAttribute("contentEditable")
             document.getElementById(`${editToggleData.entity}-Name-${lootId}`).classList.toggle("editable")
 
-            document.getElementById(`${editToggleData.entity}-Name-${lootId}`).classList.toggle("editable")
+            document.getElementById(`${editToggleData.entity}-lootDesc-${lootId}`).toggleAttribute("contentEditable")
+            document.getElementById(`${editToggleData.entity}-lootDesc-${lootId}`).classList.toggle("editable")
 
             document.getElementById(`${editToggleData.entity}-Subtitle-${lootId}`).classList.toggle("hidden")
             document.getElementById(`${editToggleData.entity}-Edit-Value-${lootId}`).classList.toggle("hidden")
@@ -139,8 +140,8 @@ function updateDOMEntity(updatedEntityData)
             document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
             break
         case "LootItems":
-            //document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
             document.getElementById(`LootItems-lootDesc-${updatedEntityData.id}`).value = updatedEntityData['lootDesc']
+            document.getElementById(`LootItems-Subtitle-${updatedEntityData.id}`).innerText = `(${updatedEntityData['lootValue']} gold)`
             break
         case "LootItemTypes":
             document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
@@ -205,13 +206,6 @@ function updateEntity(button, updatedEntityData)
 
             break
         case "LootItems":
-
-            let nameSplit = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim().split("(")
-            let name = ""
-            for (let i = 0; i < nameSplit.length - 1; i++) {
-                name += nameSplit[i] + (i > 1 ? "(" : "")
-            }
-            updatedEntityData['title'] = name.trim()
 
             updatedEntityData['lootDesc'] = document.getElementById(`${updatedEntityData.entity}-lootDesc-${updatedEntityData.id}`).textContent.trim()
 
