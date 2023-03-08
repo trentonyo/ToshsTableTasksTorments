@@ -34,33 +34,80 @@
     <div class="animate-text-gradient jsp-logo-medium-textColor" data-jsp-palette="logo">Tosh's Table of Tasks and Torments</div>
 </div></a>
 
-<div id="nav_container" class="jsp-global-black-backgroundColor">
-    <a href="/Quests/new"><div class="nav animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Quest +</div></a>
-    <a href="/Monsters/new"><div class="nav animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Monster +</div></a>
-    <a href="/LootItems/new"><div class="nav animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Loot item +</div></a>
-    <a href="/Abilities/new"><div class="nav animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Ability +</div></a>
-
-        <div id="collapse_new" class="nav view collapsing  jsp-new-light-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">...</div>
-        <a href="/QuestGivers/new"><div class="hidden nav collapse-target new animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Quest giver +</div></a>
-        <a href="/MonsterTypes/new"><div class="hidden nav collapse-target new animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Monster type +</div></a>
-        <a href="/LootItemTypes/new"><div class="hidden nav collapse-target new animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Loot item type +</div></a>
-        <a href="/MonstersAbilities/new"><div class="hidden nav collapse-target new animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Monster ability +</div></a>
-        <a href="/MonstersLootItems/new"><div class="hidden nav collapse-target new animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Monster loot +</div></a>
-
-    <a href="/Quests/view"><div class="nav animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View quests</div></a>
-    <a href="/Monsters/view"><div class="nav animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View monsters</div></a>
-    <a href="/LootItems/view"><div class="nav animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View loot items</div></a>
-    <a href="/Abilities/view"><div class="nav animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View abilities</div></a>
-
-        <div id="collapse_view" class="nav new collapsing  jsp-view-light-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">...</div>
-        <a href="/QuestGivers/view"><div class="hidden nav collapse-target view animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View quest givers</div></a>
-        <a href="/MonsterTypes/view"><div class="hidden nav collapse-target view animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View monster types</div></a>
-        <a href="/LootItemTypes/view"><div class="hidden nav collapse-target view animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View loot item types</div></a>
-        <a href="/MonstersAbilities/view"><div class="hidden nav collapse-target view animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View monster abilities</div></a>
-        <a href="/MonstersLootItems/view"><div class="hidden nav collapse-target view animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View monster loot items</div></a>
-</div>
 
 {{{body}}}
+
+
+<div id="nav_container" class="jsp-global-black-backgroundColor">
+
+    <div class="collapse-container quest">
+        <a href="/Quests/view"><div class="nav animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View Quests</div></a>
+        <a href="/QuestGivers/view"><div class="hidden nav collapse-target view animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View Quest Givers</div></a>
+
+        <a href="/Quests/new"><div class="nav hidden collapse-target animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">New Quest</div></a>
+        <a href="/QuestGivers/new"><div class="hidden nav collapse-target new animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">New Quest Giver</div></a>
+
+    </div>
+    <div class="collapse-container monster">
+        <a href="/Monsters/view"><div class="nav animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View Monsters</div></a>
+        <a href="/MonsterTypes/view"><div class="hidden nav collapse-target view animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View Monster Types</div></a>
+        <a href="/MonstersAbilities/view"><div class="hidden nav collapse-target view animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View Monsters' Abilities</div></a>
+        <a href="/MonstersLootItems/view"><div class="hidden nav collapse-target view animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View Monsters' Loot Items</div></a>
+
+        <a href="/Monsters/new"><div class="nav hidden collapse-target animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Add Monster</div></a>
+        <a href="/MonsterTypes/new"><div class="hidden nav collapse-target new animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Add Monster Type</div></a>
+        <a href="/MonstersAbilities/new"><div class="hidden nav collapse-target new animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Assign Ability to Monster</div></a>
+        <a href="/MonstersLootItems/new"><div class="hidden nav collapse-target new animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Add Loot Drop to Monster</div></a>
+
+    </div>
+    <div class="collapse-container loot">
+        <a href="/LootItems/view"><div class="nav animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View loot items</div></a>
+        <a href="/LootItemTypes/view"><div class="hidden nav collapse-target view animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View loot item types</div></a>
+        <a href="/MonstersLootItems/view"><div class="hidden nav collapse-target view animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View Monsters' Loot Items</div></a>
+
+        <a href="/LootItems/new"><div class="nav hidden collapse-target animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">New Loot Item</div></a>
+        <a href="/LootItemTypes/new"><div class="hidden nav collapse-target new animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">New Loot Item Type</div></a>
+        <a href="/MonstersLootItems/new"><div class="hidden nav collapse-target new animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Add Loot Drop to Monster</div></a>
+
+    </div>
+    <div class="collapse-container ability">
+        <a href="/Abilities/view"><div class="nav animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View Abilities</div></a>
+        <a href="/MonstersAbilities/view"><div class="hidden nav collapse-target view animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View Monsters' Abilities</div></a>
+
+        <a href="/Abilities/new"><div class="nav hidden collapse-target animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">New Ability</div></a>
+        <a href="/MonstersAbilities/new"><div class="hidden nav collapse-target new animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Assign Ability to Monster</div></a>
+
+    </div>
+    <!--    -->
+    <!--    -->
+    <!--    <a href="/Quests/new"><div class="nav animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">New Quest</div></a>-->
+    <!--    <a href="/Monsters/new"><div class="nav animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Add Monster</div></a>-->
+    <!--    <a href="/LootItems/new"><div class="nav animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">New Loot Item</div></a>-->
+    <!--    <a href="/Abilities/new"><div class="nav animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">New Ability</div></a>-->
+
+    <!--    <div id="collapse_new">-->
+    <!--        <div class="nav view collapsing  jsp-new-light-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">...</div>-->
+    <!--        <a href="/QuestGivers/new"><div class="hidden nav collapse-target new animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">New Quest Giver</div></a>-->
+    <!--        <a href="/MonsterTypes/new"><div class="hidden nav collapse-target new animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Add Monster Type</div></a>-->
+    <!--        <a href="/LootItemTypes/new"><div class="hidden nav collapse-target new animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">New Loot Item Type</div></a>-->
+    <!--        <a href="/MonstersAbilities/new"><div class="hidden nav collapse-target new animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Assign Ability to Monster</div></a>-->
+    <!--        <a href="/MonstersLootItems/new"><div class="hidden nav collapse-target new animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor" data-jsp-palette="new">Add Loot Drop to Monster</div></a>-->
+    <!--    </div>-->
+
+    <!--    <a href="/Quests/view"><div class="nav animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View Quests</div></a>-->
+    <!--    <a href="/Monsters/view"><div class="nav animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View Monsters</div></a>-->
+    <!--    <a href="/LootItems/view"><div class="nav animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View loot items</div></a>-->
+    <!--    <a href="/Abilities/view"><div class="nav animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View Abilities</div></a>-->
+
+    <!--    <div id="collapse_view">-->
+    <!--        <div class="nav new collapsing  jsp-view-light-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">...</div>-->
+    <!--        <a href="/QuestGivers/view"><div class="hidden nav collapse-target view animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View Quest Givers</div></a>-->
+    <!--        <a href="/MonsterTypes/view"><div class="hidden nav collapse-target view animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View Monster Types</div></a>-->
+    <!--        <a href="/LootItemTypes/view"><div class="hidden nav collapse-target view animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View loot item types</div></a>-->
+    <!--        <a href="/MonstersAbilities/view"><div class="hidden nav collapse-target view animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View Monsters' Abilities</div></a>-->
+    <!--        <a href="/MonstersLootItems/view"><div class="hidden nav collapse-target view animate-background-gradient jsp-view-medium-backgroundColor jsp-view-dark-textColor" data-jsp-palette="view">View Monsters' Loot Items</div></a>-->
+    <!--    </div>-->
+</div>
 
 <div id="modal_animationSwitch" class="nav animate-background-gradient jsp-new-medium-backgroundColor jsp-new-dark-textColor jsp-new-dark-thinBorderColor" data-jsp-palette="new">
     Animations <input type="checkbox" id="animationSwitch" checked>

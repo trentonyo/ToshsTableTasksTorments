@@ -156,9 +156,15 @@ let viewEntity = function(req, res, next)
         //Offline override
         if(useOffline) { results = db_offline['SQL_all'+entity] }
 
+        let newEntityContext = {
+            "href" : ENTITIES[entity].href,
+            "entityName" : ENTITIES[entity].en_singular,
+        }
+
         let context = {
             "entity" : entity,
-            "queryName" : "All "+entity,
+            "newEntityContext" : newEntityContext,
+            "queryName" : "All "+ENTITIES[entity].en_plural,
             "results" : results
         }
 
@@ -186,8 +192,14 @@ app.get('/', function(req, res)
         //Offline override
         if(useOffline) { results = db_offline['SQL_availableQuests'] }
 
+        let newEntityContext = {
+            "href" : ENTITIES["Quests"].href,
+            "entityName" : ENTITIES["Quests"].en_singular,
+        }
+
         let context = {
             "entity" : "Quests",
+            "newEntityContext" : newEntityContext,
             "queryName" : "Available Quests" + (useOffline ? " (OFFLINE MODE)" : ""),
             "results" : results
         }

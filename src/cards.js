@@ -45,18 +45,21 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
             document.getElementById(`${editToggleData.entity}-Name-${questId}`).toggleAttribute("contentEditable")
             document.getElementById(`${editToggleData.entity}-questDesc-${questId}`).toggleAttribute("contentEditable")
             document.getElementById(`${editToggleData.entity}-Name-${questId}`).classList.toggle("editable")
+            document.getElementById(`${editToggleData.entity}-Name-${questId}`).focus()
             toggleElementById(`update-Quests-${questId}`)
             break
         case "QuestGivers":
             let questGiverId = editToggleData.id
             document.getElementById(`${editToggleData.entity}-Name-${questGiverId}`).toggleAttribute("contentEditable")
             document.getElementById(`${editToggleData.entity}-Name-${questGiverId}`).classList.toggle("editable")
+            document.getElementById(`${editToggleData.entity}-Name-${questGiverId}`).focus()
             toggleElementById(`update-QuestGivers-${questGiverId}`)
             break
         case "MonsterTypes":
             let monsterTypeId = editToggleData.id
             document.getElementById(`${editToggleData.entity}-Name-${monsterTypeId}`).toggleAttribute("contentEditable")
             document.getElementById(`${editToggleData.entity}-Name-${monsterTypeId}`).classList.toggle("editable")
+            document.getElementById(`${editToggleData.entity}-Name-${monsterTypeId}`).focus()
             toggleElementById(`update-MonsterTypes-${monsterTypeId}`)
             break
         case "LootItems":
@@ -71,7 +74,9 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
             let lootItemTypeId = editToggleData.id
             document.getElementById(`${editToggleData.entity}-Name-${lootItemTypeId}`).toggleAttribute("contentEditable")
             document.getElementById(`${editToggleData.entity}-Name-${lootItemTypeId}`).classList.toggle("editable")
-            toggleElementById(`update-lootItemType-${lootItemTypeId}` )
+            document.getElementById(`${editToggleData.entity}-Name-${lootItemTypeId}`).focus()
+
+            toggleElementById(`update-LootItemTypes-${lootItemTypeId}` )
             toggleElementById(`edit-equipable-${lootItemTypeId}`)
             toggleElementById(`equipable-${lootItemTypeId}`)
             break
@@ -80,6 +85,7 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
             document.getElementById(`${editToggleData.entity}-Name-${abilityId}`).toggleAttribute("contentEditable")
             document.getElementById(`${editToggleData.entity}-abilityDesc-${abilityId}`).toggleAttribute("contentEditable")
             document.getElementById(`${editToggleData.entity}-Name-${abilityId}`).classList.toggle("editable")
+            document.getElementById(`${editToggleData.entity}-Name-${abilityId}`).focus()
             toggleElementById(`update-Abilities-${abilityId}`)
             break
         default:
@@ -138,7 +144,7 @@ function deleteDOMEntity(updatedEntityData)
             document.getElementById(`LootItems-${updatedEntityData.id}`).remove()
             break
         case "LootItemTypes":
-            document.getElementById(`LootItemType-${updatedEntityData.id}`).remove()
+            document.getElementById(`LootItemTypes-${updatedEntityData.id}`).remove()
             break
         case "Abilities":
             document.getElementById(`Abilities-${updatedEntityData.id}`).remove()

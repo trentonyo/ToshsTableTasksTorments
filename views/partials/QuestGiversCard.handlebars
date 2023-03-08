@@ -3,6 +3,8 @@
         <div class="title animate-background-gradient jsp-global-black-textColor" data-jsp-palette="quest" id="QuestGivers-Name-{{questGiverId}}">
             {{questGiverName}} {{#if view}}<span class="page_subtitle">- Quest Giver</span>{{/if}}
         </div>
+        <br>
+        <br>
         <div class="button_container">
             <button onClick="toggleEditMode(this, {'entity': 'QuestGivers', 'id': '{{questGiverId}}'}, true)" id="toggleEdit-QuestGivers-{{questGiverId}}">Edit</button>
             <button onClick="updateEntity(this, {'entity': 'QuestGivers', 'id': '{{questGiverId}}'} )" id="update-QuestGivers-{{questGiverId}}" class="hidden">Submit</button>

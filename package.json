@@ -1,6 +1,6 @@
 {
   "name": "toshstabletaskstorments",
-  "version": "0.6.0",
+  "version": "0.9.0",
   "description": "CS 340 Final Project - Tosh is a barkeep who fields questions from a lot of adventurers, this enchanted table helps him keep the facts straight.",
   "main": "server.js",
   "scripts": {
