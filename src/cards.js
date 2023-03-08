@@ -172,6 +172,24 @@ function updateDOMEntity(updatedEntityData)
             document.getElementById(`LootItems-ItemType-${updatedEntityData.id}`).innerText = updatedEntityData['lootItemTypeName']
             document.getElementById(`lootTypes-list-${updatedEntityData.id}`).dataset.current = updatedEntityData['lootItemTypeId']
             break
+        case "Monsters":
+            // updatedEntityData['monsterTypeId']
+            // updatedEntityData['healthPool']
+            // updatedEntityData['attack']
+            // updatedEntityData['defense']
+            // updatedEntityData['speed']
+
+            let monsterStatsContainer = document.getElementById(`Monsters-Stats-${updatedEntityData.id}`)
+            let newMonsterStats = {
+                attack : updatedEntityData['attack'],
+                defense : updatedEntityData['defense'],
+                speed : updatedEntityData['speed'],
+                healthPool : updatedEntityData['healthPool']
+            }
+            console.log(Handlebars)
+            monsterStatsContainer.innerHTML = Handlebars.templates['MonstersInfoBand'](newMonsterStats)
+
+            break
         case "LootItemTypes":
             document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
             document.getElementById(`edit-equipable-${updatedEntityData.id}`).value = updatedEntityData['equipable']

@@ -13,7 +13,7 @@
     "build_QuestGiversTitle": "handlebars views/partials/QuestGiversTitle.handlebars -f public/QuestGiversTitleTemplate.js",
     "build_QuestGiversFormNew": "handlebars views/partials/QuestGiversFormNew.handlebars -f public/QuestGiversFormNewTemplate.js",
     "build_QuestGiversInfoBand": "handlebars views/partials/QuestGiversInfoBand.handlebars -f public/QuestGiversInfoBandTemplate.js",
-    "build_MonstersCard": "handlebars views/partials/MonstersCard.handlebars -f public/MonstersCardTemplate.js",
+    "build_MonstersCard": "handlebars views/partials/MonstersCard.handlebars -f public/MonstersCardTemplate.precompiled.js",
     "build_MonstersTitle": "handlebars views/partials/MonstersTitle.handlebars -f public/MonstersTitleTemplate.js",
     "build_MonstersInfoBand": "handlebars views/partials/MonstersInfoBand.handlebars -f public/MonstersInfoBandTemplate.js",
     "build_MonstersEditInfoBand": "handlebars views/partials/MonstersEditInfoBand.handlebars -f public/MonstersEditInfoBandTemplate.js",
@@ -62,6 +62,7 @@
     "express-handlebars": "^6.0.7",
     "forever": "^4.0.3",
     "handlebars": "^4.7.7",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "path": "^0.12.7"
   }
 }

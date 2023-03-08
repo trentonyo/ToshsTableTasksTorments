@@ -7,6 +7,7 @@ const express               = require('express')    // We are using the express 
 const handlebars            = require('handlebars')
 const express_handlebars    = require('express-handlebars')
 const filesystem            = require('fs')
+const path                  = require('path')
 
 let app = express()             // We need to instantiate an express object to interact with the app in our code
 PORT    = 2765                  // Set a port number at the top, so it's easy to change in the future
@@ -105,6 +106,7 @@ if (process.argv.length === 3 && process.argv[2] === ARG_OFFLINE)
  * Handlebars steps
  */
 const partialTypes = ["Card", "Title", "InfoBand"]
+let precompiledPartials = {}
 
 partialTypes.forEach(function (value, index, array)
 {
@@ -123,6 +125,53 @@ handlebars.registerHelper('localizeChance', function (chance, options)
     return (chance === 1) ? "Guaranteed" : `${percent} Chance`;
 })
 
+/** Can't confirm that this works.
+ * -- Trenton
+ * @param module the object in which to store the precompiled output
+ */
+let precompilePartials = function (module)
+{
+    console.log("Precompiling Handlebars partials...")
+    let partialsPath = "./views/partials"
+    filesystem.readdir(partialsPath, function (err, files) {
+        if (err) { console.log("Unable to read partials directory, exiting."); return false }
+
+        files.forEach(function (file, index) {
+            let currentPath = path.join(partialsPath, file)
+            const BUFFER_SIZE = 4096
+            let buffer = new Buffer.alloc(BUFFER_SIZE);
+
+            filesystem.open(currentPath, 'r', function (err, fd) {
+                if (err) { console.log(`Unable to open file ${currentPath}, exiting.`); return false}
+
+                filesystem.read(fd, buffer, 0, buffer.length, 0, function (err, bytesRead) {
+                    if (err) { console.log(`Unable to read file ${currentPath}, exiting.`); return false}
+
+                    if (bytesRead >= BUFFER_SIZE)
+                    {
+                        console.log(`ERROR: Partial ${currentPath} overflowed buffer, exiting.`)
+                        return false
+                    }
+                    else if (bytesRead > 0)
+                    {
+                        /** Success **/
+                        let currentPartial = buffer.subarray(0, bytesRead).toString()
+                        module[file] = handlebars.precompile(currentPartial)
+                    }
+
+                    // Close the opened file.
+                    filesystem.close(fd, function (err) {
+                        if (err) { console.log(`Unable to close file ${currentPath}, exiting.`); return false}
+
+                    });
+                })
+            })
+        })
+    })
+}
+
+precompilePartials(precompiledPartials)
+
 /**
  * Middleware to parse POST body
  */
@@ -138,6 +187,7 @@ app.use(express.static("src/"))
 ///View
 let viewEntity = function(req, res, next)
 {
+    // console.log(precompiledPartials) //TODO DEBUG
     let entity = req.params.entity
 
     let query = ""
