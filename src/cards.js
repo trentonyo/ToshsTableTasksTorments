@@ -173,11 +173,7 @@ function updateDOMEntity(updatedEntityData)
             document.getElementById(`lootTypes-list-${updatedEntityData.id}`).dataset.current = updatedEntityData['lootItemTypeId']
             break
         case "Monsters":
-            // updatedEntityData['monsterTypeId']
-            // updatedEntityData['healthPool']
-            // updatedEntityData['attack']
-            // updatedEntityData['defense']
-            // updatedEntityData['speed']
+            document.getElementById(`Monsters-TypeName-${updatedEntityData.id}`).innerText = updatedEntityData['monsterTypeName']
 
             let monsterStatsContainer = document.getElementById(`Monsters-Stats-${updatedEntityData.id}`)
             let newMonsterStats = {
@@ -186,7 +182,6 @@ function updateDOMEntity(updatedEntityData)
                 speed : updatedEntityData['speed'],
                 healthPool : updatedEntityData['healthPool']
             }
-            console.log(Handlebars)
             monsterStatsContainer.innerHTML = Handlebars.templates['MonstersInfoBand'](newMonsterStats)
 
             break
@@ -249,6 +244,8 @@ function updateEntity(button, updatedEntityData)
         case "Monsters":
             updatedEntityData['monsterDesc'] = document.getElementById(`Monsters-Desc-${updatedEntityData.id}`).textContent.trim()
             updatedEntityData['monsterTypeId'] = document.getElementById(`monster-types-list-${updatedEntityData.id}`).value
+            let monsterTypeSelect = document.getElementById(`monster-types-list-${updatedEntityData.id}`)
+            updatedEntityData['monsterTypeName'] = monsterTypeSelect.options[monsterTypeSelect.selectedIndex].innerText
             updatedEntityData['healthPool'] = document.getElementById(`editHealthPool-${updatedEntityData.id}`).value
             updatedEntityData['attack'] =  document.getElementById(`editAttack-${updatedEntityData.id}`).value
             updatedEntityData['defense'] =  document.getElementById(`editDefense-${updatedEntityData.id}`).value
