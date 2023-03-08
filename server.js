@@ -628,6 +628,10 @@ app.post('/updateEntity', function (req, res, next)
             SQL_statement = `UPDATE MonsterTypes SET monsterTypename = '${updatedData.title}' WHERE monsterTypeId = ${updatedData.id};`
             redirectTarget = '/MonsterTypes/view'
             break
+        case "Monsters":
+            SQL_statement = ENTITIES["Monsters"].query_Update(dfdfdfdfdf)
+            redirectTarget = '/Monsters/view'
+            break
         case "LootItems":
             // SQL_statement = `UPDATE LootItems SET lootName = '${updatedData.title}', lootDesc = '${updatedData.lootDesc}' WHERE lootId = ${updatedData.id};`
             SQL_statement = ENTITIES["LootItems"].query_Update(updatedData["id"], updatedData["title"], updatedData["lootDesc"], updatedData["lootItemTypeId"], updatedData["lootValue"])

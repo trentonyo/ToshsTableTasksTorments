@@ -1,25 +1,26 @@
 <div class="card monster jsp-monster-light-backgroundColor jsp-monster-light-thickerBorderColor {{# if view}}full static{{/if}}">
     <div class="title animate-background-gradient jsp-global-black-textColor" data-jsp-palette="monster">
-        {{monsterName}}
+        <div id="Monsters-Name-{{monsterId}}">
+            {{monsterName}}
+        </div>
+
         {{#if monsterQty}}
             <span class="subtitle nowrap">(Defeat {{monsterQty}})</span>
-        {{else}}
         {{/if}}
+
     </div>
-    <div class="description jsp-quest-dark-textColor">
+    <div class="description stats jsp-quest-dark-textColor" id="Monsters-Stats-{{monsterId}}">
         {{#if questId}}
-            <div class="stats">
-                {{attack}} ATK | {{defense}} DEF | {{speed}} SPD | {{healthPool}} HP
-            </div>
+            {{> MonstersInfoBand}}
         {{else if view}}
         {{else}}
-            <div class="stats">
-                {{attack}} ATK | {{defense}} DEF | {{speed}} SPD | {{healthPool}} HP
-            </div>
+            {{> MonstersInfoBand}}
         {{/if}}
-
+    </div>
+    <div class="description jsp-quest-dark-textColor" id="Monsters-Type-{{monsterId}}">
         <div class="subtitle stats">{{monsterTypeName}}</div>
-
+    </div>
+    <div class="description jsp-quest-dark-textColor" id="Monsters-Desc-{{monsterId}}">
         {{monsterDesc}}
     </div>
 

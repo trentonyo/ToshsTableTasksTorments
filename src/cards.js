@@ -107,7 +107,19 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
 
             toggleElementById(`update-LootItems-${lootId}`)
             break
-        case "LootItemTypes": 
+        case "Monsters":
+            let monsterId = editToggleData.id
+            // TODO allow editing of title/value
+
+            document.getElementById(`${editToggleData.entity}-Name-${monsterId}`).toggleAttribute("contentEditable")
+            document.getElementById(`${editToggleData.entity}-Name-${monsterId}`).classList.toggle("editable")
+
+            document.getElementById(`${editToggleData.entity}-Desc-${monsterId}`).toggleAttribute("contentEditable")
+            document.getElementById(`${editToggleData.entity}-Desc-${monsterId}`).classList.toggle("editable")
+
+            toggleElementById(`update-Monsters-${monsterId}`)
+            break
+        case "LootItemTypes":
             let lootItemTypeId = editToggleData.id
             document.getElementById(`${editToggleData.entity}-Name-${lootItemTypeId}`).toggleAttribute("contentEditable")
             document.getElementById(`${editToggleData.entity}-Name-${lootItemTypeId}`).classList.toggle("editable")
