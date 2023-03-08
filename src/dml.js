@@ -112,7 +112,7 @@ let STATEMENTS = {
     UPDATE_Abilities :          function (abilityId, abilityName, abilityDesc) {
                                     return `UPDATE Abilities SET abilityName=${sanitize(abilityName)}, abilityDesc='${sanitize(abilityDesc)}' WHERE abilityId=${sanitize(abilityId)};` },
     UPDATE_LootItems :          function (lootId, lootName, lootDesc, lootItemTypeId, lootValue) {
-                                    return `UPDATE LootItems SET lootName=${sanitize(lootName)}, lootDesc='${sanitize(lootDesc)}', lootItemTypeId='${sanitize(lootItemTypeId)}', lootValue='${sanitize(lootValue)}' WHERE lootId=${sanitize(lootId)};` },
+                                    return `UPDATE LootItems SET lootName='${sanitize(lootName)}', lootDesc='${sanitize(lootDesc)}', lootItemTypeId='${sanitize(lootItemTypeId)}', lootValue='${sanitize(lootValue)}' WHERE lootId=${sanitize(lootId)};` },
     UPDATE_MonsterTypes :       function (monsterTypeId, monsterTypeName) {
                                     return `UPDATE MonsterTypes SET monsterTypeName='${sanitize(monsterTypeName)}' WHERE monsterTypeId=${sanitize(monsterTypeId)};` },
     UPDATE_QuestGivers :       function (questGiverId, questGiverName) {

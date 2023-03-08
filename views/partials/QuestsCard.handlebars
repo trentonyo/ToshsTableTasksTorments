@@ -30,7 +30,7 @@
         <button onClick="updateEntity(this, {'entity': 'Quests', 'id': '{{questId}}'} )" id="update-Quests-{{questId}}" class="hidden">Submit</button>
     {{else}}
         <div class="button_container">
-            <a href="/Quests/view/{{questId}}/?edit=1"><button id="toggleEdit-Quests-{{questId}}">Edit</button></a>
+            <a href="/Quests/view/{{questId}}/?edit=1"><button id="toggleEdit-Quests-{{questId}}">Edit/View</button></a>
             <button onClick="deleteEntity(this, {'entity': 'Quests', 'id': '{{questId}}'} )">Delete</button>
         </div>
     {{/if}}

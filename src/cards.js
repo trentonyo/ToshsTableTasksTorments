@@ -90,9 +90,14 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
         case "LootItems":
             let lootId = editToggleData.id
             // TODO allow editing of title/value
-            //document.getElementById(`${editToggleData.entity}-Name-${lootId}`).toggleAttribute("contentEditable")
-            //document.getElementById(`${editToggleData.entity}-Name-${lootId}`).classList.toggle("editable")
-            document.getElementById(`${editToggleData.entity}-lootDesc-${lootId}`).toggleAttribute("contentEditable")
+
+            document.getElementById(`${editToggleData.entity}-Name-${lootId}`).toggleAttribute("contentEditable")
+            document.getElementById(`${editToggleData.entity}-Name-${lootId}`).classList.toggle("editable")
+
+            document.getElementById(`${editToggleData.entity}-Name-${lootId}`).classList.toggle("editable")
+
+            document.getElementById(`${editToggleData.entity}-Subtitle-${lootId}`).classList.toggle("hidden")
+            document.getElementById(`${editToggleData.entity}-Edit-Value-${lootId}`).classList.toggle("hidden")
             toggleElementById(`update-LootItems-${lootId}`)
             break
         case "LootItemTypes": 
@@ -201,7 +206,18 @@ function updateEntity(button, updatedEntityData)
             break
         case "LootItems":
 
+            let nameSplit = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim().split("(")
+            let name = ""
+            for (let i = 0; i < nameSplit.length - 1; i++) {
+                name += nameSplit[i] + (i > 1 ? "(" : "")
+            }
+            updatedEntityData['title'] = name.trim()
+
             updatedEntityData['lootDesc'] = document.getElementById(`${updatedEntityData.entity}-lootDesc-${updatedEntityData.id}`).textContent.trim()
+
+            updatedEntityData['lootItemTypeId'] = 1
+            updatedEntityData['lootValue'] = document.getElementById(`editValue-${updatedEntityData.id}`).value
+
             break
         case "LootItemTypes":
 
