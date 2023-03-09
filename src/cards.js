@@ -167,9 +167,10 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
         case "MonstersAbilities":
             let MonstersAbilitiesId = editToggleData.id
 
-            document.getElementById(`${editToggleData.entity}-Name-${MonstersAbilitiesId}`).toggleAttribute("contentEditable")
+            // document.getElementById(`${editToggleData.entity}-Name-${MonstersAbilitiesId}`).toggleAttribute("contentEditable")
             document.getElementById(`${editToggleData.entity}-Name-${MonstersAbilitiesId}`).classList.toggle("editable")
-            document.getElementById(`${editToggleData.entity}-Name-${MonstersAbilitiesId}`).focus()
+            document.getElementById(`${editToggleData.entity}-Name-${MonstersAbilitiesId}`).classList.toggle("locked")
+            // document.getElementById(`${editToggleData.entity}-Name-${MonstersAbilitiesId}`).focus()
 
             document.getElementById(`${editToggleData.entity}-ViewDetails-${MonstersAbilitiesId}`).classList.toggle("hidden")
             document.getElementById(`${editToggleData.entity}-EditDetails-${MonstersAbilitiesId}`).classList.toggle("hidden")
@@ -179,9 +180,10 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
         case "MonstersLootItems":
             let MonstersLootItemsId = editToggleData.id
 
-            document.getElementById(`${editToggleData.entity}-Name-${MonstersLootItemsId}`).toggleAttribute("contentEditable")
+            // document.getElementById(`${editToggleData.entity}-Name-${MonstersLootItemsId}`).toggleAttribute("contentEditable")
             document.getElementById(`${editToggleData.entity}-Name-${MonstersLootItemsId}`).classList.toggle("editable")
-            document.getElementById(`${editToggleData.entity}-Name-${MonstersLootItemsId}`).focus()
+            document.getElementById(`${editToggleData.entity}-Name-${MonstersLootItemsId}`).classList.toggle("locked")
+            // document.getElementById(`${editToggleData.entity}-Name-${MonstersLootItemsId}`).focus()
 
             document.getElementById(`${editToggleData.entity}-ViewDetails-${MonstersLootItemsId}`).classList.toggle("hidden")
             document.getElementById(`${editToggleData.entity}-EditDetails-${MonstersLootItemsId}`).classList.toggle("hidden")

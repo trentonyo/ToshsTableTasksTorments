@@ -415,6 +415,14 @@ a {
 
     font-style: italic;
 }
+.card .editable.locked {
+    background-color: #fff;
+    color: #000;
+    user-select: none;
+    cursor: not-allowed;
+    font-style: normal;
+    font-weight: bold;
+}
 .card .editable {
     font-weight: normal;
     border-bottom: #0a0909 1px dashed;
