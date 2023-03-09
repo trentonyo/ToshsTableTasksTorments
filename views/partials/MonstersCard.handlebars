@@ -9,14 +9,16 @@
         {{/if}}
 
     </div>
-    <div class="description stats jsp-quest-dark-textColor" id="Monsters-Stats-{{monsterId}}">
         {{#if questId}}
-            {{> MonstersInfoBand}}
+            <div class="description stats jsp-quest-dark-textColor" id="Monsters-Stats-{{monsterId}}">
+                {{> MonstersInfoBand}}
+            </div>
         {{else if view}}
         {{else}}
-            {{> MonstersInfoBand}}
+            <div class="description stats jsp-quest-dark-textColor" id="Monsters-Stats-{{monsterId}}">
+                {{> MonstersInfoBand}}
+            </div>
         {{/if}}
-    </div>
     <div class="hidden description stats jsp-quest-dark-textColor" id="Monsters-EditStats-{{monsterId}}">
         {{> MonstersEditInfoBand}}
     </div>

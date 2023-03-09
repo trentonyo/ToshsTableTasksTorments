@@ -102,6 +102,7 @@ let STATEMENTS = {
                                                                     WHERE Monsters_Abilities.monsterId=${sanitize(monsterId)} ;`},
     SELECT_LootItemsByMonstersID:   function (monsterId) { return   `SELECT * FROM LootItems 
                                                                         JOIN Monsters_LootItems ON Monsters_LootItems.lootId = LootItems.lootId 
+                                                                        INNER JOIN LootItemTypes on LootItems.lootItemTypeId = LootItemTypes.lootItemTypeId
                                                                     WHERE Monsters_LootItems.monsterId=${sanitize(monsterId)} ;`},
 
     UPDATE_Quests :             function (questId, questName, questDesc, available, questGiverId, suggestedLevel, monsterQty, monsterId, rewardXp, rewardGold) {
