@@ -126,8 +126,12 @@ handlebars.registerHelper('localizeChance', function (chance, options)
 })
 handlebars.registerHelper('compoundId', function (id1, id2)
 {
-    return `${id1}-${id2}`
+    return compoundIds(id1, id2)
 })
+
+const COMPOUND_ID_DELINEATOR = '-'
+let compoundIds = function (id1, id2) { return `${id1}${COMPOUND_ID_DELINEATOR}${id2}`  }
+let getIdsFromCompound = function (compoundId) { return compoundId.split(COMPOUND_ID_DELINEATOR) }
 
 /** Can't confirm that this works.
  * -- Trenton
@@ -434,9 +438,9 @@ app.get('/:entity/view/:entityID', function(req, res, next)
 
     if (entity === "MonstersAbilities" || entity === "MonstersLootItems")
     {
-        let tmp = entityID
-        entityID = tmp.split("-")[0]
-        entityID2 = tmp.split("-")[1]
+        let tmp = getIdsFromCompound(entityID)
+        entityID = tmp[0]
+        entityID2 = tmp[1]
     }
 
     let query = get_SQL_thisEntity(entity, entityID, entityID2)
@@ -684,7 +688,7 @@ app.post('/updateEntity', function (req, res, next)
             redirectTarget = '/QuestGivers/view'
             break
         case "MonsterTypes":
-            SQL_statement = `UPDATE MonsterTypes SET monsterTypename = '${updatedData.title}' WHERE monsterTypeId = ${updatedData.id};`
+            SQL_statement = `UPDATE MonsterTypes SET monsterTypename = '${updatedData.title}' WHERE monsterTypeId = ${updatedData.id};` //TODO use dml.js
             redirectTarget = '/MonsterTypes/view'
             break
         case "Monsters":
@@ -702,8 +706,16 @@ app.post('/updateEntity', function (req, res, next)
             SQL_statement = ENTITIES[updatedData.entity].query_Update(updatedData.id, updatedData.title, updatedData.equipable)
             redirectTarget = false
             break
+        case "MonstersAbilities":
+            SQL_statement = ENTITIES[updatedData.entity].query_Update(getIdsFromCompound(updatedData.id)[0], getIdsFromCompound(updatedData.id)[1], updatedData.abilityCooldown)
+            redirectTarget = false
+            break
+        case "MonstersLootItems":
+            SQL_statement = ENTITIES[updatedData.entity].query_Update(getIdsFromCompound(updatedData.id)[0], getIdsFromCompound(updatedData.id)[1], updatedData.dropQuantity, updatedData.dropChance)
+            redirectTarget = false
+            break
         case "Abilities":
-            SQL_statement = `UPDATE Abilities SET abilityName = '${updatedData.title}', abilityDesc = '${updatedData.abilityDesc}' WHERE abilityId = ${updatedData.id};`
+            SQL_statement = `UPDATE Abilities SET abilityName = '${updatedData.title}', abilityDesc = '${updatedData.abilityDesc}' WHERE abilityId = ${updatedData.id};` //TODO use dml.js
             redirectTarget = '/Abilities/view'
             break
         default:

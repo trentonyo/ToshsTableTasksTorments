@@ -323,6 +323,15 @@ function updateEntity(button, updatedEntityData)
 
             updatedEntityData['abilityDesc'] = document.getElementById(`${updatedEntityData.entity}-abilityDesc-${updatedEntityData.id}`).textContent.trim()
             break
+        case "MonstersAbilities":
+
+            updatedEntityData['abilityCooldown'] = document.getElementById(`editCooldown-${updatedEntityData.id}`).value
+            break
+        case "MonstersLootItems":
+
+            updatedEntityData['dropQuantity'] = document.getElementById(`editDropQuantity-${updatedEntityData.id}`).value
+            updatedEntityData['dropChance'] = document.getElementById(`editDropChance-${updatedEntityData.id}`).value
+            break
         default:
             console.log(`Unexpected entity type '${updatedEntityData.entity}!`, updatedEntityData)
     }

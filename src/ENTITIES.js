@@ -49,11 +49,13 @@ const ENTITIES = {
         query_SelectAll: dml.STATEMENTS.SELECT_AllMonsters_Abilities,
         query_SelectByCompoundId: dml.STATEMENTS.SELECT_Monsters_AbilitiesByID,
         query_Insert: dml.STATEMENTS.INSERT_Monsters_Abilities,
+        query_Update: dml.STATEMENTS.UPDATE_Monsters_Abilities_Cooldown,
         query_Delete: dml.STATEMENTS.DELETE_Monsters_AbilitiesByID},
     "MonstersLootItems" : {id: ["monsterId", "lootId"], en_singular: "Monster/Loot Item Pair", en_plural: "Monsters' Loot Items", href_view: "/MonstersLootItems/view", href_new: "/MonstersLootItems/new",
         query_SelectAll: dml.STATEMENTS.SELECT_AllMonsters_LootItems,
         query_SelectByCompoundId: dml.STATEMENTS.SELECT_Monsters_LootItemsByID,
         query_Insert: dml.STATEMENTS.INSERT_Monsters_LootItems,
+        query_Update: dml.STATEMENTS.UPDATE_Monsters_LootItems_Drops,
         query_Delete: dml.STATEMENTS.DELETE_Monsters_LootItemsByID}
 }
 
