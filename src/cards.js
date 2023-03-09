@@ -171,6 +171,9 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
             document.getElementById(`${editToggleData.entity}-Name-${MonstersAbilitiesId}`).classList.toggle("editable")
             document.getElementById(`${editToggleData.entity}-Name-${MonstersAbilitiesId}`).focus()
 
+            document.getElementById(`${editToggleData.entity}-ViewDetails-${MonstersAbilitiesId}`).classList.toggle("hidden")
+            document.getElementById(`${editToggleData.entity}-EditDetails-${MonstersAbilitiesId}`).classList.toggle("hidden")
+
             toggleElementById(`update-MonstersAbilities-${MonstersAbilitiesId}`)
             break
         case "MonstersLootItems":
@@ -179,6 +182,9 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
             document.getElementById(`${editToggleData.entity}-Name-${MonstersLootItemsId}`).toggleAttribute("contentEditable")
             document.getElementById(`${editToggleData.entity}-Name-${MonstersLootItemsId}`).classList.toggle("editable")
             document.getElementById(`${editToggleData.entity}-Name-${MonstersLootItemsId}`).focus()
+
+            document.getElementById(`${editToggleData.entity}-ViewDetails-${MonstersLootItemsId}`).classList.toggle("hidden")
+            document.getElementById(`${editToggleData.entity}-EditDetails-${MonstersLootItemsId}`).classList.toggle("hidden")
 
             toggleElementById(`update-MonstersLootItems-${MonstersLootItemsId}`)
             break

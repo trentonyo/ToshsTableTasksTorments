@@ -2,9 +2,12 @@
     <div class="title animate-background-gradient jsp-global-black-textColor" data-jsp-palette="monster" id="MonstersLootItems-Name-{{compoundId monsterId lootId}}">
         {{monsterName}}
     </div>
-    <div class="description jsp-loot-dark-textColor">
+    <div class="description jsp-loot-dark-textColor" id="MonstersLootItems-ViewDetails-{{compoundId monsterId lootId}}">
         {{#unless view}}<div class="stats">{{dropQuantity}} Dropped | {{localizeChance dropChance}}</div>{{/unless}}
         {{lootName}}
+    </div>
+    <div class="hidden description jsp-ability-dark-textColor" id="MonstersLootItems-EditDetails-{{compoundId monsterId lootId}}">
+        changey change change
     </div>
 
     <br>
