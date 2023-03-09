@@ -67,9 +67,14 @@ for (let i = 0; i < input_fields.length; i++)
 
     if (placeholder.length > 0)
     {
-        input_fields[i].addEventListener("auxclick", function (e)
+        input_fields[i].addEventListener("contextmenu", function (e)
         {
-            input_fields[i].value = placeholder
+            console.log(input_fields[i].value.length)
+            if (input_fields[i].value.length === 0)
+            {
+                e.preventDefault()
+                input_fields[i].value = placeholder
+            }
         })
     }
 }
