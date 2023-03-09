@@ -164,6 +164,24 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
             document.getElementById(`${editToggleData.entity}-Name-${abilityId}`).focus()
             toggleElementById(`update-Abilities-${abilityId}`)
             break
+        case "MonstersAbilities":
+            let MonstersAbilitiesId = editToggleData.id
+
+            document.getElementById(`${editToggleData.entity}-Name-${MonstersAbilitiesId}`).toggleAttribute("contentEditable")
+            document.getElementById(`${editToggleData.entity}-Name-${MonstersAbilitiesId}`).classList.toggle("editable")
+            document.getElementById(`${editToggleData.entity}-Name-${MonstersAbilitiesId}`).focus()
+
+            toggleElementById(`update-MonstersAbilities-${MonstersAbilitiesId}`)
+            break
+        case "MonstersLootItems":
+            let MonstersLootItemsId = editToggleData.id
+
+            document.getElementById(`${editToggleData.entity}-Name-${MonstersLootItemsId}`).toggleAttribute("contentEditable")
+            document.getElementById(`${editToggleData.entity}-Name-${MonstersLootItemsId}`).classList.toggle("editable")
+            document.getElementById(`${editToggleData.entity}-Name-${MonstersLootItemsId}`).focus()
+
+            toggleElementById(`update-MonstersLootItems-${MonstersLootItemsId}`)
+            break
         default:
             console.log(`Unexpected entity type '${editToggleData.entity}!`, editToggleData.entity)
     }
