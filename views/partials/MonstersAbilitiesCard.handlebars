@@ -5,11 +5,13 @@
     <div class="description jsp-ability-dark-textColor" id="MonstersAbilities-ViewDetails-{{compoundId monsterId abilityId}}">
         {{abilityName}} -
 
-        {{#ifIsPassive abilityCooldown}}
-            Passive
-        {{else}}
-            {{abilityCooldown}}s Cooldown
-        {{/ifIsPassive}}
+        <span id="MonstersAbilities-Cooldown-{{compoundId monsterId abilityId}}">
+            {{#ifIsPassive abilityCooldown}}
+                Passive
+            {{else}}
+                {{abilityCooldown}}s Cooldown
+            {{/ifIsPassive}}
+        </span>
     </div>
     <div class="hidden description jsp-ability-dark-textColor" id="MonstersAbilities-EditDetails-{{compoundId monsterId abilityId}}">
         <label for="editCooldown-{{compoundId monsterId abilityId}}">Cooldown (0 for Passive):</label>

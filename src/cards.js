@@ -1,23 +1,30 @@
 console.log("cards.js loaded")
 
-let cardParams = new URLSearchParams(document.location.search)
+function readParams() {
+    let cardParams = new URLSearchParams(document.location.search)
 
-if(cardParams.has("edit") && cardParams.has("entity") && cardParams.has("id"))
-{
-    if (cardParams.get("edit") === "1")
+    if(cardParams.has("edit") && cardParams.has("entity") && cardParams.has("id"))
     {
-        let entity = cardParams.get("entity")
-        let id = cardParams.get("id")
+        if (cardParams.get("edit") === "1")
+        {
+            let entity = cardParams.get("entity")
+            let id = cardParams.get("id")
 
-        let button = document.getElementById(`toggleEdit-${entity}-${id}`)
-        let data = {
-            entity : entity,
-            id : id
+            let button = document.getElementById(`toggleEdit-${entity}-${id}`)
+            let data = {
+                entity : entity,
+                id : id
+            }
+            toggleEditMode(button, data, false)
         }
-        toggleEditMode(button, data, false)
     }
 }
 
+function localizeChance(chance)
+{
+    let percent = Number(chance).toLocaleString(undefined,{style: 'percent', minimumFractionDigits: (chance > 0.1 ? 0 : 2)})
+    return (chance === 1) ? "Guaranteed" : `${percent} Chance`
+}
 
 function showElementById(id) {
     // document.getElementById(id).removeAttribute("hidden")
@@ -238,6 +245,14 @@ function updateDOMEntity(updatedEntityData)
             document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
             document.getElementById(`Abilities-abilityDesc-${updatedEntityData.id}`).value = updatedEntityData['questDesc']
             break
+        case "MonstersAbilities":
+            let processedCooldown = updatedEntityData['abilityCooldown'] === "0" ? "Passive" : updatedEntityData['abilityCooldown'] + "s Cooldown"
+            document.getElementById(`${updatedEntityData.entity}-Cooldown-${updatedEntityData.id}`).innerText = processedCooldown
+            break
+        case "MonstersLootItems":
+            let processedStats = `${updatedEntityData['dropQuantity']} Dropped | ${localizeChance(updatedEntityData['dropChance'])}`
+            document.getElementById(`${updatedEntityData.entity}-Stats-${updatedEntityData.id}`).innerText = processedStats
+            break
         default:
             console.log(`Unexpected entity type '${updatedEntityData.entity}!`, updatedEntityData)
     }
@@ -386,4 +401,13 @@ function deleteEntity(button, entityDataToDelete) {
     {
         return
     }
+}
+
+if (typeof require === 'function') //If this is running serverside, basically
+{
+    module.exports.localizeChance = localizeChance
+}
+else
+{
+    readParams()
 }
