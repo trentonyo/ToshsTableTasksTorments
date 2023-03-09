@@ -32,10 +32,11 @@
         {{#if suppressDetailsButton}}
         {{else if view}}
         {{else}}
-            <a href="/LootItems/view/{{lootId}}">
-                <button class="viewDetails"></button>
-            </a>
+<!--            <a href="/LootItems/view/{{lootId}}">-->
+<!--                <button class="viewDetails"></button>-->
+<!--            </a>-->
             <div class="button_container">
+                <a href="/LootItems/view/{{lootId}}"><button id="View-LootItems-{{lootId}}">View</button></a>
                 <button onClick="toggleEditMode(this, {'entity': 'LootItems', 'id': '{{lootId}}'}, true)" id="toggleEdit-LootItems-{{lootId}}">Edit</button>
                 <button onClick="updateEntity(this, {'entity': 'LootItems', 'id': '{{lootId}}'} )" id="update-LootItems-{{lootId}}" class="hidden">Submit</button>
                 <button onClick="deleteEntity(this, {'entity': 'LootItems', 'id': '{{lootId}}'} )">Delete</button>
