@@ -14,7 +14,7 @@ PORT    = 2765                  // Set a port number at the top, so it's easy to
 
 // Database
 let db = require('./src/db-connector')
-let dml = require('./src/dml')
+let dmq = require('./src/dmq')
 
 //Tools
 let names = require('./src/name-generator')
@@ -249,7 +249,7 @@ let viewEntity = function(req, res, next)
 app.get('/', function(req, res)
 {
     // SELECT *...
-    db.pool.query(dml.STATEMENTS.SELECT_AvailableQuests, function(err, results, fields){
+    db.pool.query(dmq.STATEMENTS.SELECT_AvailableQuests, function(err, results, fields){
 
         //Offline override
         if(useOffline) { results = db_offline['SQL_availableQuests'] }
@@ -275,13 +275,13 @@ app.get('/', function(req, res)
 //
 //     let i = 0
 //
-//     for (let query in dml.STATEMENTS)
+//     for (let query in dmq.STATEMENTS)
 //     {
 //         console.log(`Testing query #${++i}:`, query)
-//         if (Object.hasOwnProperty.call(dml.STATEMENTS, query))
+//         if (Object.hasOwnProperty.call(dmq.STATEMENTS, query))
 //         {
 //             console.log("--Verified query:", query)
-//             let statement = dml.STATEMENTS[query]
+//             let statement = dmq.STATEMENTS[query]
 //
 //             if (typeof statement === 'function')
 //             {
@@ -300,7 +300,7 @@ app.get('/', function(req, res)
 //                 }
 //                 console.log("----Got DB response")
 //
-//                 if (i === Object.keys(dml.STATEMENTS).length)
+//                 if (i === Object.keys(dmq.STATEMENTS).length)
 //                 {
 //                     console.log(test)
 //                 }
@@ -313,7 +313,7 @@ app.get('/', function(req, res)
 
 // app.get('/testQuery', function (req, res, next)
 // {
-//     let statement = dml.STATEMENTS.SELECT_LootItemsByMonstersID(3)
+//     let statement = dmq.STATEMENTS.SELECT_LootItemsByMonstersID(3)
 //     //GROUP BY Quests.questId
 //     db.pool.query(statement, function (err, results, fields)
 //     {
@@ -329,8 +329,8 @@ app.get('/:entity/view', viewEntity)
 app.get('/Quests/new', function(req, res)
 {
     // SELECT *...
-    db.pool.query(dml.STATEMENTS.SELECT_AllMonsters, function(err, monsters, fields){
-        db.pool.query(dml.STATEMENTS.SELECT_AllQuestGivers, function(err, questGivers, fields){
+    db.pool.query(dmq.STATEMENTS.SELECT_AllMonsters, function(err, monsters, fields){
+        db.pool.query(dmq.STATEMENTS.SELECT_AllQuestGivers, function(err, questGivers, fields){
 
             //Offline override
             if(useOffline) { monsters = db_offline['SQL_monsters'];  questGivers = db_offline['SQL_questGivers'] }
@@ -376,10 +376,10 @@ let viewWithCopiousDetails = function (req, res, next, entity) {
                 context["entity"] = entity
                 context["view"] = true
 
-                db.pool.query(dml.STATEMENTS.SELECT_AbilitiesByMonstersID(context.monsterId), function (err_abilities, abilities, fields) {
-                    db.pool.query(dml.STATEMENTS.SELECT_LootItemsByMonstersID(context.monsterId), function (err_loots, lootItems, fields) {
-                        db.pool.query(dml.STATEMENTS.SELECT_AllQuestGivers, function(err_questGivers, questGivers, fields) {
-                            db.pool.query(dml.STATEMENTS.SELECT_AllMonsters, function(err_monsters, monsters, fields) {
+                db.pool.query(dmq.STATEMENTS.SELECT_AbilitiesByMonstersID(context.monsterId), function (err_abilities, abilities, fields) {
+                    db.pool.query(dmq.STATEMENTS.SELECT_LootItemsByMonstersID(context.monsterId), function (err_loots, lootItems, fields) {
+                        db.pool.query(dmq.STATEMENTS.SELECT_AllQuestGivers, function(err_questGivers, questGivers, fields) {
+                            db.pool.query(dmq.STATEMENTS.SELECT_AllMonsters, function(err_monsters, monsters, fields) {
 
                                 context["abilitiesList"] = abilities
                                 for (let i = 0; i < context["abilitiesList"].length; i++) {
@@ -477,7 +477,7 @@ app.get('/QuestGivers/new', function(req, res)
 app.get('/Monsters/new', function(req, res)
 {
     // SELECT *...
-    db.pool.query(dml.STATEMENTS.SELECT_AllMonsterTypes, function(err, monsterTypes, fields){
+    db.pool.query(dmq.STATEMENTS.SELECT_AllMonsterTypes, function(err, monsterTypes, fields){
 
         //Offline override
         if(useOffline) { monsterTypes = db_offline['SQL_monsterTypes'] }
@@ -503,7 +503,7 @@ app.get('/MonsterTypes/new', function(req, res)
 app.get('/LootItems/new', function(req, res)
 {
     // SELECT *...
-    db.pool.query(dml.STATEMENTS.SELECT_AllLootItemTypes, function(err, lootItemTypes, fields){
+    db.pool.query(dmq.STATEMENTS.SELECT_AllLootItemTypes, function(err, lootItemTypes, fields){
 
         //Offline override
         if(useOffline) { lootItemTypes = db_offline['SQL_lootItemTypes'] }
@@ -537,8 +537,8 @@ app.get('/Abilities/new', function(req, res)
 ///Create new monster ability
 app.get('/MonstersAbilities/new', function(req, res)
 {
-    db.pool.query(dml.STATEMENTS.SELECT_AllMonsters, function (err, monsters, fields) {
-        db.pool.query(dml.STATEMENTS.SELECT_AllAbilities, function (err, abilities, fields) {
+    db.pool.query(dmq.STATEMENTS.SELECT_AllMonsters, function (err, monsters, fields) {
+        db.pool.query(dmq.STATEMENTS.SELECT_AllAbilities, function (err, abilities, fields) {
 
             let context = {
                 "entity" : "MonstersAbilities",
@@ -553,8 +553,8 @@ app.get('/MonstersAbilities/new', function(req, res)
 ///Create new monster loot
 app.get('/MonstersLootItems/new', function(req, res)
 {
-    db.pool.query(dml.STATEMENTS.SELECT_AllMonsters, function (err, monsters, fields) {
-        db.pool.query(dml.STATEMENTS.SELECT_AllLootItems, function (err, lootItems, fields) {
+    db.pool.query(dmq.STATEMENTS.SELECT_AllMonsters, function (err, monsters, fields) {
+        db.pool.query(dmq.STATEMENTS.SELECT_AllLootItems, function (err, lootItems, fields) {
 
             let context = {
                 "entity" : "MonstersAbilities",

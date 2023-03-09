@@ -1,6 +1,6 @@
 let dml = {STATEMENTS: {}}
 
-if (typeof require === 'function') { dml = require('./dml') }
+if (typeof require === 'function') { dml = require('./dmq') }
 const ENTITIES = {
     "Quests" : {id: "questId", en_singular: "Quest", en_plural: "Quests", href_view: "/Quests/view", href_new: "/Quests/new",
         query_SelectAll: dml.STATEMENTS.SELECT_AllQuests,
