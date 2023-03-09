@@ -1,5 +1,23 @@
 console.log("cards.js loaded")
 
+let cardParams = new URLSearchParams(document.location.search)
+
+if(cardParams.has("edit") && cardParams.has("entity") && cardParams.has("id"))
+{
+    if (cardParams.get("edit") === "1")
+    {
+        let entity = cardParams.get("entity")
+        let id = cardParams.get("id")
+
+        let button = document.getElementById(`toggleEdit-${entity}-${id}`)
+        let data = {
+            entity : entity,
+            id : id
+        }
+        toggleEditMode(button, data, false)
+    }
+}
+
 
 function showElementById(id) {
     // document.getElementById(id).removeAttribute("hidden")
