@@ -69,7 +69,6 @@ for (let i = 0; i < input_fields.length; i++)
     {
         input_fields[i].addEventListener("contextmenu", function (e)
         {
-            console.log(input_fields[i].value.length)
             if (input_fields[i].value.length === 0)
             {
                 e.preventDefault()

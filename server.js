@@ -197,7 +197,6 @@ app.use(express.static("src/"))
 ///View
 let viewEntity = function(req, res, next)
 {
-    // console.log(precompiledPartials) //TODO DEBUG
     let entity = req.params.entity
 
     let query = ""
@@ -411,7 +410,6 @@ let viewWithCopiousDetails = function (req, res, next, entity) {
                                     context["monstersList"][i]["suppressDetailsButton"] = true
                                 }
 
-                                console.log(context)
                                 res.status(200).render("ViewDetails", context)
                             })
                         })
@@ -633,14 +631,12 @@ app.post('/createEntity', function (req, res)
             res.status(400) //TODO the entity not found
 
     }
-    // console.log(SQL_statement)
     db.pool.query(SQL_statement, function(err, results){
         if(useOffline) { err = 'Unable to add entities while offline' }
         // Error code 1062: duplicate primary key
 
         let processedErr = ""
         let returnId = ""
-        // console.log(results)
 
         if (err)
         {
@@ -674,8 +670,6 @@ app.post('/updateEntity', function (req, res, next)
     let updatedData = req.body
     let SQL_statement = ''
     let redirectTarget = ''
-
-    console.log(updatedData)
 
     switch (updatedData.entity)
     {
@@ -723,10 +717,7 @@ app.post('/updateEntity', function (req, res, next)
         default:
             res.status(400) //TODO the entity not found
     }
-    console.log("UPDATE Statement:", SQL_statement) //TODO debug
     db.pool.query(SQL_statement, function(err, results){
-        console.log("Results:", results) //TODO debug
-        console.log("Results:", err) //TODO debug
         if(useOffline) { err = 'Unable to make database changes while offline' }
 
         if(err)
@@ -771,10 +762,6 @@ app.post('/deleteEntity', function (req, res) {
         if (useOffline) {
             err = 'Unable to make database changes while offline'
         }
-
-        console.log("SQL Statement:", SQL_statement) //TODO DEBUG
-        console.log("Results:", results) //TODO DEBUG
-        console.log("Error:", err) //TODO DEBUG
 
         if (err) {
             if (err.errno === 1451) {
