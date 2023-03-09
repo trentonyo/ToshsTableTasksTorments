@@ -223,6 +223,9 @@ button:hover {
 
     margin-bottom: 10px;
 }
+.card input.editDesc {
+    width: 75px;
+}
 
 .stats input {
     width: 16px;

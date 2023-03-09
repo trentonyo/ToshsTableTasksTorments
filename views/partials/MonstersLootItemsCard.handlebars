@@ -7,7 +7,11 @@
         {{lootName}}
     </div>
     <div class="hidden description jsp-ability-dark-textColor" id="MonstersLootItems-EditDetails-{{compoundId monsterId lootId}}">
-        changey change change
+        <label for="editDropQuantity-{{compoundId monsterId lootId}}">Drop Quantity:</label>
+        <input class="editDesc" name="editDropQuantity" id="editDropQuantity-{{compoundId monsterId lootId}}" type="number" min="1" value="{{dropQuantity}}">
+        <br>
+        <label for="editDropChance-{{compoundId monsterId lootId}}">Drop Chance (decimal):</label>
+        <input class="editDesc" name="editDropChance" id="editDropChance-{{compoundId monsterId lootId}}" type="number" max="1" min="0.000001" step="0.000001" value="{{dropChance}}">
     </div>
 
     <br>

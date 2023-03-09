@@ -12,7 +12,8 @@
         {{/ifIsPassive}}
     </div>
     <div class="hidden description jsp-ability-dark-textColor" id="MonstersAbilities-EditDetails-{{compoundId monsterId abilityId}}">
-        changey change change
+        <label for="editCooldown-{{compoundId monsterId abilityId}}">Cooldown (0 for Passive):</label>
+        <input class="editDesc" name="editCooldown" id="editCooldown-{{compoundId monsterId abilityId}}" type="number" min="0" value="{{abilityCooldown}}">
     </div>
 
     <br>
