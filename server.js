@@ -750,7 +750,15 @@ app.post('/deleteEntity', function (req, res) {
 
     if (ENTITIES.hasOwnProperty(dataToDelete.entity) && typeof parseInt(dataToDelete.id) === "number")
     {
-        SQL_statement = ENTITIES[dataToDelete.entity].query_Delete(dataToDelete.id)
+        if (typeof ENTITIES[dataToDelete.entity].id === "number")
+        {
+            SQL_statement = ENTITIES[dataToDelete.entity].query_Delete(dataToDelete.id)
+        }
+        else
+        {
+            let compoundId = getIdsFromCompound(dataToDelete.id)
+            SQL_statement = ENTITIES[dataToDelete.entity].query_Delete(compoundId[0], compoundId[1])
+        }
         redirectTarget = `/${dataToDelete.entity}/view`
     }
     else
@@ -763,6 +771,10 @@ app.post('/deleteEntity', function (req, res) {
         if (useOffline) {
             err = 'Unable to make database changes while offline'
         }
+
+        console.log("SQL Statement:", SQL_statement) //TODO DEBUG
+        console.log("Results:", results) //TODO DEBUG
+        console.log("Error:", err) //TODO DEBUG
 
         if (err) {
             if (err.errno === 1451) {
