@@ -7,16 +7,18 @@ const express               = require('express')    // We are using the express 
 const handlebars            = require('handlebars')
 const express_handlebars    = require('express-handlebars')
 const filesystem            = require('fs')
+const path                  = require('path')
 
 let app = express()             // We need to instantiate an express object to interact with the app in our code
 PORT    = 2765                  // Set a port number at the top, so it's easy to change in the future
 
 // Database
 let db = require('./src/db-connector')
-let dml = require('./src/dml')
+let dmq = require('./src/dmq')
 
 //Tools
 let names = require('./src/name-generator')
+let cards = require('./src/cards')
 
 let entities = require('./src/ENTITIES')
 const ENTITIES = entities.ENTITIES
@@ -105,6 +107,7 @@ if (process.argv.length === 3 && process.argv[2] === ARG_OFFLINE)
  * Handlebars steps
  */
 const partialTypes = ["Card", "Title", "InfoBand"]
+let precompiledPartials = {}
 
 partialTypes.forEach(function (value, index, array)
 {
@@ -117,11 +120,67 @@ handlebars.registerHelper('ifIsPassive', function (cooldown, options)
 {
     return (cooldown === 0) ? options.fn(this) : options.inverse(this);
 })
-handlebars.registerHelper('localizeChance', function (chance, options)
+// handlebars.registerHelper('localizeChance', function (chance, options)
+// {
+//     let percent = Number(chance).toLocaleString(undefined,{style: 'percent', minimumFractionDigits: (chance > 0.1 ? 0 : 2)});
+//     return (chance === 1) ? "Guaranteed" : `${percent} Chance`;
+// })
+handlebars.registerHelper('localizeChance', cards.localizeChance)
+handlebars.registerHelper('compoundId', function (id1, id2)
 {
-    let percent = Number(chance).toLocaleString(undefined,{style: 'percent', minimumFractionDigits: (chance > 0.1 ? 0 : 2)});
-    return (chance === 1) ? "Guaranteed" : `${percent} Chance`;
+    return compoundIds(id1, id2)
 })
+
+const COMPOUND_ID_DELINEATOR = '-'
+let compoundIds = function (id1, id2) { return `${id1}${COMPOUND_ID_DELINEATOR}${id2}`  }
+let getIdsFromCompound = function (compoundId) { return compoundId.split(COMPOUND_ID_DELINEATOR) }
+
+/** Can't confirm that this works.
+ * -- Trenton
+ * @param module the object in which to store the precompiled output
+ */
+let precompilePartials = function (module)
+{
+    console.log("Precompiling Handlebars partials...")
+    let partialsPath = "./views/partials"
+    filesystem.readdir(partialsPath, function (err, files) {
+        if (err) { console.log("Unable to read partials directory, exiting."); return false }
+
+        files.forEach(function (file, index) {
+            let currentPath = path.join(partialsPath, file)
+            const BUFFER_SIZE = 4096
+            let buffer = new Buffer.alloc(BUFFER_SIZE);
+
+            filesystem.open(currentPath, 'r', function (err, fd) {
+                if (err) { console.log(`Unable to open file ${currentPath}, exiting.`); return false}
+
+                filesystem.read(fd, buffer, 0, buffer.length, 0, function (err, bytesRead) {
+                    if (err) { console.log(`Unable to read file ${currentPath}, exiting.`); return false}
+
+                    if (bytesRead >= BUFFER_SIZE)
+                    {
+                        console.log(`ERROR: Partial ${currentPath} overflowed buffer, exiting.`)
+                        return false
+                    }
+                    else if (bytesRead > 0)
+                    {
+                        /** Success **/
+                        let currentPartial = buffer.subarray(0, bytesRead).toString()
+                        module[file] = handlebars.precompile(currentPartial)
+                    }
+
+                    // Close the opened file.
+                    filesystem.close(fd, function (err) {
+                        if (err) { console.log(`Unable to close file ${currentPath}, exiting.`); return false}
+
+                    });
+                })
+            })
+        })
+    })
+}
+
+precompilePartials(precompiledPartials)
 
 /**
  * Middleware to parse POST body
@@ -152,34 +211,46 @@ let viewEntity = function(req, res, next)
     }
 
     db.pool.query(query, function(err, results, fields){
+        db.pool.query(ENTITIES["LootItemTypes"].query_SelectAll, function(err_lootTypes, results_lootTypes, fields){
+            db.pool.query(ENTITIES["MonsterTypes"].query_SelectAll, function(err_monsterTypes, results_monsterTypes, fields){
 
-        //Offline override
-        if(useOffline) { results = db_offline['SQL_all'+entity] }
+                //Offline override
+                if(useOffline) { results = db_offline['SQL_all'+entity] }
 
-        let newEntityContext = {
-            "href" : ENTITIES[entity].href,
-            "entityName" : ENTITIES[entity].en_singular,
-        }
-
-        let context = {
-            "entity" : entity,
-            "newEntityContext" : newEntityContext,
-            "queryName" : "All "+ENTITIES[entity].en_plural,
-            "results" : results
-        }
-
-        //These entities will not have a button linked to their detail page
-        switch (entity)
-        {
-            case "MonsterTypes":
-            case "LootItemTypes":
-                for (const resultsKey in results) {
-                    results[resultsKey]["suppressDetailsButton"] = true
+                let newEntityContext = {
+                    "href_new" : ENTITIES[entity].href_new,
+                    "entityName" : ENTITIES[entity].en_singular,
                 }
-                break
-        }
 
-        res.status(200).render("ViewCards", context)
+                let context = {
+                    "entity" : entity,
+                    "newEntityContext" : newEntityContext,
+                    "queryName" : "All "+ENTITIES[entity].en_plural,
+                    "results" : results
+                }
+
+                //These entities will not have a button linked to their detail page
+                switch (entity)
+                {
+                    case "MonsterTypes":
+                    case "LootItemTypes":
+                        for (const resultsKey in results) {
+                            results[resultsKey]["suppressDetailsButton"] = true
+                        }
+                        break
+                }
+
+                for (let i = 0; i < context["results"].length; i++) {
+                    context["results"][i]["lootTypesList"] = results_lootTypes
+                }
+
+                for (let i = 0; i < context["results"].length; i++) {
+                    context["results"][i]["monsterTypesList"] = results_monsterTypes
+                }
+
+                res.status(200).render("ViewCards", context)
+            })
+        })
     })
 }
 
@@ -187,13 +258,13 @@ let viewEntity = function(req, res, next)
 app.get('/', function(req, res)
 {
     // SELECT *...
-    db.pool.query(dml.STATEMENTS.SELECT_AvailableQuests, function(err, results, fields){
+    db.pool.query(dmq.STATEMENTS.SELECT_AvailableQuests, function(err, results, fields){
 
         //Offline override
         if(useOffline) { results = db_offline['SQL_availableQuests'] }
 
         let newEntityContext = {
-            "href" : ENTITIES["Quests"].href,
+            "href_new" : ENTITIES["Quests"].href_new,
             "entityName" : ENTITIES["Quests"].en_singular,
         }
 
@@ -213,13 +284,13 @@ app.get('/', function(req, res)
 //
 //     let i = 0
 //
-//     for (let query in dml.STATEMENTS)
+//     for (let query in dmq.STATEMENTS)
 //     {
 //         console.log(`Testing query #${++i}:`, query)
-//         if (Object.hasOwnProperty.call(dml.STATEMENTS, query))
+//         if (Object.hasOwnProperty.call(dmq.STATEMENTS, query))
 //         {
 //             console.log("--Verified query:", query)
-//             let statement = dml.STATEMENTS[query]
+//             let statement = dmq.STATEMENTS[query]
 //
 //             if (typeof statement === 'function')
 //             {
@@ -238,7 +309,7 @@ app.get('/', function(req, res)
 //                 }
 //                 console.log("----Got DB response")
 //
-//                 if (i === Object.keys(dml.STATEMENTS).length)
+//                 if (i === Object.keys(dmq.STATEMENTS).length)
 //                 {
 //                     console.log(test)
 //                 }
@@ -251,7 +322,7 @@ app.get('/', function(req, res)
 
 // app.get('/testQuery', function (req, res, next)
 // {
-//     let statement = dml.STATEMENTS.SELECT_LootItemsByMonstersID(3)
+//     let statement = dmq.STATEMENTS.SELECT_LootItemsByMonstersID(3)
 //     //GROUP BY Quests.questId
 //     db.pool.query(statement, function (err, results, fields)
 //     {
@@ -267,8 +338,8 @@ app.get('/:entity/view', viewEntity)
 app.get('/Quests/new', function(req, res)
 {
     // SELECT *...
-    db.pool.query(dml.STATEMENTS.SELECT_AllMonsters, function(err, monsters, fields){
-        db.pool.query(dml.STATEMENTS.SELECT_AllQuestGivers, function(err, questGivers, fields){
+    db.pool.query(dmq.STATEMENTS.SELECT_AllMonsters, function(err, monsters, fields){
+        db.pool.query(dmq.STATEMENTS.SELECT_AllQuestGivers, function(err, questGivers, fields){
 
             //Offline override
             if(useOffline) { monsters = db_offline['SQL_monsters'];  questGivers = db_offline['SQL_questGivers'] }
@@ -292,7 +363,7 @@ app.get('/Quests/new', function(req, res)
  * @param next pass in a next
  * @param entity expects "Quests" or "Monsters"
  */
-let viewWithMonsterDetails = function (req, res, next, entity) {
+let viewWithCopiousDetails = function (req, res, next, entity) {
     let entityID = req.params.entityID
 
     let query = get_SQL_thisEntity(entity, entityID)
@@ -314,12 +385,34 @@ let viewWithMonsterDetails = function (req, res, next, entity) {
                 context["entity"] = entity
                 context["view"] = true
 
-                db.pool.query(dml.STATEMENTS.SELECT_AbilitiesByMonstersID(context.monsterId), function (err, abilities, fields) {
-                    db.pool.query(dml.STATEMENTS.SELECT_LootItemsByMonstersID(context.monsterId), function (err, lootItems, fields) {
-                        context["abilitiesList"] = abilities
-                        context["lootItemsList"] = lootItems
+                db.pool.query(dmq.STATEMENTS.SELECT_AbilitiesByMonstersID(context.monsterId), function (err_abilities, abilities, fields) {
+                    db.pool.query(dmq.STATEMENTS.SELECT_LootItemsByMonstersID(context.monsterId), function (err_loots, lootItems, fields) {
+                        db.pool.query(dmq.STATEMENTS.SELECT_AllQuestGivers, function(err_questGivers, questGivers, fields) {
+                            db.pool.query(dmq.STATEMENTS.SELECT_AllMonsters, function(err_monsters, monsters, fields) {
 
-                        res.status(200).render("ViewDetails", context)
+                                context["abilitiesList"] = abilities
+                                for (let i = 0; i < context["abilitiesList"].length; i++) {
+                                    context["abilitiesList"][i]["suppressDetailsButton"] = true
+                                }
+
+                                context["lootItemsList"] = lootItems
+                                for (let i = 0; i < context["lootItemsList"].length; i++) {
+                                    context["lootItemsList"][i]["suppressDetailsButton"] = true
+                                }
+
+                                context["questGiversList"] = questGivers
+                                for (let i = 0; i < context["questGiversList"].length; i++) {
+                                    context["questGiversList"][i]["suppressDetailsButton"] = true
+                                }
+
+                                context["monstersList"] = monsters
+                                for (let i = 0; i < context["monstersList"].length; i++) {
+                                    context["monstersList"][i]["suppressDetailsButton"] = true
+                                }
+
+                                res.status(200).render("ViewDetails", context)
+                            })
+                        })
                     })
                 })
             }
@@ -329,11 +422,11 @@ let viewWithMonsterDetails = function (req, res, next, entity) {
 
 app.get('/Quests/view/:entityID', function (req, res, next)
 {
-    viewWithMonsterDetails(req, res, next, "Quests")
+    viewWithCopiousDetails(req, res, next, "Quests")
 })
 app.get('/Monsters/view/:entityID', function (req, res, next)
 {
-    viewWithMonsterDetails(req, res, next, "Monsters")
+    viewWithCopiousDetails(req, res, next, "Monsters")
 })
 
 //View any other entity's details page
@@ -345,9 +438,9 @@ app.get('/:entity/view/:entityID', function(req, res, next)
 
     if (entity === "MonstersAbilities" || entity === "MonstersLootItems")
     {
-        let tmp = entityID
-        entityID = tmp.split("-")[0]
-        entityID2 = tmp.split("-")[1]
+        let tmp = getIdsFromCompound(entityID)
+        entityID = tmp[0]
+        entityID2 = tmp[1]
     }
 
     let query = get_SQL_thisEntity(entity, entityID, entityID2)
@@ -392,7 +485,7 @@ app.get('/QuestGivers/new', function(req, res)
 app.get('/Monsters/new', function(req, res)
 {
     // SELECT *...
-    db.pool.query(dml.STATEMENTS.SELECT_AllMonsterTypes, function(err, monsterTypes, fields){
+    db.pool.query(dmq.STATEMENTS.SELECT_AllMonsterTypes, function(err, monsterTypes, fields){
 
         //Offline override
         if(useOffline) { monsterTypes = db_offline['SQL_monsterTypes'] }
@@ -418,7 +511,7 @@ app.get('/MonsterTypes/new', function(req, res)
 app.get('/LootItems/new', function(req, res)
 {
     // SELECT *...
-    db.pool.query(dml.STATEMENTS.SELECT_AllLootItemTypes, function(err, lootItemTypes, fields){
+    db.pool.query(dmq.STATEMENTS.SELECT_AllLootItemTypes, function(err, lootItemTypes, fields){
 
         //Offline override
         if(useOffline) { lootItemTypes = db_offline['SQL_lootItemTypes'] }
@@ -452,8 +545,8 @@ app.get('/Abilities/new', function(req, res)
 ///Create new monster ability
 app.get('/MonstersAbilities/new', function(req, res)
 {
-    db.pool.query(dml.STATEMENTS.SELECT_AllMonsters, function (err, monsters, fields) {
-        db.pool.query(dml.STATEMENTS.SELECT_AllAbilities, function (err, abilities, fields) {
+    db.pool.query(dmq.STATEMENTS.SELECT_AllMonsters, function (err, monsters, fields) {
+        db.pool.query(dmq.STATEMENTS.SELECT_AllAbilities, function (err, abilities, fields) {
 
             let context = {
                 "entity" : "MonstersAbilities",
@@ -468,8 +561,8 @@ app.get('/MonstersAbilities/new', function(req, res)
 ///Create new monster loot
 app.get('/MonstersLootItems/new', function(req, res)
 {
-    db.pool.query(dml.STATEMENTS.SELECT_AllMonsters, function (err, monsters, fields) {
-        db.pool.query(dml.STATEMENTS.SELECT_AllLootItems, function (err, lootItems, fields) {
+    db.pool.query(dmq.STATEMENTS.SELECT_AllMonsters, function (err, monsters, fields) {
+        db.pool.query(dmq.STATEMENTS.SELECT_AllLootItems, function (err, lootItems, fields) {
 
             let context = {
                 "entity" : "MonstersAbilities",
@@ -492,108 +585,139 @@ app.post('/createEntity', function (req, res)
     let SQL_statement = ''
     let redirectTarget = ''
     let createData = req.body
-    console.log(createData)
 
     switch(createData.entity) {
         case "quest":
-            SQL_statement = dml.STATEMENTS.INSERT_Quests(createData['questName'], createData['questDesc'],
+            SQL_statement = ENTITIES["Quests"].query_Insert(createData['questName'], createData['questDesc'],
                 createData['available'], createData['questGiverId'], createData['suggestedLevel'],
                 createData['monsterQty'], createData['monsterId'], createData['rewardXp'], createData['rewardGold'])
-            redirectTarget = '/Quests/new'
+            redirectTarget = ENTITIES["Quests"].href_view
             break
         case "questGiver":
-            SQL_statement = dml.STATEMENTS.INSERT_QuestGivers(createData['questGiverName'])
-            redirectTarget = '/QuestGivers/new'
+            SQL_statement = ENTITIES["QuestGivers"].query_Insert(createData['questGiverName'])
+            redirectTarget = ENTITIES["QuestGivers"].href_view
             break
         case "monster":
-            SQL_statement = dml.STATEMENTS.INSERT_Monsters(createData['monsterName'], createData['monsterDesc'],
+            SQL_statement = ENTITIES["Monsters"].query_Insert(createData['monsterName'], createData['monsterDesc'],
                 createData['monsterTypeId'], createData['healthPool'], createData['attack'], createData['defense'], createData['speed'])
-            redirectTarget = '/Monsters/new'
+            redirectTarget = ENTITIES["Monsters"].href_view
             break
         case "monsterType":
-            SQL_statement = dml.STATEMENTS.INSERT_MonsterTypes(createData['monsterTypeName'])
-            redirectTarget = '/MonsterTypes/new'
+            SQL_statement = ENTITIES["MonsterTypes"].query_Insert(createData['monsterTypeName'])
+            redirectTarget = ENTITIES["MonsterTypes"].href_view
             break
         case "lootItem":
-            SQL_statement = dml.STATEMENTS.INSERT_LootItems(createData['lootName'], createData['lootDesc'],
+            SQL_statement = ENTITIES["LootItems"].query_Insert(createData['lootName'], createData['lootDesc'],
                 createData['lootItemTypeId'], createData['lootValue'])
-            redirectTarget = '/LootItems/new'
+            redirectTarget = ENTITIES["LootItems"].href_view
             break
         case "lootItemType":
-            SQL_statement = dml.STATEMENTS.INSERT_LootItemTypes(createData['lootItemTypeName'], createData['equipable'])
-            redirectTarget = '/LootItemTypes/new'
+            SQL_statement = ENTITIES["LootItemTypes"].query_Insert(createData['lootItemTypeName'], createData['equipable'])
+            redirectTarget = ENTITIES["LootItemTypes"].href_view
             break
         case "ability":
-            // SQL_statement = `INSERT INTO Abilities (abilityName, abilityDesc) VALUES ('${createData.abilityName}', '${createData.abilityDesc}');`
-            SQL_statement = dml.STATEMENTS.INSERT_Abilities(createData['abilityName'], createData['abilityDesc'])
-            redirectTarget = '/Abilities/new'
+            SQL_statement = ENTITIES["Abilities"].query_Insert(createData['abilityName'], createData['abilityDesc'])
+            redirectTarget = ENTITIES["Abilities"].href_view
             break
         case "monsterAbility":
-            SQL_statement = dml.STATEMENTS.INSERT_Monsters_Abilities(createData['monsterId'], createData['abilityId'], createData['abilityCooldown'])
-            redirectTarget = '/MonstersAbilities/new'
+            SQL_statement = ENTITIES["MonstersAbilities"].query_Insert(createData['monsterId'], createData['abilityId'], createData['abilityCooldown'])
+            redirectTarget = ENTITIES["MonstersAbilities"].href_view
             break
         case "monsterLootItem":
-            SQL_statement = dml.STATEMENTS.INSERT_Monsters_LootItems(createData['monsterId'], createData['lootId'], createData['dropQuantity'], createData['dropChance'])
-            redirectTarget = '/MonstersLootItems/new'
+            SQL_statement = ENTITIES["MonstersLootItems"].query_Insert(createData['monsterId'], createData['lootId'], createData['dropQuantity'], createData['dropChance'])
+            redirectTarget = ENTITIES["MonstersLootItems"].href_view
             break
         default:
             res.status(400) //TODO the entity not found
 
     }
-    console.log(SQL_statement)
     db.pool.query(SQL_statement, function(err, results){
         if(useOffline) { err = 'Unable to add entities while offline' }
         // Error code 1062: duplicate primary key
-        console.log("Results: " + results)
+
+        let processedErr = ""
+        let returnId = ""
+
+        if (err)
+        {
+            processedErr = err.code
+
+            if (processedErr.length > 0)
+            {
+                processedErr = "/?err=" + processedErr
+            }
+        }
+        else
+        {
+            switch (createData.entity) {
+                case "quest":
+                case "monster":
+                case "lootItem":
+                case "ability":
+                    returnId = "/"+results.insertId
+                    break
+            }
+        }
+
+        res.redirect(redirectTarget + returnId + processedErr)
     })
-    res.redirect(redirectTarget)
-    // Further TODO Perhaps we could get the ID returned and redirect to the details page of larger entities (quests, monsters, not loot item types or quest givers)
 })
 
 
 ///Update entity
-app.post('/updateEntity', function (req, res)
+app.post('/updateEntity', function (req, res, next)
 {
     let updatedData = req.body
     let SQL_statement = ''
     let redirectTarget = ''
 
-    // TODO sanitize quotes in input (' -> \', " -> \"")
-
-
     switch (updatedData.entity)
     {
         case "Quests":
-            // TODO flesh out UPDATE statement
-            SQL_statement = `UPDATE Quests SET questName = '${updatedData.title}', questDesc = '${updatedData.questDesc}' WHERE questId = ${updatedData.id};`
+            SQL_statement = ENTITIES["Quests"].query_Update(updatedData["id"], updatedData["title"], updatedData["questDesc"],
+                updatedData["available"], updatedData["questGiverId"], updatedData["suggestedLevel"], updatedData["monsterQty"],
+                updatedData["monsterId"], updatedData["rewardXp"], updatedData["rewardGold"])
             redirectTarget = '/Quests/view'
             break
         case "QuestGivers":
-            SQL_statement = `UPDATE QuestGivers SET questGiverName = '${updatedData.title}' WHERE questGiverId = ${updatedData.id};`
+            SQL_statement = ENTITIES["QuestGivers"].query_Update(updatedData["id"], updatedData["title"])
             redirectTarget = '/QuestGivers/view'
             break
         case "MonsterTypes":
-            SQL_statement = `UPDATE MonsterTypes SET monsterTypename = '${updatedData.title}' WHERE monsterTypeId = ${updatedData.id};`
+            SQL_statement = `UPDATE MonsterTypes SET monsterTypename = '${updatedData.title}' WHERE monsterTypeId = ${updatedData.id};` //TODO use dml.js
             redirectTarget = '/MonsterTypes/view'
             break
+        case "Monsters":
+            SQL_statement = ENTITIES["Monsters"].query_Update(updatedData["id"], updatedData["title"],
+                updatedData["monsterDesc"], updatedData["monsterTypeId"], updatedData["healthPool"],
+                updatedData["attack"], updatedData["defense"], updatedData["speed"])
+            redirectTarget = '/Monsters/view'
+            break
         case "LootItems":
-            SQL_statement = `UPDATE LootItems SET lootName = '${updatedData.title}', lootDesc = '${updatedData.lootDesc}' WHERE lootId = ${updatedData.id};`
+            // SQL_statement = `UPDATE LootItems SET lootName = '${updatedData.title}', lootDesc = '${updatedData.lootDesc}' WHERE lootId = ${updatedData.id};`
+            SQL_statement = ENTITIES["LootItems"].query_Update(updatedData["id"], updatedData["title"], updatedData["lootDesc"], updatedData["lootItemTypeId"], updatedData["lootValue"])
             redirectTarget = '/LootItems/view'
             break
         case "LootItemTypes":
             SQL_statement = ENTITIES[updatedData.entity].query_Update(updatedData.id, updatedData.title, updatedData.equipable)
             redirectTarget = false
             break
+        case "MonstersAbilities":
+            SQL_statement = ENTITIES[updatedData.entity].query_Update(getIdsFromCompound(updatedData.id)[0], getIdsFromCompound(updatedData.id)[1], updatedData.abilityCooldown)
+            redirectTarget = false
+            break
+        case "MonstersLootItems":
+            SQL_statement = ENTITIES[updatedData.entity].query_Update(getIdsFromCompound(updatedData.id)[0], getIdsFromCompound(updatedData.id)[1], updatedData.dropQuantity, updatedData.dropChance)
+            redirectTarget = false
+            break
         case "Abilities":
-            SQL_statement = `UPDATE Abilities SET abilityName = '${updatedData.title}', abilityDesc = '${updatedData.abilityDesc}' WHERE abilityId = ${updatedData.id};`
+            SQL_statement = `UPDATE Abilities SET abilityName = '${updatedData.title}', abilityDesc = '${updatedData.abilityDesc}' WHERE abilityId = ${updatedData.id};` //TODO use dml.js
             redirectTarget = '/Abilities/view'
             break
         default:
             res.status(400) //TODO the entity not found
     }
-    console.log(SQL_statement)
     db.pool.query(SQL_statement, function(err, results){
-        console.log(results)
         if(useOffline) { err = 'Unable to make database changes while offline' }
 
         if(err)
@@ -603,7 +727,6 @@ app.post('/updateEntity', function (req, res)
         else
         {
             res.status(200)
-            // res.redirect(`/LootItemTypes/view/${results.insertId}`) // TODO use this for larger entities (quests, monsters, not loot item types or quest givers)
             if (redirectTarget) { res.redirect(redirectTarget) }
             else { res.send() }
         }
@@ -618,7 +741,15 @@ app.post('/deleteEntity', function (req, res) {
 
     if (ENTITIES.hasOwnProperty(dataToDelete.entity) && typeof parseInt(dataToDelete.id) === "number")
     {
-        SQL_statement = ENTITIES[dataToDelete.entity].query_Delete(dataToDelete.id)
+        if (typeof ENTITIES[dataToDelete.entity].id === "number")
+        {
+            SQL_statement = ENTITIES[dataToDelete.entity].query_Delete(dataToDelete.id)
+        }
+        else
+        {
+            let compoundId = getIdsFromCompound(dataToDelete.id)
+            SQL_statement = ENTITIES[dataToDelete.entity].query_Delete(compoundId[0], compoundId[1])
+        }
         redirectTarget = `/${dataToDelete.entity}/view`
     }
     else

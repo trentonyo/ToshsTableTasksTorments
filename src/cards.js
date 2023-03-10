@@ -1,5 +1,30 @@
 console.log("cards.js loaded")
 
+function readParams() {
+    let cardParams = new URLSearchParams(document.location.search)
+
+    if(cardParams.has("edit") && cardParams.has("entity") && cardParams.has("id"))
+    {
+        if (cardParams.get("edit") === "1")
+        {
+            let entity = cardParams.get("entity")
+            let id = cardParams.get("id")
+
+            let button = document.getElementById(`toggleEdit-${entity}-${id}`)
+            let data = {
+                entity : entity,
+                id : id
+            }
+            toggleEditMode(button, data, false)
+        }
+    }
+}
+
+function localizeChance(chance)
+{
+    let percent = Number(chance).toLocaleString(undefined,{style: 'percent', minimumFractionDigits: (chance > 0.1 ? 0 : 2)})
+    return (chance < 2 && chance > 0.99999) ? "Guaranteed" : `${percent} Chance` //Stupid floating point stuff
+}
 
 function showElementById(id) {
     // document.getElementById(id).removeAttribute("hidden")
@@ -43,9 +68,34 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
         case "Quests":
             let questId = editToggleData.id
             document.getElementById(`${editToggleData.entity}-Name-${questId}`).toggleAttribute("contentEditable")
-            document.getElementById(`${editToggleData.entity}-questDesc-${questId}`).toggleAttribute("contentEditable")
             document.getElementById(`${editToggleData.entity}-Name-${questId}`).classList.toggle("editable")
-            document.getElementById(`${editToggleData.entity}-Name-${questId}`).focus()
+            document.getElementById(`${editToggleData.entity}-questDesc-${questId}`).toggleAttribute("contentEditable")
+            document.getElementById(`${editToggleData.entity}-questDesc-${questId}`).classList.toggle("editable")
+
+            document.getElementById(`editQuestGiverId`).classList.toggle("hidden")
+            document.getElementById(`Quests-questGiverId-${questId}`).classList.toggle("hidden")
+
+            document.getElementById(`editAvailable`).classList.toggle("hidden")
+
+            document.getElementById(`editQuestsMonster`).classList.toggle("hidden")
+            let currentQuestGiverId = document.getElementById('questGivers-list').dataset["current"]
+
+            if (currentQuestGiverId.length === 0)
+            {
+                currentQuestGiverId = "NULL"
+            }
+
+            document.getElementById('questGivers-list').value = currentQuestGiverId
+            document.getElementById('monsters-list').value = document.getElementById('monsters-list').dataset["current"]
+
+            document.getElementById('staticInfoband').classList.toggle("hidden")
+            document.getElementById('editInfoband').classList.toggle("hidden")
+
+            let otherCards = document.querySelectorAll(".card:not(.quest)")
+            for (let i = 0; i < otherCards.length; i++) {
+                otherCards[i].classList.toggle("suppressed")
+            }
+
             toggleElementById(`update-Quests-${questId}`)
             break
         case "QuestGivers":
@@ -65,12 +115,45 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
         case "LootItems":
             let lootId = editToggleData.id
             // TODO allow editing of title/value
-            //document.getElementById(`${editToggleData.entity}-Name-${lootId}`).toggleAttribute("contentEditable")
-            //document.getElementById(`${editToggleData.entity}-Name-${lootId}`).classList.toggle("editable")
+
+            document.getElementById(`${editToggleData.entity}-Name-${lootId}`).toggleAttribute("contentEditable")
+            document.getElementById(`${editToggleData.entity}-Name-${lootId}`).classList.toggle("editable")
+
             document.getElementById(`${editToggleData.entity}-lootDesc-${lootId}`).toggleAttribute("contentEditable")
+            document.getElementById(`${editToggleData.entity}-lootDesc-${lootId}`).classList.toggle("editable")
+
+            document.getElementById(`${editToggleData.entity}-Subtitle-${lootId}`).classList.toggle("hidden")
+            document.getElementById(`${editToggleData.entity}-Edit-Value-${lootId}`).classList.toggle("hidden")
+            document.getElementById(`${editToggleData.entity}-lootItemType-${lootId}`).classList.toggle("hidden")
+            document.getElementById(`${editToggleData.entity}-ItemType-${lootId}`).classList.toggle("hidden")
+
+            let currentLootItemTypeId = document.getElementById(`lootTypes-list-${lootId}`).dataset["current"]
+            document.getElementById(`lootTypes-list-${lootId}`).value = currentLootItemTypeId
+
             toggleElementById(`update-LootItems-${lootId}`)
             break
-        case "LootItemTypes": 
+        case "Monsters":
+            let monsterId = editToggleData.id
+            // TODO allow editing of title/value
+
+            document.getElementById(`${editToggleData.entity}-Name-${monsterId}`).toggleAttribute("contentEditable")
+            document.getElementById(`${editToggleData.entity}-Name-${monsterId}`).classList.toggle("editable")
+
+            document.getElementById(`${editToggleData.entity}-Desc-${monsterId}`).toggleAttribute("contentEditable")
+            document.getElementById(`${editToggleData.entity}-Desc-${monsterId}`).classList.toggle("editable")
+
+            document.getElementById(`${editToggleData.entity}-Stats-${monsterId}`).classList.toggle("hidden")
+            document.getElementById(`${editToggleData.entity}-EditStats-${monsterId}`).classList.toggle("hidden")
+
+            document.getElementById(`${editToggleData.entity}-Type-${monsterId}`).classList.toggle("hidden")
+            document.getElementById(`${editToggleData.entity}-EditType-${monsterId}`).classList.toggle("hidden")
+
+            let currentMonsterTypeId = document.getElementById(`monster-types-list-${monsterId}`).dataset["current"]
+            document.getElementById(`monster-types-list-${monsterId}`).value = currentMonsterTypeId
+
+            toggleElementById(`update-Monsters-${monsterId}`)
+            break
+        case "LootItemTypes":
             let lootItemTypeId = editToggleData.id
             document.getElementById(`${editToggleData.entity}-Name-${lootItemTypeId}`).toggleAttribute("contentEditable")
             document.getElementById(`${editToggleData.entity}-Name-${lootItemTypeId}`).classList.toggle("editable")
@@ -88,6 +171,32 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
             document.getElementById(`${editToggleData.entity}-Name-${abilityId}`).focus()
             toggleElementById(`update-Abilities-${abilityId}`)
             break
+        case "MonstersAbilities":
+            let MonstersAbilitiesId = editToggleData.id
+
+            // document.getElementById(`${editToggleData.entity}-Name-${MonstersAbilitiesId}`).toggleAttribute("contentEditable")
+            document.getElementById(`${editToggleData.entity}-Name-${MonstersAbilitiesId}`).classList.toggle("editable")
+            document.getElementById(`${editToggleData.entity}-Name-${MonstersAbilitiesId}`).classList.toggle("locked")
+            // document.getElementById(`${editToggleData.entity}-Name-${MonstersAbilitiesId}`).focus()
+
+            document.getElementById(`${editToggleData.entity}-ViewDetails-${MonstersAbilitiesId}`).classList.toggle("hidden")
+            document.getElementById(`${editToggleData.entity}-EditDetails-${MonstersAbilitiesId}`).classList.toggle("hidden")
+
+            toggleElementById(`update-MonstersAbilities-${MonstersAbilitiesId}`)
+            break
+        case "MonstersLootItems":
+            let MonstersLootItemsId = editToggleData.id
+
+            // document.getElementById(`${editToggleData.entity}-Name-${MonstersLootItemsId}`).toggleAttribute("contentEditable")
+            document.getElementById(`${editToggleData.entity}-Name-${MonstersLootItemsId}`).classList.toggle("editable")
+            document.getElementById(`${editToggleData.entity}-Name-${MonstersLootItemsId}`).classList.toggle("locked")
+            // document.getElementById(`${editToggleData.entity}-Name-${MonstersLootItemsId}`).focus()
+
+            document.getElementById(`${editToggleData.entity}-ViewDetails-${MonstersLootItemsId}`).classList.toggle("hidden")
+            document.getElementById(`${editToggleData.entity}-EditDetails-${MonstersLootItemsId}`).classList.toggle("hidden")
+
+            toggleElementById(`update-MonstersLootItems-${MonstersLootItemsId}`)
+            break
         default:
             console.log(`Unexpected entity type '${editToggleData.entity}!`, editToggleData.entity)
     }
@@ -100,8 +209,7 @@ function updateDOMEntity(updatedEntityData)
     switch (updatedEntityData.entity)
     {
         case "Quests":
-            document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
-            document.getElementById(`Quests-questDesc-${updatedEntityData.id}`).value = updatedEntityData['questDesc']
+            window.location.replace(`/Quests/view/${updatedEntityData.id}`)
             break
         case "QuestGivers":
             document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
@@ -110,8 +218,23 @@ function updateDOMEntity(updatedEntityData)
             document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
             break
         case "LootItems":
-            //document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
             document.getElementById(`LootItems-lootDesc-${updatedEntityData.id}`).value = updatedEntityData['lootDesc']
+            document.getElementById(`LootItems-Subtitle-${updatedEntityData.id}`).innerText = `(${updatedEntityData['lootValue']} gold)`
+            document.getElementById(`LootItems-ItemType-${updatedEntityData.id}`).innerText = updatedEntityData['lootItemTypeName']
+            document.getElementById(`lootTypes-list-${updatedEntityData.id}`).dataset.current = updatedEntityData['lootItemTypeId']
+            break
+        case "Monsters":
+            document.getElementById(`Monsters-TypeName-${updatedEntityData.id}`).innerText = updatedEntityData['monsterTypeName']
+
+            let monsterStatsContainer = document.getElementById(`Monsters-Stats-${updatedEntityData.id}`)
+            let newMonsterStats = {
+                attack : updatedEntityData['attack'],
+                defense : updatedEntityData['defense'],
+                speed : updatedEntityData['speed'],
+                healthPool : updatedEntityData['healthPool']
+            }
+            monsterStatsContainer.innerHTML = Handlebars.templates['MonstersInfoBand'](newMonsterStats)
+
             break
         case "LootItemTypes":
             document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
@@ -122,6 +245,14 @@ function updateDOMEntity(updatedEntityData)
             document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).innerText = updatedEntityData['title']
             document.getElementById(`Abilities-abilityDesc-${updatedEntityData.id}`).value = updatedEntityData['questDesc']
             break
+        case "MonstersAbilities":
+            let processedCooldown = updatedEntityData['abilityCooldown'] === "0" ? "Passive" : updatedEntityData['abilityCooldown'] + "s Cooldown"
+            document.getElementById(`${updatedEntityData.entity}-Cooldown-${updatedEntityData.id}`).innerText = processedCooldown
+            break
+        case "MonstersLootItems":
+            let processedStats = `${updatedEntityData['dropQuantity']} Dropped | ${localizeChance(updatedEntityData['dropChance'])}`
+            document.getElementById(`${updatedEntityData.entity}-Stats-${updatedEntityData.id}`).innerText = processedStats
+            break
         default:
             console.log(`Unexpected entity type '${updatedEntityData.entity}!`, updatedEntityData)
     }
@@ -129,57 +260,94 @@ function updateDOMEntity(updatedEntityData)
 
 function deleteDOMEntity(updatedEntityData)
 {
-    switch (updatedEntityData.entity)
-    {
-        case "Quests":
-            document.getElementById(`Quests-${updatedEntityData.id}`).remove()
-            break
-        case "QuestGivers":
-            document.getElementById(`QuestGivers-${updatedEntityData.id}`).remove()
-            break
-        case "MonsterTypes":
-            document.getElementById(`MonsterTypes-${updatedEntityData.id}`).remove()
-            break
-        case "LootItems":
-            document.getElementById(`LootItems-${updatedEntityData.id}`).remove()
-            break
-        case "LootItemTypes":
-            document.getElementById(`LootItemTypes-${updatedEntityData.id}`).remove()
-            break
-        case "Abilities":
-            document.getElementById(`Abilities-${updatedEntityData.id}`).remove()
-            break
-        default:
-            console.log(`Unexpected entity type '${updatedEntityData.entity}!`, updatedEntityData)
-    }
+    document.getElementById(`${updatedEntityData.entity}-${updatedEntityData.id}`).remove()
+
+    // switch (updatedEntityData.entity)
+    // {
+    //     case "Quests":
+    //         document.getElementById(`Quests-${updatedEntityData.id}`).remove()
+    //         break
+    //     case "Monsters":
+    //         document.getElementById(`Monsters-${updatedEntityData.id}`).remove()
+    //         break
+    //     case "QuestGivers":
+    //         document.getElementById(`QuestGivers-${updatedEntityData.id}`).remove()
+    //         break
+    //     case "MonsterTypes":
+    //         document.getElementById(`MonsterTypes-${updatedEntityData.id}`).remove()
+    //         break
+    //     case "LootItems":
+    //         document.getElementById(`LootItems-${updatedEntityData.id}`).remove()
+    //         break
+    //     case "LootItemTypes":
+    //         document.getElementById(`LootItemTypes-${updatedEntityData.id}`).remove()
+    //         break
+    //     case "Abilities":
+    //         document.getElementById(`Abilities-${updatedEntityData.id}`).remove()
+    //         break
+    //     default:
+    //         console.log(`Unexpected entity type '${updatedEntityData.entity}!`, updatedEntityData)
+    // }
 }
 
 function updateEntity(button, updatedEntityData)
 {
+    updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
     switch (updatedEntityData.entity)
     {
         case "Quests":
-            updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
             updatedEntityData['questDesc'] = document.getElementById(`${updatedEntityData.entity}-questDesc-${updatedEntityData.id}`).textContent.trim()
-            // TODO Add other attributes
+            updatedEntityData['available'] = document.getElementById("editAvailableCheckbox").checked
+            updatedEntityData['questGiverId'] = document.getElementById("questGivers-list").value
+            updatedEntityData['suggestedLevel'] = document.getElementById("suggestedLevel").value
+            updatedEntityData['monsterQty'] = document.getElementById("editMonsterQty").value
+            updatedEntityData['rewardXp'] = document.getElementById("rewardXp").value
+            updatedEntityData['rewardGold'] = document.getElementById("rewardGold").value
+            updatedEntityData['monsterId'] = document.getElementById("monsters-list").value
+            break
+        case "Monsters":
+            updatedEntityData['monsterDesc'] = document.getElementById(`Monsters-Desc-${updatedEntityData.id}`).textContent.trim()
+            updatedEntityData['monsterTypeId'] = document.getElementById(`monster-types-list-${updatedEntityData.id}`).value
+            let monsterTypeSelect = document.getElementById(`monster-types-list-${updatedEntityData.id}`)
+            updatedEntityData['monsterTypeName'] = monsterTypeSelect.options[monsterTypeSelect.selectedIndex].innerText
+            updatedEntityData['healthPool'] = document.getElementById(`editHealthPool-${updatedEntityData.id}`).value
+            updatedEntityData['attack'] =  document.getElementById(`editAttack-${updatedEntityData.id}`).value
+            updatedEntityData['defense'] =  document.getElementById(`editDefense-${updatedEntityData.id}`).value
+            updatedEntityData['speed'] =  document.getElementById(`editSpeed-${updatedEntityData.id}`).value
             break
         case "QuestGivers":
-            updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
+
             break
         case "MonsterTypes":
-            updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
+
             break
         case "LootItems":
-            updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
+
             updatedEntityData['lootDesc'] = document.getElementById(`${updatedEntityData.entity}-lootDesc-${updatedEntityData.id}`).textContent.trim()
+
+            let lootTypeSelect = document.getElementById(`lootTypes-list-${updatedEntityData.id}`)
+            updatedEntityData['lootItemTypeId'] = lootTypeSelect.value
+            updatedEntityData['lootItemTypeName'] = lootTypeSelect.options[lootTypeSelect.selectedIndex].innerText
+
+            updatedEntityData['lootValue'] = document.getElementById(`editValue-${updatedEntityData.id}`).value
+
             break
         case "LootItemTypes":
-            updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
+
             updatedEntityData['equipable'] = document.getElementById(`edit-equipable-${updatedEntityData.id}`).value
             break
         case "Abilities":
-            updatedEntityData['title'] = document.getElementById(`${updatedEntityData.entity}-Name-${updatedEntityData.id}`).textContent.trim()
+
             updatedEntityData['abilityDesc'] = document.getElementById(`${updatedEntityData.entity}-abilityDesc-${updatedEntityData.id}`).textContent.trim()
+            break
+        case "MonstersAbilities":
+
+            updatedEntityData['abilityCooldown'] = document.getElementById(`editCooldown-${updatedEntityData.id}`).value
+            break
+        case "MonstersLootItems":
+
+            updatedEntityData['dropQuantity'] = document.getElementById(`editDropQuantity-${updatedEntityData.id}`).value
+            updatedEntityData['dropChance'] = document.getElementById(`editDropChance-${updatedEntityData.id}`).value
             break
         default:
             console.log(`Unexpected entity type '${updatedEntityData.entity}!`, updatedEntityData)
@@ -235,4 +403,13 @@ function deleteEntity(button, entityDataToDelete) {
     {
         return
     }
+}
+
+if (typeof require === 'function') //If this is running serverside, basically
+{
+    module.exports.localizeChance = localizeChance
+}
+else
+{
+    readParams()
 }

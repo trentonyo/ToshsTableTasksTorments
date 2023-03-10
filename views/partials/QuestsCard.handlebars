@@ -9,10 +9,45 @@
     <div class="giver jsp-quest-dark-textColor" id="Quests-questGiverId-{{questId}}">
         {{#if questGiverId}}- {{questGiverName}}{{else}}- Unknown{{/if}}
     </div>
-<!-- {{#unless view}}</a>{{/unless}} -->
-    <div class="button_container">
+
+    {{#if view}}
+        <div class="hidden giver jsp-quest-dark-textColor" id="editQuestGiverId">
+            <select id="questGivers-list" name="questGiverId" data-current="{{questGiverId}}">
+                <option value="NULL"> -- </option>
+                {{#each questGiversList}}
+                    <option value="{{questGiverId}}">{{questGiverName}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div class="hidden giver jsp-quest-dark-textColor" id="editAvailable">
+            <label for="editAvailableCheckbox">Available?</label>
+            <input type="checkbox" id="editAvailableCheckbox" name="available" {{#if available}}checked{{/if}}>
+        </div>
+    {{/if}}
+
+    {{#if view}}
         <button onClick="toggleEditMode(this, {'entity': 'Quests', 'id': '{{questId}}'}, true)" id="toggleEdit-Quests-{{questId}}">Edit</button>
         <button onClick="updateEntity(this, {'entity': 'Quests', 'id': '{{questId}}'} )" id="update-Quests-{{questId}}" class="hidden">Submit</button>
-        <button onClick="deleteEntity(this, {'entity': 'Quests', 'id': '{{questId}}'} )">Delete</button>
+    {{else}}
+        <div class="button_container">
+            <a href="/Quests/view/{{questId}}"><button id="View-Quests-{{questId}}">View</button></a>
+            <a href="/Quests/view/{{questId}}/?edit=1&entity=Quests&id={{questId}}"><button id="toggleEdit-Quests-{{questId}}">Edit</button></a>
+            <button onClick="deleteEntity(this, {'entity': 'Quests', 'id': '{{questId}}'} )">Delete</button>
+        </div>
+    {{/if}}
+</div>
+<div class="hidden card quest jsp-monster-light-backgroundColor" id="editQuestsMonster">
+    <div class="title animate-background-gradient jsp-global-black-textColor" data-jsp-palette="quest">
+        Change Monster
+    </div>
+    <div class="description jsp-quest-dark-textColor">
+        <select id="monsters-list" name="monsterId" data-current="{{monsterId}}">
+            {{#each monstersList}}
+                <option value="{{monsterId}}">{{monsterName}}</option>
+            {{/each}}
+        </select>
+        <br>
+        <label for="editMonsterQty">Quantity: </label>
+        <input type="number" min="0" value="{{monsterQty}}" id="editMonsterQty">
     </div>
 </div>

@@ -1,16 +1,30 @@
-{{#unless view}}<a href="/MonstersAbilities/view/{{monsterId}}-{{abilityId}}">{{/unless}}
-    <div class="card ability jsp-ability-light-backgroundColor jsp-ability-light-thickerBorderColor {{#if view}}full static{{/if}}">
-        <div class="title animate-background-gradient jsp-global-black-textColor" data-jsp-palette="monster">
-            {{monsterName}}
-        </div>
-        <div class="description jsp-ability-dark-textColor">
-            {{abilityName}} -
+<div class="card ability jsp-ability-light-backgroundColor jsp-ability-light-thickerBorderColor {{#if view}}full static{{/if}}" id="MonstersAbilities-{{compoundId monsterId abilityId}}">
+    <div class="title animate-background-gradient jsp-global-black-textColor" data-jsp-palette="monster" id="MonstersAbilities-Name-{{compoundId monsterId abilityId}}">
+        {{monsterName}}
+    </div>
+    <div class="description jsp-ability-dark-textColor" id="MonstersAbilities-ViewDetails-{{compoundId monsterId abilityId}}">
+        {{abilityName}} -
 
+        <span id="MonstersAbilities-Cooldown-{{compoundId monsterId abilityId}}">
             {{#ifIsPassive abilityCooldown}}
                 Passive
             {{else}}
                 {{abilityCooldown}}s Cooldown
             {{/ifIsPassive}}
-        </div>
+        </span>
     </div>
-{{#unless view}}</a>{{/unless}}
+    <div class="hidden description jsp-ability-dark-textColor" id="MonstersAbilities-EditDetails-{{compoundId monsterId abilityId}}">
+        <label for="editCooldown-{{compoundId monsterId abilityId}}">Cooldown (0 for Passive):</label>
+        <input class="editDesc" name="editCooldown" id="editCooldown-{{compoundId monsterId abilityId}}" type="number" min="0" value="{{abilityCooldown}}">
+    </div>
+
+    <br>
+    <br>
+
+    <div class="button_container">
+        <button onClick="toggleEditMode(this, {'entity': 'MonstersAbilities', 'id': '{{compoundId monsterId abilityId}}'}, true)" id="toggleEdit-MonstersAbilities-{{compoundId monsterId abilityId}}">Edit</button>
+        <button onClick="updateEntity(this, {'entity': 'MonstersAbilities', 'id': '{{compoundId monsterId abilityId}}'} )" id="update-MonstersAbilities-{{compoundId monsterId abilityId}}" class="hidden">Submit</button>
+        <button onClick="deleteEntity(this, {'entity': 'MonstersAbilities', 'id': '{{compoundId monsterId abilityId}}'} )">Delete</button>
+    </div>
+
+</div>

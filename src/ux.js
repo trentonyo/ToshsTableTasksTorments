@@ -1,5 +1,23 @@
 console.log("Loaded ux.js")
 
+let params = new URLSearchParams(document.location.search)
+
+if(params.has("err"))
+{
+    let msg = ""
+
+    switch (params.get("err"))
+    {
+        case "ER_DUP_ENTRY":
+            msg = "Error: Cannot create duplicate entry!"
+            break
+        default:
+            msg = "An error occurred!"
+    }
+
+    alert(msg)
+}
+
 /*https://javascript.info/task/delay-promise - Ilya Kantor*/
 function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -49,9 +67,13 @@ for (let i = 0; i < input_fields.length; i++)
 
     if (placeholder.length > 0)
     {
-        input_fields[i].addEventListener("auxclick", function (e)
+        input_fields[i].addEventListener("contextmenu", function (e)
         {
-            input_fields[i].value = placeholder
+            if (input_fields[i].value.length === 0)
+            {
+                e.preventDefault()
+                input_fields[i].value = placeholder
+            }
         })
     }
 }

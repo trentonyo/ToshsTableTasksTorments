@@ -1,24 +1,60 @@
-<div class="card monster jsp-monster-light-backgroundColor jsp-monster-light-thickerBorderColor {{# if view}}full static{{/if}}">
+<div class="card monster jsp-monster-light-backgroundColor jsp-monster-light-thickerBorderColor {{# if view}}full static{{/if}}" id="Monsters-{{monsterId}}">
     <div class="title animate-background-gradient jsp-global-black-textColor" data-jsp-palette="monster">
-        {{monsterName}} <span class="subtitle nowrap">({{healthPool}} hp)</span>
-    </div>
-    <div class="description jsp-quest-dark-textColor">
-        {{#if questId}}
-            <div class="stats">{{attack}} ATK | {{defense}} DEF | {{speed}} SPD</div>
-        {{else if view}}
-        {{else}}
-            <div class="stats">{{attack}} ATK | {{defense}} DEF | {{speed}} SPD</div>
+        <div id="Monsters-Name-{{monsterId}}">
+            {{monsterName}}
+        </div>
+
+        {{#if monsterQty}}
+            <span class="subtitle nowrap">(Defeat {{monsterQty}})</span>
         {{/if}}
 
+    </div>
+        {{#if questId}}
+            <div class="description stats jsp-quest-dark-textColor" id="Monsters-Stats-{{monsterId}}">
+                {{> MonstersInfoBand}}
+            </div>
+        {{else if view}}
+        {{else}}
+            <div class="description stats jsp-quest-dark-textColor" id="Monsters-Stats-{{monsterId}}">
+                {{> MonstersInfoBand}}
+            </div>
+        {{/if}}
+    <div class="hidden description stats jsp-quest-dark-textColor" id="Monsters-EditStats-{{monsterId}}">
+        {{> MonstersEditInfoBand}}
+    </div>
+
+    <div class="description jsp-quest-dark-textColor" id="Monsters-Type-{{monsterId}}">
+        <div class="subtitle stats" id="Monsters-TypeName-{{monsterId}}">{{monsterTypeName}}</div>
+    </div>
+    <div class="hidden description jsp-quest-dark-textColor" id="Monsters-EditType-{{monsterId}}">
+        <select id="monster-types-list-{{monsterId}}" name="monsterTypeId" data-current="{{monsterTypeId}}">
+            {{#each monsterTypesList}}
+                <option value="{{monsterTypeId}}">{{monsterTypeName}}</option>
+            {{/each}}
+        </select>
+    </div>
+
+    <div class="description jsp-quest-dark-textColor" id="Monsters-Desc-{{monsterId}}">
         {{monsterDesc}}
     </div>
+    <br>
+    <br>
+    <br>
+
 
     {{#if suppressDetailsButton}}
     {{else if view}}
     {{else}}
-        <a href="/Monsters/view/{{monsterId}}">
-            <button class="viewDetails"></button>
-        </a>
+<!--        <a href="/Monsters/view/{{monsterId}}">-->
+<!--            <button class="viewDetails"></button>-->
+<!--        </a>-->
+        <div class="button_container">
+            <a href="/Monsters/view/{{monsterId}}"><button id="View-Monsters-{{monsterId}}">View</button></a>
+            <button onClick="toggleEditMode(this, {'entity': 'Monsters', 'id': '{{monsterId}}'}, true)" id="toggleEdit-Monsters-{{monsterId}}">Edit</button>
+            <button onClick="updateEntity(this, {'entity': 'Monsters', 'id': '{{monsterId}}'} )" id="update-Monsters-{{monsterId}}" class="hidden">Submit</button>
+            <button onClick="deleteEntity(this, {'entity': 'Monsters', 'id': '{{monsterId}}'} )">Delete</button>
+        </div>
     {{/if}}
+
 
 </div>

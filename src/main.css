@@ -87,6 +87,7 @@ div.collapse-target {
     bottom: 4px;
     left: 4px;
     position: absolute;
+    user-select: none;
 }
 
 .collapse-container {
@@ -157,7 +158,7 @@ div.collapse-target {
     position: relative;
 
     margin: 10px;
-    padding-bottom: 15px;
+    /*padding-bottom: 15px;*/
 
     -moz-border-radius-bottomleft: 10px;
     -moz-border-radius-bottomright: 10px;
@@ -216,11 +217,29 @@ button:hover {
     font-style: italic;
 }
 
-.description>.stats {
+.description .stats, div.description.stats {
     font-family: serif;
     text-align: center;
 
     margin-bottom: 10px;
+}
+.card input.editDesc {
+    width: 75px;
+}
+
+.stats input {
+    width: 16px;
+}
+/* Chrome, Safari, Edge, Opera */
+.stats input::-webkit-outer-spin-button,
+.stats input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+/* Firefox */
+.stats input[type=number] {
+    -moz-appearance: textfield;
 }
 .card .description {
     font-family: sans-serif;
@@ -381,6 +400,9 @@ a {
     display: none;
     scale: 0;
 }
+.suppressed {
+    opacity: 30%;
+}
 .blockPointerEvents {
     pointer-events: none;
 }
@@ -393,9 +415,18 @@ a {
 
     font-style: italic;
 }
+.card .editable.locked {
+    background-color: #fff;
+    color: #000;
+    user-select: none;
+    cursor: not-allowed;
+    font-style: normal;
+    font-weight: bold;
+}
 .card .editable {
     font-weight: normal;
     border-bottom: #0a0909 1px dashed;
+    margin-bottom: -5px;
 }
 .card.new:hover {
     scale: 105%;
