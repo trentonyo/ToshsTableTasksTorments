@@ -20,6 +20,65 @@ function randEl(list)
 {
     return list[Math.floor(Math.random() * list.length)]
 }
+const ROLL_CONDITIONS = {
+    "dropLowestN" : function (n, dice) {
+        for (let i = 0; i < n; i++) {
+            dice.shift()
+        }
+        return dice
+    }
+}
+function roll(dice, condition)
+{
+    let parse = dice.split("d")
+    let number = parseInt(parse[0])
+    let die = parseInt(parse[1])
+
+    let outputDice = []
+
+    for (let i = 0; i < number; i++) {
+        let currRoll = Math.ceil(Math.random() * die)
+        outputDice.push(currRoll)
+    }
+    /* Credit to Sergio Abreu and aks at stackoverflow: https://stackoverflow.com/a/1063027 */
+    let sortedDice = outputDice.sort(function (a, b) {
+        return a - b
+    })
+
+    if(condition)
+    {
+        let args = condition.split('-')
+
+        // console.log(`Before condition ${args[0]}:`, sortedDice)
+
+        switch (args[0])
+        {
+            case "dropLowest" :
+                for (let i = 0; i < args[1]; i++) {
+                    sortedDice.shift()
+                }
+                break
+            case "dropTop" :
+                for (let i = 0; i < args[1]; i++) {
+                    sortedDice.pop()
+                }
+                break
+        }
+    }
+
+    let sum = 0
+
+    for (let i = 0; i < sortedDice.length; i++) {
+        sum += sortedDice[i]
+    }
+
+    // console.log(sortedDice)
+    return sum
+}
+
+// example: roll('5d3'))
+// example: roll('5d6', 'dropLowest-2'))
+// example: roll('2d20', 'dropTop-1'))
 
 // Generate a generic name
 function getName()
