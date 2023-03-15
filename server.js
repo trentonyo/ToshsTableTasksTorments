@@ -19,6 +19,8 @@ let dmq = require('./src/dmq')
 //Tools
 let names = require('./src/name-generator')
 let cards = require('./src/cards')
+let package = require('./package')
+let motd = require('./src/motd')
 
 let entities = require('./src/ENTITIES')
 const ENTITIES = entities.ENTITIES
@@ -270,11 +272,13 @@ app.get('/', function(req, res)
 
         let context = {
             "entity" : "Quests",
+            "description" : motd.description,
+            "motd" : motd.default,
             "newEntityContext" : newEntityContext,
             "queryName" : "Available Quests" + (useOffline ? " (OFFLINE MODE)" : ""),
             "results" : results
         }
-        res.status(200).render("ViewCards", context)
+        res.status(200).render("ViewHomepage", context)
     })
 })
 

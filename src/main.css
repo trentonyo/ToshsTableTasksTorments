@@ -13,7 +13,8 @@ body {
 #card_container {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: center;
+    padding: 24px 90px;
 }
 
 #logo_container {
@@ -40,6 +41,26 @@ body {
     flex-wrap: wrap;
     justify-content: flex-start;
 }
+#description_container {
+    width: available;
+    width: -webkit-fill-available;
+
+    padding: 26px 90px;
+
+    font-family: Helvetica;
+}
+
+#motd_container {
+    position: fixed;
+    bottom: 0;
+    width: available;
+    width: -webkit-fill-available;
+
+    padding: 16px;
+
+    font-family: Helvetica;
+}
+
 /*a.nav_subcontainer :not(.collapsing, a) {*/
 div.collapse-target {
     -moz-border-radius-topleft: 0;
@@ -393,6 +414,11 @@ a {
     text-decoration: none;
 }
 
+.top-right {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
 .nowrap {
     white-space: nowrap;
 }
@@ -406,7 +432,11 @@ a {
 .blockPointerEvents {
     pointer-events: none;
 }
-
+.round {
+    aspect-ratio: 1;
+    border-radius: 100%;
+    margin: auto;
+}
 .editable {
     background-color: #fff;
     color: #000;

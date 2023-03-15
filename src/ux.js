@@ -33,6 +33,12 @@ let add_loot = document.getElementById("addLootItemForm")
 
 let collapse_buttons = document.getElementsByClassName('collapse-container')
 
+let closeDiv = function (id)
+{
+    let target = document.getElementById(id)
+    target.remove()
+}
+
 let uncollapseChildren = function (event)
 {
     let collapse_targets = event.target.closest(".collapse-container").getElementsByClassName("collapse-target")
