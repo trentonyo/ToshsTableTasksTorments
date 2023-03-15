@@ -567,7 +567,8 @@ app.get('/MonstersAbilities/new', function(req, res)
             let context = {
                 "entity" : "MonstersAbilities",
                 "monsters" : monsters,
-                "abilities" : abilities
+                "abilities" : abilities,
+                "cooldown" : names.roll('6d5d1', 'dropTop-3') * 5
             }
 
             res.status(200).render("NewMonstersAbilities", context)
@@ -583,7 +584,9 @@ app.get('/MonstersLootItems/new', function(req, res)
             let context = {
                 "entity" : "MonstersAbilities",
                 "monsters" : monsters,
-                "lootItems" : lootItems
+                "lootItems" : lootItems,
+                "quantity" : names.roll('6d3', 'dropTop-4'),
+                "chance" : Math.max(0.01, names.roll('1d8') / 8)
             }
 
             res.status(200).render("NewMonstersLootItems", context)

@@ -361,10 +361,6 @@ function getMonsterNumbers() {
     }
 }
 
-for (let i = 0; i < 20; i++) {
-    console.log(getMonsterNumbers())
-}
-
 // Export for use
 module.exports.getName = getName;
 module.exports.getQuestName = getQuestName;
@@ -374,5 +370,6 @@ module.exports.getLootType = getLootType;
 module.exports.getMonsterName = getMonsterName;
 module.exports.getMonsterType = getMonsterType;
 module.exports.getAbilityName = getAbilityName;
+module.exports.roll = roll;
 module.exports.getQuestNumbers = getQuestNumbers;
 module.exports.getMonsterNumbers = getMonsterNumbers;

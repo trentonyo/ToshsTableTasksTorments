@@ -28,13 +28,13 @@
     <div class="new add animate-background-gradient jsp-loot-dark-textColor" data-jsp-palette="loot">
         <label for="dropQuantity">Drop Quantity:</label>
         <br>
-        <input type="number" min="1" id="dropQuantity" name="dropQuantity">
+        <input type="number" min="1" placeholder="{{quantity}}" id="dropQuantity" name="dropQuantity">
     </div>
 
     <div class="new add animate-background-gradient jsp-loot-dark-textColor" data-jsp-palette="loot">
         <label for="dropChance">Drop Chance (decimal):</label>
         <br>
-        <input type="number" max="1" min="0.000001" step="0.000001" value="1" id="dropChance" name="dropChance">
+        <input type="number" max="1" min="0.000001" step="0.000001" placeholder="{{chance}}" id="dropChance" name="dropChance">
     </div>
     <div class="new add animate-background-gradient jsp-monster-dark-textColor" data-jsp-palette="monster" value="Submit">
         <button type="submit" value="Submit">Submit</button>
