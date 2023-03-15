@@ -347,12 +347,17 @@ app.get('/Quests/new', function(req, res)
 
             //Offline override
             if(useOffline) { monsters = db_offline['SQL_monsters'];  questGivers = db_offline['SQL_questGivers'] }
+            let numbers = names.getQuestNumbers()
 
             let context = {
                 "entity" : "Quests",
                 "monsters" : monsters,
                 "questGivers" : questGivers,
-                "placeholderQuestName" : names.getQuestName()
+                "placeholderQuestName" : names.getQuestName(),
+                "monstersQty" : numbers.monstersQty,
+                "rewardXp" : numbers.rewardXp,
+                "rewardGold" : numbers.rewardGold,
+                "suggestedLevel" : numbers.suggestedLevel,
             }
             res.status(200).render("NewQuests", context)
         })
@@ -494,10 +499,17 @@ app.get('/Monsters/new', function(req, res)
         //Offline override
         if(useOffline) { monsterTypes = db_offline['SQL_monsterTypes'] }
 
+        let numbers = names.getMonsterNumbers()
+
         let context = {
             "entity" : "Monsters",
             "monsterTypes" : monsterTypes,
-            "placeholderMonsterName" : names.getMonsterName()
+            "placeholderMonsterName" : names.getMonsterName(),
+            "cr" : numbers.cr,
+            "healthPool" : numbers.healthPool,
+            "attack" : numbers.attack,
+            "defense" : numbers.defense,
+            "speed" : numbers.speed,
         }
         res.status(200).render("NewMonsters", context)
     })
