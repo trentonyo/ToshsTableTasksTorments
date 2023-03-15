@@ -1,43 +1,5 @@
 console.log("Loaded style.js")
 
-// const JSP_PALETTE = {
-//     global: {dark: "#0b0206", medium: "#2c1b47", light: "#dccae9", black: "#171718", white: "#e5e3ea"},
-//     logo: {dark: "#030b02", medium: "#308c2a", light: "#5fc252"},
-//     quest: {dark: "#33122a", medium: "#7a2786", light: "#E99ff4"},
-//     monster: {dark: "#420a10", medium: "#ed3046", light: "#f2949f"},
-//     ability: {dark: "#0c2240", medium: "#264d60", light: "#6fc2bf"},
-//     loot: {dark: "#544018", medium: "#d1c25a", light: "#f7f0b5"},
-//     new: {dark: "#062120", medium: "#2cb2a2", light: "#8fe2ed"},
-//     view: {dark: "#150423", medium: "#644ac7", light: "#a794f0"},
-// }
-//
-// let generateCSSPalette = function ()
-// {
-//     let output = ""
-//     for (let category in JSP_PALETTE)
-//     {
-//         if (Object.hasOwnProperty.call(JSP_PALETTE, category))
-//         {
-//             for (let color in JSP_PALETTE[category])
-//             {
-//                 if (Object.hasOwnProperty.call(JSP_PALETTE[category], color))
-//                 {
-//                     output += `.jsp-${category}-${color}-backgroundColor { background-color: ${JSP_PALETTE[category][color]}; }\n`
-//                     output += `.jsp-${category}-${color}-textColor { color: ${JSP_PALETTE[category][color]}; }\n`
-//                     output += `.jsp-${category}-${color}-thinBorderColor { border: ${JSP_PALETTE[category][color]} solid 1px; }\n`
-//                     output += `.jsp-${category}-${color}-thickerBorderColor { border: ${JSP_PALETTE[category][color]} solid 2px; }\n`
-//                 }
-//             }
-//         }
-//     }
-//
-//     return output
-// }
-//
-// module.exports.generateCSSPalette = generateCSSPalette
-
-// console.log(generateCSSPalette())
-
 let text_gradient               = document.getElementsByClassName("animate-text-gradient")
 let new_background_gradient     = document.querySelectorAll(".new.animate-background-gradient")
 let view_background_gradient    = document.querySelectorAll(".view.animate-background-gradient")
@@ -57,6 +19,7 @@ let updateGradientElements = function ()
 
 const animationSwitch = document.getElementById("animationSwitch")
 const animationSwitchContainer = document.getElementById("modal_animationSwitch")
+let cancelAnimation = false
 
 function getGradient(angle, color1, color2, text)
 {
@@ -74,10 +37,10 @@ let timer = setInterval(function()
     // how much time passed from the start?
     let timePassed = Date.now() - start;
 
-    if (timePassed >= 60 * 1000 || !animationSwitch.checked) {
+    if (timePassed >= 60 * 1000 || !animationSwitch.checked || cancelAnimation) {
         clearInterval(timer); // finish the animation after 60 seconds
-        animationSwitchContainer.classList.add("hidden")
-        animationSwitch.remove()
+        // animationSwitchContainer.classList.add("hidden")
+        // animationSwitch.remove()
         return;
     }
 
@@ -85,6 +48,33 @@ let timer = setInterval(function()
     draw(timePassed);
 
 }, 20);
+
+animationSwitch.addEventListener("change", function (event)
+{
+    let enabled = event.target.checked
+
+    console.log(enabled) //TODO debug
+
+    if (enabled)
+    {
+        timer = setInterval(function()
+        {
+            // how much time passed from the start?
+            // let timePassed = Date.now() - start;
+
+            if (timePassed >= 60 * 1000 || !animationSwitch.checked || cancelAnimation) {
+                clearInterval(timer); // finish the animation after 60 seconds
+                // animationSwitchContainer.classList.add("hidden")
+                // animationSwitch.remove()
+                return;
+            }
+
+            // draw the animation at the moment timePassed
+            draw(timePassed);
+
+        }, 20);
+    }
+})
 
 function getAngle(timePassed, i)
 {
