@@ -362,13 +362,15 @@ function getMonsterNumbers() {
 }
 
 function getLootValue() {
-    return roll(`3d5`) * 10 * Math.max(1, 100 * roll('2d1d1', 'dropTop-1')) * Math.max(1, 100 * roll('2d1d1', 'dropTop-1'))
+    let base = roll(`3d5`)
+    let magnitude100 = Math.max(1, 100 * roll('2d2d1', 'dropTop-1'))
+
+    return base * 10 * magnitude100
 }
 
 for (let i = 0; i < 20; i++)
 {
-
-    console.log(getLootValue())
+    // console.log(getLootValue())
 }
 
 // Export for use
@@ -383,3 +385,4 @@ module.exports.getAbilityName = getAbilityName;
 module.exports.roll = roll;
 module.exports.getQuestNumbers = getQuestNumbers;
 module.exports.getMonsterNumbers = getMonsterNumbers;
+module.exports.getLootValue = getLootValue;
