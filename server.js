@@ -535,7 +535,8 @@ app.get('/LootItems/new', function(req, res)
         let context = {
             "entity" : "LootItems",
             "lootItemTypes" : lootItemTypes,
-            "placeholderItemName" : names.getLootItemName()
+            "placeholderItemName" : names.getLootItemName(),
+            "value" : names.roll(`3d5`) * 10 * Math.max(1, 100 * names.roll('2d1d1', 'dropTop-1')) * Math.max(1, 100 * names.roll('2d1d1', 'dropTop-1'))
         }
         res.status(200).render("NewLootItems", context)
     })

@@ -361,6 +361,16 @@ function getMonsterNumbers() {
     }
 }
 
+function getLootValue() {
+    return roll(`3d5`) * 10 * Math.max(1, 100 * roll('2d1d1', 'dropTop-1')) * Math.max(1, 100 * roll('2d1d1', 'dropTop-1'))
+}
+
+for (let i = 0; i < 20; i++)
+{
+
+    console.log(getLootValue())
+}
+
 // Export for use
 module.exports.getName = getName;
 module.exports.getQuestName = getQuestName;
