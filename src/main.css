@@ -15,6 +15,7 @@ body {
     flex-wrap: wrap;
     justify-content: center;
     padding: 24px 90px;
+    margin-bottom: 160px;
 }
 
 #logo_container {
@@ -56,7 +57,7 @@ body {
     width: available;
     width: -webkit-fill-available;
 
-    padding: 16px;
+    padding: 16px 32px;
 
     font-family: Helvetica;
 }
