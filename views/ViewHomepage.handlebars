@@ -1,0 +1,25 @@
+<script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+<script src="/MonstersInfoBandTemplate.js" defer></script>
+<script src="/cards.js" defer></script>
+
+<div id="page_title" class="fadeout-gradient jsp-global-light-textColor">{{queryName}}</div>
+
+<div id="description_container" class="view jsp-view-dark-textColor jsp-global-light-backgroundColor">
+    {{#each description}}
+        {{> Paragraph}}
+    {{/each}}
+</div>
+
+<div id="card_container">
+    {{#each results}}
+        {{> (whichPartialCard) }}
+    {{/each}}
+</div>
+
+<!--<div id="motd_container" class="view animate-background-gradient jsp-view-light-textColor jsp-new-light-thickerBorderColor" data-jsp-palette="view">-->
+<div id="motd_container" class="view jsp-view-light-textColor jsp-view-dark-backgroundColor jsp-new-light-thickerBorderColor" data-jsp-palette="view">
+    {{#each motd}}
+        {{> Paragraph}}
+    {{/each}}
+    <button class="round top-right" onclick="closeDiv('motd_container')">x</button>
+</div>

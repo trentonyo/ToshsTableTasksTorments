@@ -1,42 +1,27 @@
 console.log("Loaded style.js")
 
-// const JSP_PALETTE = {
-//     global: {dark: "#0b0206", medium: "#2c1b47", light: "#dccae9", black: "#171718", white: "#e5e3ea"},
-//     logo: {dark: "#030b02", medium: "#308c2a", light: "#5fc252"},
-//     quest: {dark: "#33122a", medium: "#7a2786", light: "#E99ff4"},
-//     monster: {dark: "#420a10", medium: "#ed3046", light: "#f2949f"},
-//     ability: {dark: "#0c2240", medium: "#264d60", light: "#6fc2bf"},
-//     loot: {dark: "#544018", medium: "#d1c25a", light: "#f7f0b5"},
-//     new: {dark: "#062120", medium: "#2cb2a2", light: "#8fe2ed"},
-//     view: {dark: "#150423", medium: "#644ac7", light: "#a794f0"},
-// }
-//
-// let generateCSSPalette = function ()
-// {
-//     let output = ""
-//     for (let category in JSP_PALETTE)
-//     {
-//         if (Object.hasOwnProperty.call(JSP_PALETTE, category))
-//         {
-//             for (let color in JSP_PALETTE[category])
-//             {
-//                 if (Object.hasOwnProperty.call(JSP_PALETTE[category], color))
-//                 {
-//                     output += `.jsp-${category}-${color}-backgroundColor { background-color: ${JSP_PALETTE[category][color]}; }\n`
-//                     output += `.jsp-${category}-${color}-textColor { color: ${JSP_PALETTE[category][color]}; }\n`
-//                     output += `.jsp-${category}-${color}-thinBorderColor { border: ${JSP_PALETTE[category][color]} solid 1px; }\n`
-//                     output += `.jsp-${category}-${color}-thickerBorderColor { border: ${JSP_PALETTE[category][color]} solid 2px; }\n`
-//                 }
-//             }
-//         }
-//     }
-//
-//     return output
-// }
-//
-// module.exports.generateCSSPalette = generateCSSPalette
-
-// console.log(generateCSSPalette())
+/* https://www.w3schools.com/js/js_cookies.asp */
+function setCookie(cname, cvalue, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    let expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
 
 let text_gradient               = document.getElementsByClassName("animate-text-gradient")
 let new_background_gradient     = document.querySelectorAll(".new.animate-background-gradient")
@@ -57,6 +42,7 @@ let updateGradientElements = function ()
 
 const animationSwitch = document.getElementById("animationSwitch")
 const animationSwitchContainer = document.getElementById("modal_animationSwitch")
+let cancelAnimation = false
 
 function getGradient(angle, color1, color2, text)
 {
@@ -69,15 +55,17 @@ function getGradient(angle, color1, color2, text)
 // Credit: https://javascript.info/js-animation
 let start = Date.now(); // remember start time
 
+// how much time passed from the start?
+// let timePassed = Date.now() - start;
+
 let timer = setInterval(function()
 {
-    // how much time passed from the start?
+// how much time passed from the start?
     let timePassed = Date.now() - start;
-
-    if (timePassed >= 60 * 1000 || !animationSwitch.checked) {
+    if (timePassed >= 60 * 1000 || !animationSwitch.checked || cancelAnimation) {
         clearInterval(timer); // finish the animation after 60 seconds
-        animationSwitchContainer.classList.add("hidden")
-        animationSwitch.remove()
+        // animationSwitchContainer.classList.add("hidden")
+        // animationSwitch.remove()
         return;
     }
 
@@ -85,6 +73,48 @@ let timer = setInterval(function()
     draw(timePassed);
 
 }, 20);
+
+if(getCookie('animation').length === 0)
+{
+    console.log("Resetting animation")
+    setCookie('animation', true, 1)
+}
+
+document.getElementById('animationSwitch').checked = getCookie('animation') === 'true'
+
+let updateAnimationStatus = function (event)
+{
+    let enabled = event.target.checked
+    setCookie('animation', enabled, 1)
+
+    if (enabled)
+    {
+        timer = setInterval(function()
+        {
+            // how much time passed from the start?
+            // let timePassed = Date.now() - start;
+
+// how much time passed from the start?
+            let timePassed = Date.now() - start;
+            if (timePassed >= 60 * 1000 || !animationSwitch.checked || cancelAnimation) {
+                clearInterval(timer); // finish the animation after 60 seconds
+                // animationSwitchContainer.classList.add("hidden")
+                // animationSwitch.remove()
+                return;
+            }
+
+            // draw the animation at the moment timePassed
+            draw(timePassed);
+
+        }, 20);
+    }
+    else
+    {
+        start = Date.now()
+    }
+}
+updateAnimationStatus({target : document.getElementById('animationSwitch')})
+animationSwitch.addEventListener("change", updateAnimationStatus)
 
 function getAngle(timePassed, i)
 {
@@ -126,3 +156,5 @@ function draw(timePassed)
         animated_background_gradient_objects[i].style.cssText = getGradient( getAngle(timePassed, i), color1, color2 )
     }
 }
+
+draw(0)

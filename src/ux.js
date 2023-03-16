@@ -23,6 +23,7 @@ function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+
 let input_fields = document.getElementsByTagName("input")
 
 let column_ability = document.getElementById("abilities_column")
@@ -32,6 +33,12 @@ let add_ability = document.getElementById("addAbilityForm")
 let add_loot = document.getElementById("addLootItemForm")
 
 let collapse_buttons = document.getElementsByClassName('collapse-container')
+
+let closeDiv = function (id)
+{
+    let target = document.getElementById(id)
+    target.remove()
+}
 
 let uncollapseChildren = function (event)
 {
@@ -95,3 +102,4 @@ if(add_loot)
         updateGradientElements()
     })
 }
+

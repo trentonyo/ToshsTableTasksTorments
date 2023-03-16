@@ -1,7 +1,7 @@
 {
   "name": "toshstabletaskstorments",
   "version": "0.9.0",
-  "description": "CS 340 Final Project - Tosh is a barkeep who fields questions from a lot of adventurers, this enchanted table helps him keep the facts straight.",
+  "description": "CS 340 Final Project - Trenton Young and Josh Williams\nTosh is the owner/barkeep of the sole tavern in a run-of-the-mill fantasy town. This being the obvious place to gather, adventurers seeking rewards are constantly asking him for information about local monsters and quests.\nThese adventurers make up the majority of patrons so Tosh receives about 200 such requests per day. Even though there are only about 20 varieties of local monster, 15 unique abilities among those monsters, and roughly 10 quests available at any given time.\nTosh does not possess an encyclopedic mind and therefore needs a method of looking up these details and storing new information that comes his way, so he has enlisted two wizards Shua and Nton to craft for him a magical tabletop fit with runes that he can use to track the various pieces of data that he collects.\nThe rules of the table dictate that only Monsters, Abilities, and Loot Items that are completely understood can be recorded on the table. Quests may be associated with a specific quest giver, or simply be a task for the greater good with nobody assigning it.",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
