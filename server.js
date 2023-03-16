@@ -707,7 +707,8 @@ app.post('/updateEntity', function (req, res, next)
             redirectTarget = '/QuestGivers/view'
             break
         case "MonsterTypes":
-            SQL_statement = `UPDATE MonsterTypes SET monsterTypename = '${updatedData.title}' WHERE monsterTypeId = ${updatedData.id};` //TODO use dml.js
+            // SQL_statement = `UPDATE MonsterTypes SET monsterTypename = '${updatedData.title}' WHERE monsterTypeId = ${updatedData.id};`
+            SQL_statement = ENTITIES["MonsterTypes"].query_Update(updatedData["id"], updatedData["title"])
             redirectTarget = '/MonsterTypes/view'
             break
         case "Monsters":
@@ -734,7 +735,8 @@ app.post('/updateEntity', function (req, res, next)
             redirectTarget = false
             break
         case "Abilities":
-            SQL_statement = `UPDATE Abilities SET abilityName = '${updatedData.title}', abilityDesc = '${updatedData.abilityDesc}' WHERE abilityId = ${updatedData.id};` //TODO use dml.js
+            // SQL_statement = `UPDATE Abilities SET abilityName = '${updatedData.title}', abilityDesc = '${updatedData.abilityDesc}' WHERE abilityId = ${updatedData.id};`
+            SQL_statement = ENTITIES["Abilities"].query_Update(updatedData["id"], updatedData["title"], updatedData["abilityDesc"])
             redirectTarget = '/Abilities/view'
             break
         default:
@@ -745,6 +747,7 @@ app.post('/updateEntity', function (req, res, next)
 
         if(err)
         {
+            console.log("--UPDATE Error:", err)
             next()
         }
         else

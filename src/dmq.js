@@ -1,5 +1,3 @@
-//TODO sanitize inputs
-
 /* https://stackoverflow.com/a/7760578 - Thanks to ffxsam and Paul d'Aoust */
 function sanitize (str) {
     str = String(str)
@@ -112,7 +110,7 @@ let STATEMENTS = {
     UPDATE_LootItemTypes :     function (lootItemTypeId, lootItemTypeName, equipable) {
                                     return `UPDATE LootItemTypes SET lootItemTypeName='${sanitize(lootItemTypeName)}', equipable=${sanitize(equipable)} WHERE lootItemTypeId=${sanitize(lootItemTypeId)};` },
     UPDATE_Abilities :          function (abilityId, abilityName, abilityDesc) {
-                                    return `UPDATE Abilities SET abilityName=${sanitize(abilityName)}, abilityDesc='${sanitize(abilityDesc)}' WHERE abilityId=${sanitize(abilityId)};` },
+                                    return `UPDATE Abilities SET abilityName='${sanitize(abilityName)}', abilityDesc='${sanitize(abilityDesc)}' WHERE abilityId=${sanitize(abilityId)};` },
     UPDATE_LootItems :          function (lootId, lootName, lootDesc, lootItemTypeId, lootValue) {
                                     return `UPDATE LootItems SET lootName='${sanitize(lootName)}', lootDesc='${sanitize(lootDesc)}', lootItemTypeId='${sanitize(lootItemTypeId)}', lootValue='${sanitize(lootValue)}' WHERE lootId=${sanitize(lootId)};` },
     UPDATE_MonsterTypes :       function (monsterTypeId, monsterTypeName) {
