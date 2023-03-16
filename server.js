@@ -231,23 +231,26 @@ let viewEntity = function(req, res, next)
                     "results" : results
                 }
 
-                //These entities will not have a button linked to their detail page
-                switch (entity)
+                if(results) //Without any results, no access needed
                 {
-                    case "MonsterTypes":
-                    case "LootItemTypes":
-                        for (const resultsKey in results) {
-                            results[resultsKey]["suppressDetailsButton"] = true
-                        }
-                        break
-                }
+                    //These entities will not have a button linked to their detail page
+                    switch (entity)
+                    {
+                        case "MonsterTypes":
+                        case "LootItemTypes":
+                            for (const resultsKey in results) {
+                                results[resultsKey]["suppressDetailsButton"] = true
+                            }
+                            break
+                    }
 
-                for (let i = 0; i < context["results"].length; i++) {
-                    context["results"][i]["lootTypesList"] = results_lootTypes
-                }
+                    for (let i = 0; i < context["results"].length; i++) {
+                        context["results"][i]["lootTypesList"] = results_lootTypes
+                    }
 
-                for (let i = 0; i < context["results"].length; i++) {
-                    context["results"][i]["monsterTypesList"] = results_monsterTypes
+                    for (let i = 0; i < context["results"].length; i++) {
+                        context["results"][i]["monsterTypesList"] = results_monsterTypes
+                    }
                 }
 
                 res.status(200).render("ViewCards", context)
@@ -704,7 +707,8 @@ app.post('/updateEntity', function (req, res, next)
             redirectTarget = '/QuestGivers/view'
             break
         case "MonsterTypes":
-            SQL_statement = `UPDATE MonsterTypes SET monsterTypename = '${updatedData.title}' WHERE monsterTypeId = ${updatedData.id};` //TODO use dml.js
+            // SQL_statement = `UPDATE MonsterTypes SET monsterTypename = '${updatedData.title}' WHERE monsterTypeId = ${updatedData.id};`
+            SQL_statement = ENTITIES["MonsterTypes"].query_Update(updatedData["id"], updatedData["title"])
             redirectTarget = '/MonsterTypes/view'
             break
         case "Monsters":
@@ -731,7 +735,8 @@ app.post('/updateEntity', function (req, res, next)
             redirectTarget = false
             break
         case "Abilities":
-            SQL_statement = `UPDATE Abilities SET abilityName = '${updatedData.title}', abilityDesc = '${updatedData.abilityDesc}' WHERE abilityId = ${updatedData.id};` //TODO use dml.js
+            // SQL_statement = `UPDATE Abilities SET abilityName = '${updatedData.title}', abilityDesc = '${updatedData.abilityDesc}' WHERE abilityId = ${updatedData.id};`
+            SQL_statement = ENTITIES["Abilities"].query_Update(updatedData["id"], updatedData["title"], updatedData["abilityDesc"])
             redirectTarget = '/Abilities/view'
             break
         default:
@@ -742,6 +747,7 @@ app.post('/updateEntity', function (req, res, next)
 
         if(err)
         {
+            console.log("--UPDATE Error:", err)
             next()
         }
         else

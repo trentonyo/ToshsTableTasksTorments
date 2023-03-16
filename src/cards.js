@@ -114,7 +114,6 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
             break
         case "LootItems":
             let lootId = editToggleData.id
-            // TODO allow editing of title/value
 
             document.getElementById(`${editToggleData.entity}-Name-${lootId}`).toggleAttribute("contentEditable")
             document.getElementById(`${editToggleData.entity}-Name-${lootId}`).classList.toggle("editable")
@@ -134,7 +133,6 @@ function toggleEditMode(button, editToggleData, restoreUnsavedName) {
             break
         case "Monsters":
             let monsterId = editToggleData.id
-            // TODO allow editing of title/value
 
             document.getElementById(`${editToggleData.entity}-Name-${monsterId}`).toggleAttribute("contentEditable")
             document.getElementById(`${editToggleData.entity}-Name-${monsterId}`).classList.toggle("editable")
@@ -261,33 +259,6 @@ function updateDOMEntity(updatedEntityData)
 function deleteDOMEntity(updatedEntityData)
 {
     document.getElementById(`${updatedEntityData.entity}-${updatedEntityData.id}`).remove()
-
-    // switch (updatedEntityData.entity)
-    // {
-    //     case "Quests":
-    //         document.getElementById(`Quests-${updatedEntityData.id}`).remove()
-    //         break
-    //     case "Monsters":
-    //         document.getElementById(`Monsters-${updatedEntityData.id}`).remove()
-    //         break
-    //     case "QuestGivers":
-    //         document.getElementById(`QuestGivers-${updatedEntityData.id}`).remove()
-    //         break
-    //     case "MonsterTypes":
-    //         document.getElementById(`MonsterTypes-${updatedEntityData.id}`).remove()
-    //         break
-    //     case "LootItems":
-    //         document.getElementById(`LootItems-${updatedEntityData.id}`).remove()
-    //         break
-    //     case "LootItemTypes":
-    //         document.getElementById(`LootItemTypes-${updatedEntityData.id}`).remove()
-    //         break
-    //     case "Abilities":
-    //         document.getElementById(`Abilities-${updatedEntityData.id}`).remove()
-    //         break
-    //     default:
-    //         console.log(`Unexpected entity type '${updatedEntityData.entity}!`, updatedEntityData)
-    // }
 }
 
 function updateEntity(button, updatedEntityData)
