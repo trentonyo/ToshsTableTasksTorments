@@ -231,23 +231,26 @@ let viewEntity = function(req, res, next)
                     "results" : results
                 }
 
-                //These entities will not have a button linked to their detail page
-                switch (entity)
+                if(results) //Without any results, no access needed
                 {
-                    case "MonsterTypes":
-                    case "LootItemTypes":
-                        for (const resultsKey in results) {
-                            results[resultsKey]["suppressDetailsButton"] = true
-                        }
-                        break
-                }
+                    //These entities will not have a button linked to their detail page
+                    switch (entity)
+                    {
+                        case "MonsterTypes":
+                        case "LootItemTypes":
+                            for (const resultsKey in results) {
+                                results[resultsKey]["suppressDetailsButton"] = true
+                            }
+                            break
+                    }
 
-                for (let i = 0; i < context["results"].length; i++) {
-                    context["results"][i]["lootTypesList"] = results_lootTypes
-                }
+                    for (let i = 0; i < context["results"].length; i++) {
+                        context["results"][i]["lootTypesList"] = results_lootTypes
+                    }
 
-                for (let i = 0; i < context["results"].length; i++) {
-                    context["results"][i]["monsterTypesList"] = results_monsterTypes
+                    for (let i = 0; i < context["results"].length; i++) {
+                        context["results"][i]["monsterTypesList"] = results_monsterTypes
+                    }
                 }
 
                 res.status(200).render("ViewCards", context)
