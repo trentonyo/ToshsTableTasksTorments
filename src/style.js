@@ -1,5 +1,28 @@
 console.log("Loaded style.js")
 
+/* https://www.w3schools.com/js/js_cookies.asp */
+function setCookie(cname, cvalue, exdays) {
+    const d = new Date();
+    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+    let expires = "expires="+ d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+function getCookie(cname) {
+    let name = cname + "=";
+    let decodedCookie = decodeURIComponent(document.cookie);
+    let ca = decodedCookie.split(';');
+    for(let i = 0; i <ca.length; i++) {
+        let c = ca[i];
+        while (c.charAt(0) == ' ') {
+            c = c.substring(1);
+        }
+        if (c.indexOf(name) == 0) {
+            return c.substring(name.length, c.length);
+        }
+    }
+    return "";
+}
+
 let text_gradient               = document.getElementsByClassName("animate-text-gradient")
 let new_background_gradient     = document.querySelectorAll(".new.animate-background-gradient")
 let view_background_gradient    = document.querySelectorAll(".view.animate-background-gradient")
@@ -32,11 +55,13 @@ function getGradient(angle, color1, color2, text)
 // Credit: https://javascript.info/js-animation
 let start = Date.now(); // remember start time
 
+// how much time passed from the start?
+// let timePassed = Date.now() - start;
+
 let timer = setInterval(function()
 {
-    // how much time passed from the start?
+// how much time passed from the start?
     let timePassed = Date.now() - start;
-
     if (timePassed >= 60 * 1000 || !animationSwitch.checked || cancelAnimation) {
         clearInterval(timer); // finish the animation after 60 seconds
         // animationSwitchContainer.classList.add("hidden")
@@ -49,11 +74,18 @@ let timer = setInterval(function()
 
 }, 20);
 
-animationSwitch.addEventListener("change", function (event)
+if(getCookie('animation').length === 0)
+{
+    console.log("Resetting animation")
+    setCookie('animation', true, 1)
+}
+
+document.getElementById('animationSwitch').checked = getCookie('animation') === 'true'
+
+let updateAnimationStatus = function (event)
 {
     let enabled = event.target.checked
-
-    console.log(enabled) //TODO debug
+    setCookie('animation', enabled, 1)
 
     if (enabled)
     {
@@ -62,6 +94,8 @@ animationSwitch.addEventListener("change", function (event)
             // how much time passed from the start?
             // let timePassed = Date.now() - start;
 
+// how much time passed from the start?
+            let timePassed = Date.now() - start;
             if (timePassed >= 60 * 1000 || !animationSwitch.checked || cancelAnimation) {
                 clearInterval(timer); // finish the animation after 60 seconds
                 // animationSwitchContainer.classList.add("hidden")
@@ -74,7 +108,13 @@ animationSwitch.addEventListener("change", function (event)
 
         }, 20);
     }
-})
+    else
+    {
+        start = Date.now()
+    }
+}
+updateAnimationStatus({target : document.getElementById('animationSwitch')})
+animationSwitch.addEventListener("change", updateAnimationStatus)
 
 function getAngle(timePassed, i)
 {
@@ -116,3 +156,5 @@ function draw(timePassed)
         animated_background_gradient_objects[i].style.cssText = getGradient( getAngle(timePassed, i), color1, color2 )
     }
 }
+
+draw(0)

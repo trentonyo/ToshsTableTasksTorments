@@ -23,6 +23,7 @@ function delay(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
+
 let input_fields = document.getElementsByTagName("input")
 
 let column_ability = document.getElementById("abilities_column")
@@ -101,3 +102,4 @@ if(add_loot)
         updateGradientElements()
     })
 }
+
