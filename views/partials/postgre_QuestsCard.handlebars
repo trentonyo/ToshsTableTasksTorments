@@ -1,0 +1,53 @@
+<!-- {{#unless view}}<a href="/Quests/view/{{questid}}" name="quest-redirect-{{questid}}">{{/unless}} -->
+<div class="card quest jsp-quest-light-backgroundColor jsp-quest-light-thickerBorderColor {{# if view}}full static{{/if}}" id="Quests-{{questid}}">
+    <div class="title animate-background-gradient {{#unless view}}{{#if available}}available{{/if}}{{/unless}} jsp-global-black-textColor" data-jsp-palette="quest" id="Quests-Name-{{questid}}">
+        {{questname}}
+    </div>
+    <div class="description jsp-quest-dark-textColor" id="Quests-questdesc-{{questid}}">
+        {{questdesc}}
+    </div>
+    <div class="giver jsp-quest-dark-textColor" id="Quests-questGiverId-{{questid}}">
+        {{#if questgiverid}}- {{questgivername}}{{else}}- Unknown{{/if}}
+    </div>
+
+    {{#if view}}
+        <div class="hidden giver jsp-quest-dark-textColor" id="editQuestGiverId">
+            <select id="questGivers-list" name="questGiverId" data-current="{{questgiverid}}">
+                <option value="NULL"> -- </option>
+                {{#each questgiverslist}}
+                    <option value="{{questgiverid}}">{{questgivername}}</option>
+                {{/each}}
+            </select>
+        </div>
+        <div class="hidden giver jsp-quest-dark-textColor" id="editAvailable">
+            <label for="editAvailableCheckbox">Available?</label>
+            <input type="checkbox" id="editAvailableCheckbox" name="available" {{#if available}}checked{{/if}}>
+        </div>
+    {{/if}}
+
+    {{#if view}}
+        <button onClick="toggleEditMode(this, {'entity': 'Quests', 'id': '{{questid}}'}, true)" id="toggleEdit-Quests-{{questid}}">Edit</button>
+        <button onClick="updateEntity(this, {'entity': 'Quests', 'id': '{{questid}}'} )" id="update-Quests-{{questid}}" class="hidden">Submit</button>
+    {{else}}
+        <div class="button_container">
+            <a href="/Quests/view/{{questid}}"><button id="View-Quests-{{questid}}">View</button></a>
+            <a href="/Quests/view/{{questid}}/?edit=1&entity=Quests&id={{questid}}"><button id="toggleEdit-Quests-{{questid}}">Edit</button></a>
+            <button onClick="deleteEntity(this, {'entity': 'Quests', 'id': '{{questid}}'} )">Delete</button>
+        </div>
+    {{/if}}
+</div>
+<div class="hidden card quest jsp-monster-light-backgroundColor" id="editQuestsMonster">
+    <div class="title animate-background-gradient jsp-global-black-textColor" data-jsp-palette="quest">
+        Change Monster
+    </div>
+    <div class="description jsp-quest-dark-textColor">
+        <select id="monsters-list" name="monsterId" data-current="{{monsterid}}">
+            {{#each monsterslist}}
+                <option value="{{monsterid}}">{{monstername}}</option>
+            {{/each}}
+        </select>
+        <br>
+        <label for="editMonsterQty">Quantity: </label>
+        <input type="number" min="0" value="{{monsterqty}}" id="editMonsterQty">
+    </div>
+</div>

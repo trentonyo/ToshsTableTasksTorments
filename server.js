@@ -279,7 +279,8 @@ app.get('/', function(req, res)
             "motd" : motd.default,
             "newEntityContext" : newEntityContext,
             "queryName" : "Available Quests" + (useOffline ? " (OFFLINE MODE)" : ""),
-            "results" : results
+            // "results" : results
+            "results" : results.rows
         }
         res.status(200).render("ViewHomepage", context)
     })
